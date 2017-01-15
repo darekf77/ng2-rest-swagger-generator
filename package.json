@@ -1,0 +1,54 @@
+{
+  "name": "ng2-rest-swagger-generator",
+  "version": "0.0.2",
+  "description": "Generate Angualr 2 Service from swagger json",
+  "main": "karma.conf.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "bin": {
+    "ng2-rest-swagger-generator": "bin/ng2-rest-swagger-generator"
+  },
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "chalk": "^1.1.3",
+    "cors": "^2.8.1",
+    "easy-zip": "0.0.4",
+    "express": "^4.14.0",
+    "lodash": "^4.17.2",
+    "md5": "^2.2.1",
+    "method-override": "^2.3.6"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "json-loader": "^0.5.4",
+    "mocha": "^3.1.2",
+    "on-build-webpack": "^0.1.0",
+    "source-map-support": "^0.4.6",
+    "strip-loader": "^0.1.2",
+    "ts-loader": "^1.2.2",
+    "ts-node": "^1.3.0",
+    "typescript": "^2.0.10",
+    "webpack": "^1.13.3",
+    "webpack-node-externals": "^1.5.4"
+  },
+  "scripts": {
+    "test": "mocha --require ts-node/register src/**/*.spec.ts",
+    "test:watch": "mocha --compilers ts-node/register src/**/*.spec.ts --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/darekf77/ng2-rest-docs-server.git"
+  },
+  "keywords": [
+    "ng2-rest",
+    "docs",
+    "documentation"
+  ],
+  "author": "Dariusz Filipiak",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/darekf77/ng2-rest-docs-server/issues"
+  },
+  "homepage": "https://github.com/darekf77/ng2-rest-docs-server#readme"
+}
