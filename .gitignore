@@ -1,0 +1,10 @@
+/node__modules
+/typings
+/docs/*
+docs
+/js
+js
+/website/dist
+
+/mypass
+mypass
