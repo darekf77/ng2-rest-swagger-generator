@@ -1,0 +1,2957 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "provisioning API documentation",
+        "version": "0.0.1",
+        "title": "provisioning API",
+        "contact": {},
+        "license": {}
+    },
+    "host": "archiv3.viadialog.com:80",
+    "basePath": "/provisioning",
+    "tags": [
+        {
+            "name": "via-contact-resource",
+            "description": "Via Contact Resource"
+        },
+        {
+            "name": "profile-info-resource",
+            "description": "Profile Info Resource"
+        },
+        {
+            "name": "via-service-resource",
+            "description": "Via Service Resource"
+        },
+        {
+            "name": "via-call-resource",
+            "description": "Via Call Resource"
+        },
+        {
+            "name": "webcallback-resource",
+            "description": "Webcallback Resource"
+        },
+        {
+            "name": "company-resource",
+            "description": "Company Resource"
+        },
+        {
+            "name": "via-group-resource",
+            "description": "Via Group Resource"
+        },
+        {
+            "name": "via-agent-resource",
+            "description": "Via Agent Resource"
+        },
+        {
+            "name": "tel-svi-resource",
+            "description": "Tel Svi Resource"
+        },
+        {
+            "name": "via-admin-resource",
+            "description": "Via Admin Resource"
+        }
+    ],
+    "paths": {
+        "/api/companies": {
+            "get": {
+                "tags": [
+                    "company-resource"
+                ],
+                "summary": "getAllCompanies",
+                "operationId": "getAllCompaniesUsingGET",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number of the requested page",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "size",
+                        "in": "query",
+                        "description": "Size of a page",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "sort",
+                        "in": "query",
+                        "description": "Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.",
+                        "required": false,
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/CompanyDTO"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "company-resource"
+                ],
+                "summary": "createCompany",
+                "operationId": "createCompanyUsingPOST",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "companyDTO",
+                        "description": "companyDTO",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/CompanyDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/CompanyDTO"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "company-resource"
+                ],
+                "summary": "updateCompany",
+                "operationId": "updateCompanyUsingPUT",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "companyDTO",
+                        "description": "companyDTO",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/CompanyDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/CompanyDTO"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/api/companies/{id}": {
+            "get": {
+                "tags": [
+                    "company-resource"
+                ],
+                "summary": "getCompany",
+                "operationId": "getCompanyUsingGET",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/CompanyDTO"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "company-resource"
+                ],
+                "summary": "deleteCompany",
+                "operationId": "deleteCompanyUsingDELETE",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/api/profile-info": {
+            "get": {
+                "tags": [
+                    "profile-info-resource"
+                ],
+                "summary": "getActiveProfiles",
+                "operationId": "getActiveProfilesUsingGET",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ProfileInfoResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/api/tel-svis": {
+            "get": {
+                "tags": [
+                    "tel-svi-resource"
+                ],
+                "summary": "getAllTelSvis",
+                "operationId": "getAllTelSvisUsingGET",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number of the requested page",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "size",
+                        "in": "query",
+                        "description": "Size of a page",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "sort",
+                        "in": "query",
+                        "description": "Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.",
+                        "required": false,
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/TelSviDTO"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "tel-svi-resource"
+                ],
+                "summary": "createTelSvi",
+                "operationId": "createTelSviUsingPOST",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "telSviDTO",
+                        "description": "telSviDTO",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/TelSviDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/TelSviDTO"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "tel-svi-resource"
+                ],
+                "summary": "updateTelSvi",
+                "operationId": "updateTelSviUsingPUT",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "telSviDTO",
+                        "description": "telSviDTO",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/TelSviDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/TelSviDTO"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/api/tel-svis/{id}": {
+            "get": {
+                "tags": [
+                    "tel-svi-resource"
+                ],
+                "summary": "getTelSvi",
+                "operationId": "getTelSviUsingGET",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/TelSviDTO"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "tel-svi-resource"
+                ],
+                "summary": "deleteTelSvi",
+                "operationId": "deleteTelSviUsingDELETE",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/api/via-admins": {
+            "get": {
+                "tags": [
+                    "via-admin-resource"
+                ],
+                "summary": "getAllViaAdmins",
+                "operationId": "getAllViaAdminsUsingGET",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number of the requested page",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "size",
+                        "in": "query",
+                        "description": "Size of a page",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "sort",
+                        "in": "query",
+                        "description": "Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.",
+                        "required": false,
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ViaAdminDTO"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "via-admin-resource"
+                ],
+                "summary": "createViaAdmin",
+                "operationId": "createViaAdminUsingPOST",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "viaAdminDTO",
+                        "description": "viaAdminDTO",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ViaAdminDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ViaAdminDTO"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "via-admin-resource"
+                ],
+                "summary": "updateViaAdmin",
+                "operationId": "updateViaAdminUsingPUT",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "viaAdminDTO",
+                        "description": "viaAdminDTO",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ViaAdminDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ViaAdminDTO"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/api/via-admins/{id}": {
+            "get": {
+                "tags": [
+                    "via-admin-resource"
+                ],
+                "summary": "getViaAdmin",
+                "operationId": "getViaAdminUsingGET",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ViaAdminDTO"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "via-admin-resource"
+                ],
+                "summary": "deleteViaAdmin",
+                "operationId": "deleteViaAdminUsingDELETE",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/api/via-agents": {
+            "get": {
+                "tags": [
+                    "via-agent-resource"
+                ],
+                "summary": "getAllViaAgents",
+                "operationId": "getAllViaAgentsUsingGET",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number of the requested page",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "size",
+                        "in": "query",
+                        "description": "Size of a page",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "sort",
+                        "in": "query",
+                        "description": "Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.",
+                        "required": false,
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ViaAgentDTO"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "via-agent-resource"
+                ],
+                "summary": "createViaAgent",
+                "operationId": "createViaAgentUsingPOST",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "viaAgentDTO",
+                        "description": "viaAgentDTO",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ViaAgentDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ViaAgentDTO"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "via-agent-resource"
+                ],
+                "summary": "updateViaAgent",
+                "operationId": "updateViaAgentUsingPUT",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "viaAgentDTO",
+                        "description": "viaAgentDTO",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ViaAgentDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ViaAgentDTO"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/api/via-agents/{idAgent}/via-groups/{idGroup}": {
+            "get": {
+                "tags": [
+                    "via-agent-resource"
+                ],
+                "summary": "getViaGroupLink",
+                "operationId": "getViaGroupLinkUsingGET",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "idAgent",
+                        "in": "path",
+                        "description": "idAgent",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "idGroup",
+                        "in": "path",
+                        "description": "idGroup",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ViaAgentViaGroupDTO"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "via-agent-resource"
+                ],
+                "summary": "createViaGroupLink",
+                "operationId": "createViaGroupLinkUsingPOST",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "idAgent",
+                        "in": "path",
+                        "description": "idAgent",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "idGroup",
+                        "in": "path",
+                        "description": "idGroup",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "in": "body",
+                        "name": "viaAgentViaGroupLinkVM",
+                        "description": "viaAgentViaGroupLinkVM",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/AgentGroupLink"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ViaAgentViaGroupDTO"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "via-agent-resource"
+                ],
+                "summary": "updateViaGroupLink",
+                "operationId": "updateViaGroupLinkUsingPUT",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "idAgent",
+                        "in": "path",
+                        "description": "idAgent",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "idGroup",
+                        "in": "path",
+                        "description": "idGroup",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "in": "body",
+                        "name": "viaAgentViaGroupDTO",
+                        "description": "viaAgentViaGroupDTO",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ViaAgentViaGroupDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ViaAgentViaGroupDTO"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "via-agent-resource"
+                ],
+                "summary": "deleteViaGroupLink",
+                "operationId": "deleteViaGroupLinkUsingDELETE",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "idAgent",
+                        "in": "path",
+                        "description": "idAgent",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "idGroup",
+                        "in": "path",
+                        "description": "idGroup",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/api/via-agents/{id}": {
+            "get": {
+                "tags": [
+                    "via-agent-resource"
+                ],
+                "summary": "getViaAgent",
+                "operationId": "getViaAgentUsingGET",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ViaAgentDTO"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "via-agent-resource"
+                ],
+                "summary": "deleteViaAgent",
+                "operationId": "deleteViaAgentUsingDELETE",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/api/via-calls": {
+            "get": {
+                "tags": [
+                    "via-call-resource"
+                ],
+                "summary": "getAllViaCalls",
+                "operationId": "getAllViaCallsUsingGET",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number of the requested page",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "size",
+                        "in": "query",
+                        "description": "Size of a page",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "sort",
+                        "in": "query",
+                        "description": "Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.",
+                        "required": false,
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ViaCallDTO"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "via-call-resource"
+                ],
+                "summary": "createViaCall",
+                "operationId": "createViaCallUsingPOST",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "viaCallDTO",
+                        "description": "viaCallDTO",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ViaCallDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ViaCallDTO"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "via-call-resource"
+                ],
+                "summary": "updateViaCall",
+                "operationId": "updateViaCallUsingPUT",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "viaCallDTO",
+                        "description": "viaCallDTO",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ViaCallDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ViaCallDTO"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/api/via-calls/{id}": {
+            "get": {
+                "tags": [
+                    "via-call-resource"
+                ],
+                "summary": "getViaCall",
+                "operationId": "getViaCallUsingGET",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ViaCallDTO"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "via-call-resource"
+                ],
+                "summary": "deleteViaCall",
+                "operationId": "deleteViaCallUsingDELETE",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/api/via-contacts": {
+            "get": {
+                "tags": [
+                    "via-contact-resource"
+                ],
+                "summary": "getAllViaContacts",
+                "operationId": "getAllViaContactsUsingGET",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number of the requested page",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "size",
+                        "in": "query",
+                        "description": "Size of a page",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "sort",
+                        "in": "query",
+                        "description": "Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.",
+                        "required": false,
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ViaContactDTO"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "via-contact-resource"
+                ],
+                "summary": "createViaContact",
+                "operationId": "createViaContactUsingPOST",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "viaContactDTO",
+                        "description": "viaContactDTO",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ViaContactDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ViaContactDTO"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "via-contact-resource"
+                ],
+                "summary": "updateViaContact",
+                "operationId": "updateViaContactUsingPUT",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "viaContactDTO",
+                        "description": "viaContactDTO",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ViaContactDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ViaContactDTO"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/api/via-contacts/{id}": {
+            "get": {
+                "tags": [
+                    "via-contact-resource"
+                ],
+                "summary": "getViaContact",
+                "operationId": "getViaContactUsingGET",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ViaContactDTO"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "via-contact-resource"
+                ],
+                "summary": "deleteViaContact",
+                "operationId": "deleteViaContactUsingDELETE",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/api/via-groups": {
+            "get": {
+                "tags": [
+                    "via-group-resource"
+                ],
+                "summary": "getAllViaGroups",
+                "operationId": "getAllViaGroupsUsingGET",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number of the requested page",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "size",
+                        "in": "query",
+                        "description": "Size of a page",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "sort",
+                        "in": "query",
+                        "description": "Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.",
+                        "required": false,
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ViaGroupDTO"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "via-group-resource"
+                ],
+                "summary": "createViaGroup",
+                "operationId": "createViaGroupUsingPOST",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "viaGroupDTO",
+                        "description": "viaGroupDTO",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ViaGroupDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ViaGroupDTO"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "via-group-resource"
+                ],
+                "summary": "updateViaGroup",
+                "operationId": "updateViaGroupUsingPUT",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "viaGroupDTO",
+                        "description": "viaGroupDTO",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ViaGroupDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ViaGroupDTO"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/api/via-groups/{id}": {
+            "get": {
+                "tags": [
+                    "via-group-resource"
+                ],
+                "summary": "getViaGroup",
+                "operationId": "getViaGroupUsingGET",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ViaGroupDTO"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "via-group-resource"
+                ],
+                "summary": "deleteViaGroup",
+                "operationId": "deleteViaGroupUsingDELETE",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/api/via-services": {
+            "get": {
+                "tags": [
+                    "via-service-resource"
+                ],
+                "summary": "getAllViaServices",
+                "operationId": "getAllViaServicesUsingGET",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number of the requested page",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "size",
+                        "in": "query",
+                        "description": "Size of a page",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "sort",
+                        "in": "query",
+                        "description": "Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.",
+                        "required": false,
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ViaServiceDTO"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "via-service-resource"
+                ],
+                "summary": "createViaService",
+                "operationId": "createViaServiceUsingPOST",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "viaServiceDTO",
+                        "description": "viaServiceDTO",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ViaServiceDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ViaServiceDTO"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "via-service-resource"
+                ],
+                "summary": "updateViaService",
+                "operationId": "updateViaServiceUsingPUT",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "viaServiceDTO",
+                        "description": "viaServiceDTO",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ViaServiceDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ViaServiceDTO"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/api/via-services/{id}": {
+            "get": {
+                "tags": [
+                    "via-service-resource"
+                ],
+                "summary": "getViaService",
+                "operationId": "getViaServiceUsingGET",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ViaServiceDTO"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "via-service-resource"
+                ],
+                "summary": "deleteViaService",
+                "operationId": "deleteViaServiceUsingDELETE",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/api/webcallbacks": {
+            "get": {
+                "tags": [
+                    "webcallback-resource"
+                ],
+                "summary": "getAllWebcallbacks",
+                "operationId": "getAllWebcallbacksUsingGET",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number of the requested page",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "size",
+                        "in": "query",
+                        "description": "Size of a page",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "sort",
+                        "in": "query",
+                        "description": "Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.",
+                        "required": false,
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/WebcallbackDTO"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "webcallback-resource"
+                ],
+                "summary": "createWebcallback",
+                "operationId": "createWebcallbackUsingPOST",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "webcallbackDTO",
+                        "description": "webcallbackDTO",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/WebcallbackDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/WebcallbackDTO"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "webcallback-resource"
+                ],
+                "summary": "updateWebcallback",
+                "operationId": "updateWebcallbackUsingPUT",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "webcallbackDTO",
+                        "description": "webcallbackDTO",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/WebcallbackDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/WebcallbackDTO"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/api/webcallbacks/{id}": {
+            "get": {
+                "tags": [
+                    "webcallback-resource"
+                ],
+                "summary": "getWebcallback",
+                "operationId": "getWebcallbackUsingGET",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/WebcallbackDTO"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "webcallback-resource"
+                ],
+                "summary": "deleteWebcallback",
+                "operationId": "deleteWebcallbackUsingDELETE",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "ViaAgentViaGroupDTO": {
+            "type": "object",
+            "required": [
+                "priority",
+                "viaAgentId",
+                "viaGroupId"
+            ],
+            "properties": {
+                "priority": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "viaAgentId": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "viaGroupId": {
+                    "type": "integer",
+                    "format": "int64"
+                }
+            }
+        },
+        "AgentGroupLink": {
+            "type": "object",
+            "properties": {
+                "priority": {
+                    "type": "integer",
+                    "format": "int32"
+                }
+            }
+        },
+        "WebcallbackDTO": {
+            "type": "object",
+            "required": [
+                "cli",
+                "firstPool",
+                "numDisplayed",
+                "recordFormat",
+                "recorded",
+                "secondPool",
+                "welcome"
+            ],
+            "properties": {
+                "aep": {
+                    "type": "string"
+                },
+                "cli": {
+                    "type": "string",
+                    "enum": [
+                        "NONE",
+                        "ANONYMOUS",
+                        "FORCED",
+                        "THRU"
+                    ]
+                },
+                "clinum": {
+                    "type": "string",
+                    "minLength": 0,
+                    "maxLength": 20
+                },
+                "firstPool": {
+                    "type": "string",
+                    "minLength": 0,
+                    "maxLength": 50
+                },
+                "id": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "isReversed": {
+                    "type": "boolean"
+                },
+                "listenable": {
+                    "type": "boolean"
+                },
+                "numDisplayed": {
+                    "type": "string",
+                    "minLength": 0,
+                    "maxLength": 20
+                },
+                "open": {
+                    "type": "boolean"
+                },
+                "profile": {
+                    "type": "string"
+                },
+                "recordFormat": {
+                    "type": "string",
+                    "enum": [
+                        "GSM",
+                        "MP3"
+                    ]
+                },
+                "recorded": {
+                    "type": "boolean"
+                },
+                "secondPool": {
+                    "type": "string",
+                    "minLength": 0,
+                    "maxLength": 50
+                },
+                "serviceId": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "timeout": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "vadAck": {
+                    "type": "string",
+                    "minLength": 0,
+                    "maxLength": 50
+                },
+                "vadDeposit": {
+                    "type": "string",
+                    "minLength": 0,
+                    "maxLength": 50
+                },
+                "vadDtmfs": {
+                    "type": "string",
+                    "minLength": 0,
+                    "maxLength": 12
+                },
+                "vadWaitingDuration": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "welcome": {
+                    "type": "string",
+                    "minLength": 0,
+                    "maxLength": 50
+                }
+            }
+        },
+        "ViaAgentDTO": {
+            "type": "object",
+            "required": [
+                "enable",
+                "label",
+                "priority"
+            ],
+            "properties": {
+                "enable": {
+                    "type": "boolean"
+                },
+                "id": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "label": {
+                    "type": "string",
+                    "minLength": 0,
+                    "maxLength": 60
+                },
+                "phone": {
+                    "type": "string",
+                    "minLength": 0,
+                    "maxLength": 50
+                },
+                "priority": {
+                    "type": "integer",
+                    "format": "int32",
+                    "minimum": 0.0,
+                    "maximum": 9.0,
+                    "exclusiveMinimum": false,
+                    "exclusiveMaximum": false
+                },
+                "timezone": {
+                    "type": "string",
+                    "minLength": 0,
+                    "maxLength": 64
+                },
+                "userId": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "versionPopup": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "viaAgentViaGroupDTOs": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ViaAgentViaGroupDTO"
+                    }
+                }
+            }
+        },
+        "ViaGroupDTO": {
+            "type": "object",
+            "required": [
+                "enable",
+                "label",
+                "music",
+                "primaryGroup",
+                "priority",
+                "qMaxDuration",
+                "qMaxSize",
+                "wrapUp"
+            ],
+            "properties": {
+                "dissuasion": {
+                    "type": "string"
+                },
+                "enable": {
+                    "type": "boolean"
+                },
+                "enableExternalTransfert": {
+                    "type": "boolean"
+                },
+                "handoff": {
+                    "type": "string",
+                    "minLength": 0,
+                    "maxLength": 255
+                },
+                "hldMusic": {
+                    "type": "string",
+                    "minLength": 0,
+                    "maxLength": 64
+                },
+                "id": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "label": {
+                    "type": "string"
+                },
+                "music": {
+                    "type": "string",
+                    "minLength": 0,
+                    "maxLength": 64
+                },
+                "primaryGroup": {
+                    "type": "boolean"
+                },
+                "priority": {
+                    "type": "integer",
+                    "format": "int32",
+                    "minimum": 0.0,
+                    "maximum": 9.0,
+                    "exclusiveMinimum": false,
+                    "exclusiveMaximum": false
+                },
+                "prompt": {
+                    "type": "string",
+                    "minLength": 0,
+                    "maxLength": 64
+                },
+                "qMaxDuration": {
+                    "type": "integer",
+                    "format": "int32",
+                    "minimum": 0.0,
+                    "exclusiveMinimum": false
+                },
+                "qMaxSize": {
+                    "type": "integer",
+                    "format": "int32",
+                    "minimum": 0.0,
+                    "exclusiveMinimum": false
+                },
+                "tmc": {
+                    "type": "boolean"
+                },
+                "tmcMax": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "tmcMin": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "tmcResolution": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "treshold": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "viaAgentViaGroupDTOs": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ViaAgentViaGroupDTO"
+                    }
+                },
+                "viaGroupId": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "viaServices": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ViaServiceDTO"
+                    }
+                },
+                "wrapUp": {
+                    "type": "integer",
+                    "format": "int32",
+                    "minimum": 0.0,
+                    "exclusiveMinimum": false
+                }
+            }
+        },
+        "CompanyDTO": {
+            "type": "object",
+            "required": [
+                "enable",
+                "name"
+            ],
+            "properties": {
+                "enable": {
+                    "type": "boolean"
+                },
+                "id": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "name": {
+                    "type": "string",
+                    "minLength": 4,
+                    "maxLength": 2147483647
+                }
+            }
+        },
+        "ViaCallDTO": {
+            "type": "object",
+            "required": [
+                "cli",
+                "firstPool",
+                "numDisplayed",
+                "recordFormat",
+                "recorded",
+                "secondPool"
+            ],
+            "properties": {
+                "cli": {
+                    "type": "string",
+                    "enum": [
+                        "NONE",
+                        "ANONYMOUS",
+                        "FORCED",
+                        "THRU"
+                    ]
+                },
+                "clinum": {
+                    "type": "string",
+                    "minLength": 0,
+                    "maxLength": 20
+                },
+                "firstPool": {
+                    "type": "string",
+                    "minLength": 0,
+                    "maxLength": 50
+                },
+                "id": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "isAgentCliMatchAlias": {
+                    "type": "boolean"
+                },
+                "isAgentCliMatchLogin": {
+                    "type": "boolean"
+                },
+                "listenable": {
+                    "type": "boolean"
+                },
+                "numDisplayed": {
+                    "type": "string",
+                    "minLength": 0,
+                    "maxLength": 20
+                },
+                "open": {
+                    "type": "boolean"
+                },
+                "recordFormat": {
+                    "type": "string",
+                    "enum": [
+                        "GSM",
+                        "MP3"
+                    ]
+                },
+                "recorded": {
+                    "type": "boolean"
+                },
+                "secondPool": {
+                    "type": "string",
+                    "minLength": 0,
+                    "maxLength": 50
+                },
+                "serviceId": {
+                    "type": "integer",
+                    "format": "int64"
+                }
+            }
+        },
+        "TelSviDTO": {
+            "type": "object",
+            "required": [
+                "commercial",
+                "handoff",
+                "noir",
+                "technique"
+            ],
+            "properties": {
+                "commercial": {
+                    "type": "string",
+                    "minLength": 0,
+                    "maxLength": 20
+                },
+                "handoff": {
+                    "type": "string",
+                    "minLength": 0,
+                    "maxLength": 128
+                },
+                "id": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "noir": {
+                    "type": "string",
+                    "minLength": 0,
+                    "maxLength": 20
+                },
+                "technique": {
+                    "type": "string",
+                    "minLength": 0,
+                    "maxLength": 20
+                },
+                "viacontactId": {
+                    "type": "integer",
+                    "format": "int64"
+                }
+            }
+        },
+        "ViaAdminDTO": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "userId": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "viaServices": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ViaServiceDTO"
+                    }
+                }
+            }
+        },
+        "ViaAdminPojo": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "userId": {
+                    "type": "integer",
+                    "format": "int32"
+                }
+            }
+        },
+        "ProfileInfoResponse": {
+            "type": "object",
+            "properties": {
+                "activeProfiles": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "ribbonEnv": {
+                    "type": "string"
+                }
+            }
+        },
+        "ViaServiceDTO": {
+            "type": "object",
+            "required": [
+                "enable",
+                "label",
+                "product"
+            ],
+            "properties": {
+                "enable": {
+                    "type": "boolean"
+                },
+                "id": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "label": {
+                    "type": "string"
+                },
+                "product": {
+                    "type": "string",
+                    "enum": [
+                        "FREE",
+                        "VIACONTACT",
+                        "VIACALL",
+                        "WEBCALLBACK",
+                        "PREDICTIVE_DIALING",
+                        "E_MAILS",
+                        "VIACHAT",
+                        "VOICEBROADCAST",
+                        "VIATRACKER",
+                        "WHOLESALES",
+                        "SIP_DIRECT",
+                        "ECOUTE_DISCRETE"
+                    ]
+                },
+                "viaAdmins": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ViaAdminPojo"
+                    }
+                }
+            }
+        },
+        "ViaContactDTO": {
+            "type": "object",
+            "required": [
+                "cli",
+                "recordFormat",
+                "recorded"
+            ],
+            "properties": {
+                "cli": {
+                    "type": "string",
+                    "enum": [
+                        "NONE",
+                        "ANONYMOUS",
+                        "FORCED",
+                        "THRU"
+                    ]
+                },
+                "clinum": {
+                    "type": "string",
+                    "minLength": 0,
+                    "maxLength": 20
+                },
+                "id": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "listenable": {
+                    "type": "boolean"
+                },
+                "open": {
+                    "type": "boolean"
+                },
+                "recordFormat": {
+                    "type": "string",
+                    "enum": [
+                        "GSM",
+                        "MP3"
+                    ]
+                },
+                "recorded": {
+                    "type": "boolean"
+                },
+                "serviceId": {
+                    "type": "integer",
+                    "format": "int64"
+                }
+            }
+        }
+    }
+}

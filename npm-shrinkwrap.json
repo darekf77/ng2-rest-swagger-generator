@@ -1,6 +1,6 @@
 {
-  "name": "ng2-rest-docs-server",
-  "version": "1.0.21",
+  "name": "ng2-rest-swagger-generator",
+  "version": "0.0.3",
   "dependencies": {
     "accepts": {
       "version": "1.3.3",
@@ -1475,9 +1475,9 @@
       "resolved": "https://registry.npmjs.org/loader-utils/-/loader-utils-0.2.16.tgz"
     },
     "lodash": {
-      "version": "4.17.2",
-      "from": "lodash@latest",
-      "resolved": "https://registry.npmjs.org/lodash/-/lodash-4.17.2.tgz"
+      "version": "4.17.4",
+      "from": "lodash@>=4.17.2 <5.0.0",
+      "resolved": "https://registry.npmjs.org/lodash/-/lodash-4.17.4.tgz"
     },
     "lodash._baseassign": {
       "version": "3.2.0",
