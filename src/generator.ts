@@ -34,7 +34,7 @@ let serviceTsPath = (group: string, name: string) => {
 }
 
 
-export function run(pathes: string[], links: string[]) {
+export function run(pathes: string[], links: string[], isHttpsEnable: boolean = false) {
 
     if (links.length > 0) {
         let link = links.shift();
@@ -82,6 +82,7 @@ export function run(pathes: string[], links: string[]) {
     let servicesNameCamelCase: string[] = [];
     let exportGroups: string[] = [];
     apis.forEach(swg => {
+        swg.host = (isHttpsEnable ? 'https' : 'http') + `://${swg.host.replace(/:[0-9]*/g, '')}`
         let base = swg.basePath.replace('/', '');
         exportGroups.push(base);
         fs.mkdirSync(serviceGroup(base));

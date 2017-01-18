@@ -18,4 +18,5 @@ or from link
 | --- | --- |
 | -l | links for swagger.json files  |
 | -p | local pathes for swagger json files  |
+| -s | if https protocole enable (one for all json-s) |
 

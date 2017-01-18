@@ -49,7 +49,7 @@
 	var _ = __webpack_require__(2);
 	var request = __webpack_require__(3);
 	var templates_1 = __webpack_require__(4);
-	var helpers_1 = __webpack_require__(12);
+	var helpers_1 = __webpack_require__(11);
 	var apis = [];
 	var APIpath = process.cwd() + "/api";
 	var mainIndexPath = APIpath + "/index.ts";
@@ -65,7 +65,8 @@
 	var serviceTsPath = function (group, name) {
 	    return servicesFolderPath + "/" + _.camelCase(group) + "/" + name + ".ts";
 	};
-	function run(pathes, links) {
+	function run(pathes, links, isHttpsEnable) {
+	    if (isHttpsEnable === void 0) { isHttpsEnable = false; }
 	    if (links.length > 0) {
 	        var link_1 = links.shift();
 	        request({
@@ -108,6 +109,7 @@
 	    var servicesNameCamelCase = [];
 	    var exportGroups = [];
 	    apis.forEach(function (swg) {
+	        swg.host = (isHttpsEnable ? 'https' : 'http') + ("://" + swg.host.replace(/:[0-9]*/g, ''));
 	        var base = swg.basePath.replace('/', '');
 	        exportGroups.push(base);
 	        fs.mkdirSync(serviceGroup(base));
@@ -231,72 +233,58 @@
 
 	"use strict";
 	var _ = __webpack_require__(2);
-	var ng2_rest_obj_1 = __webpack_require__(11);
-	var helpers_1 = __webpack_require__(12);
-	function findModelByTag(tag, swg) {
-	    var o = swg.paths;
-	    // console.log('tag', tag)
-	    // console.log('o', o)
-	    var urls = [];
-	    for (var url in o) {
-	        // console.log('url', url)
-	        for (var method in o[url]) {
-	            // console.log('method', method)
-	            var m = o[url][method];
-	            // console.log('m', m)
-	            if (m.tags.filter(function (t) { return t === tag; }).length > 0) {
-	                // console.log('ok tag', tag)
-	                urls.push(url.replace(/{/g, ':').replace(/}/g, ""));
-	            }
-	        }
-	    }
-	    urls = urls.sort(function (a, b) { return b.length - a.length; });
-	    // console.log('url', urls)
-	    var res = urls.shift();
-	    // console.log('res', res);
-	    return res;
-	}
-	function findByTag(tag, swg) {
-	    var res = {
-	        endpointType: 'string',
-	        singleModelType: '{}',
-	        queryModelType: 'any[]',
-	        endpointSelected: 'onet.pl',
-	        model: 'users/:id',
-	        restPramsType: '{}',
-	        queryPramType: '{}'
-	    };
-	    res.model = findModelByTag(tag, swg);
-	    return res;
-	}
+	var helpers_1 = __webpack_require__(11);
+	var get_pathes_by_tag_1 = __webpack_require__(13);
+	var get_pathes_methods_1 = __webpack_require__(15);
 	function serviceTemplate(group, model, swg) {
-	    var instances = [];
-	    var pathes = swg.paths;
-	    var a = findByTag(model, swg);
-	    var d = ng2_rest_obj_1.n2RestObject(a);
-	    return "import { Injectable } from '@angular/core';\nimport { SimpleResource, Mock, Model } from 'ng2-rest/ng2-rest';\n\n@Injectable()\nexport class " + helpers_1.Helpers.upperFirst(group) + _.camelCase(model).replace(model.charAt(0), model.charAt(0).toUpperCase()) + "Service  {\n    private instance = new  SimpleResource" + d + ";\n    model: Model< " + a.singleModelType + " , " + a.queryModelType + " , " + a.restPramsType + " , " + a.queryPramType + " >;\n    mock: Mock< " + a.singleModelType + "  >;\n\n    constructor() {\n        this.mock = this.instance.mock;\n        this.model = this.instance.model;\n    }\n}";
+	    return "import { Injectable } from '@angular/core';\nimport { SimpleResource, Mock, Model } from 'ng2-rest/ng2-rest';\n\n@Injectable()\nexport class " + helpers_1.Helpers.upperFirst(group) + _.camelCase(model).replace(model.charAt(0), model.charAt(0).toUpperCase()) + "Service  {\n\n    " + get_pathes_by_tag_1.getPathesByTag(model, swg) + "\n    " + get_pathes_methods_1.getPathesMethods(model, swg) + "\n\n    constructor() {\n        \n    }\n}";
 	}
 	exports.serviceTemplate = serviceTemplate;
+	// function findModelByTag(tag: string, swg: SwaggerModel) {
+	//     let o: Object = swg.paths;
+	//     // console.log('tag', tag)
+	//     // console.log('o', o)
+	//     let urls: string[] = [];
+	//     for (let url in o) {
+	//         // console.log('url', url)
+	//         for (let method in o[url]) {
+	//             // console.log('method', method)
+	//             var m: Method = o[url][method];
+	//             // console.log('m', m)
+	//             if (m.tags.filter(t => t === tag).length > 0) {
+	//                 // console.log('ok tag', tag)
+	//                 urls.push(url.replace(/{/g, ':').replace(/}/g, ""));
+	//             }
+	//         }
+	//     }
+	//     urls = urls.sort((a, b) => b.length - a.length);
+	//     // console.log('url', urls)
+	//     let res = urls.shift();
+	//     // console.log('res', res);
+	//     return res;
+	// }
+	// function findByTag(tag: string, swg: SwaggerModel): ng2restInstanceTemplate {
+	//     let res: ng2restInstanceTemplate = <ng2restInstanceTemplate>{
+	//         endpointType: 'string',
+	//         singleModelType: '{}',
+	//         queryModelType: 'any[]',
+	//         endpointSelected: 'onet.pl',
+	//         model: 'users/:id',
+	//         restPramsType: '{}',
+	//         queryPramType: '{}'
+	//     };
+	//     res.model = findModelByTag(tag, swg);
+	//     return res;
+	// } 
 
 
 /***/ },
 /* 11 */
-/***/ function(module, exports) {
-
-	"use strict";
-	function n2RestObject(instance) {
-	    return ("<\n    " + instance.endpointType + ",\n    " + instance.singleModelType + ",\n    " + instance.queryModelType + ",\n    " + instance.restPramsType + ",\n    " + instance.queryPramType + "\n    >( '" + instance.endpointSelected + "' ,  '" + instance.model + "' );") + '\n';
-	}
-	exports.n2RestObject = n2RestObject;
-
-
-/***/ },
-/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var fs = __webpack_require__(1);
-	var path = __webpack_require__(13);
+	var path = __webpack_require__(12);
 	var Helpers = (function () {
 	    function Helpers() {
 	    }
@@ -355,10 +343,207 @@
 
 
 /***/ },
-/* 13 */
+/* 12 */
 /***/ function(module, exports) {
 
 	module.exports = require("path");
+
+/***/ },
+/* 13 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var _ = __webpack_require__(2);
+	var clean_path_1 = __webpack_require__(14);
+	function getPathesByTag(tag, swg) {
+	    var res = [];
+	    var pathes = {};
+	    _.forOwn(swg.paths, function (v, k) {
+	        _.forOwn(v, function (v2, k2) {
+	            if (v2.tags.filter(function (f) { return f === tag; }).length > 0) {
+	                pathes[k] = '';
+	            }
+	        });
+	    });
+	    var pathResources = [];
+	    _.forOwn(pathes, function (v, p) {
+	        pathResources.push({
+	            clean_path: clean_path_1.cleanPath(p),
+	            model: clean_path_1.cleanPathModel(p),
+	            endpoint: swg.basePath,
+	            singleModelType: 'any',
+	            queryParamsType: 'any',
+	            pathParamsType: 'any'
+	        });
+	    });
+	    pathResources.forEach(function (p) {
+	        res.push(p.clean_path + ": new SimpleResource< string, " + p.singleModelType + " , any, " + p.pathParamsType + " , " + p.queryParamsType + " >( '" + swg.host + p.endpoint + "' , '" + p.model + "' )");
+	    });
+	    // cleanPath()
+	    // res = 'aa';
+	    return "private pathes = {\n" + res.join(',\n') + "\n};";
+	}
+	exports.getPathesByTag = getPathesByTag;
+
+
+/***/ },
+/* 14 */
+/***/ function(module, exports) {
+
+	"use strict";
+	/**
+	 * To generate get/books/{id} => get_books__id_
+	 */
+	function cleanPath(path) {
+	    return path.replace(/{/g, "_").replace(/}/g, "_").replace(/\//g, "_").replace(/-/g, "_");
+	}
+	exports.cleanPath = cleanPath;
+	function cleanPathModel(pathModel) {
+	    return pathModel.replace(/\/{/g, '/:').replace(/\//g, '');
+	}
+	exports.cleanPathModel = cleanPathModel;
+
+
+/***/ },
+/* 15 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var clean_path_1 = __webpack_require__(14);
+	var get_obj_def_swagger_1 = __webpack_require__(16);
+	var type_swagger_to_js_1 = __webpack_require__(17);
+	function getServicesMethod(tag, swg) {
+	    var methods = [];
+	    for (var urlpath in swg.paths) {
+	        var _loop_1 = function(methodhttp) {
+	            var m = swg.paths[urlpath][methodhttp];
+	            if (m.tags.filter(function (t) { return t === tag; }).length === 1) {
+	                var sm_1 = {};
+	                sm_1.summary = m.summary;
+	                sm_1.method = methodhttp;
+	                sm_1.path_cleand = clean_path_1.cleanPath(urlpath);
+	                // console.log('sm.path_cleand', sm.path_cleand)
+	                sm_1.params = {};
+	                sm_1.params.query = [];
+	                sm_1.params.path = [];
+	                sm_1.params.body = [];
+	                if (m.parameters)
+	                    m.parameters.forEach(function (param) {
+	                        if (param.in === 'body') {
+	                            sm_1.params.body.push({
+	                                name: param.name,
+	                                type: "{" + get_obj_def_swagger_1.getObjectDefinition(param.schema.$ref, swg) + "}",
+	                                required: param.required
+	                            });
+	                        }
+	                        else {
+	                            sm_1.params[param.in].push({
+	                                name: param.name,
+	                                type: type_swagger_to_js_1.swaggerTypeToJS(param.type),
+	                                required: param.required
+	                            });
+	                        }
+	                    });
+	                methods.push(sm_1);
+	            }
+	        };
+	        for (var methodhttp in swg.paths[urlpath]) {
+	            _loop_1(methodhttp);
+	        }
+	    }
+	    return methods;
+	}
+	function getPathesMethods(tag, swg) {
+	    var res = '';
+	    var methods = getServicesMethod(tag, swg);
+	    // console.log(methods)
+	    methods.forEach(function (m) {
+	        var neededParams = {
+	            path: (m.params && m.params.path && m.params.path.length > 0),
+	            query: (m.params && m.params.query && m.params.query.length > 0),
+	            body: (m.params && m.params.body && m.params.body.length > 0)
+	        };
+	        // console.log(m)
+	        var paramsPath = neededParams.path ? m.params.path.map(function (p) { return p.joined = p.name + ':' + p.type; }).join(',') : '';
+	        var paramsQuery = neededParams.query ? m.params.query.map(function (p) { return p.joined = p.name + ':' + p.type; }).join(',') : '';
+	        var paramsBody = neededParams.body ? m.params.body.map(function (p) { return p.joined = p.name + ':' + p.type; }).join(',') : '';
+	        // console.log(paramsPath)
+	        // console.log(paramsQuery)
+	        // console.log(paramsBody)
+	        var paramsPathNames = "{" + (neededParams.path ? m.params.path.map(function (p) { return p.joined = p.name; }).filter(function (d) { return d; }).join(',') : '') + '}';
+	        var paramsQueryNames = "{" + (neededParams.query ? m.params.query.map(function (p) { return p.joined = p.name; }).filter(function (d) { return d; }).join(',') : '') + '}';
+	        var paramsBodyNames = "{" + (neededParams.body ? m.params.body.map(function (p) { return p.joined = p.name; }).filter(function (d) { return d; }).join(',') : '') + '}';
+	        // console.log(paramsPathNames)
+	        // console.log(paramsQueryNames)
+	        // console.log(paramsBodyNames)
+	        var method = m.method;
+	        if (m.method === 'post')
+	            method = 'save';
+	        if (m.method === 'put')
+	            method = 'update';
+	        if (m.method === 'delete')
+	            method = 'remove';
+	        var params = [paramsPath, paramsQuery, paramsBody].filter(function (d) { return d && d !== '{}'; }).join(',');
+	        var paramsName = [paramsBodyNames, paramsQueryNames].filter(function (d) { return d && d !== '{}'; }).join(',');
+	        // console.log('method', method)
+	        res += ('public ' + m.summary + '= (' + params + ') => this.pathes.'
+	            + m.path_cleand + (".model(" + paramsPathNames + ")." + method + "(" + paramsName + ");") + "\n");
+	        // console.log(res)
+	    });
+	    return res;
+	}
+	exports.getPathesMethods = getPathesMethods;
+
+
+/***/ },
+/* 16 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var _ = __webpack_require__(2);
+	var type_swagger_to_js_1 = __webpack_require__(17);
+	function getObjectDefinition(ref, swg) {
+	    var res = '';
+	    ref = ref.replace('#/', '').replace(/\//g, '.');
+	    // console.log('ref:', ref)
+	    var obj = _.get(swg, ref);
+	    // console.log('obj:', obj)
+	    // console.log('swg:', swg)
+	    _.forOwn(obj.properties, function (v, k) {
+	        if (v.schema && v.schema.$ref && typeof v.schema.$ref === "string") {
+	            res += "{" + getObjectDefinition(v.schema.$ref, swg) + "};\n";
+	        }
+	        else {
+	            var isRequired = (obj.required && obj.required instanceof Array && obj.required.filter(function (o) { return o === k; }).length > 0);
+	            var type = (v.enum && v.enum instanceof Array && v.enum.length > 0)
+	                ? v.enum.map(function (e) { return '"' + e + '"'; }).join('|') : type_swagger_to_js_1.swaggerTypeToJS(v.type);
+	            res += k + (!isRequired ? '?' : "") + ":" + type + ";\n";
+	        }
+	    });
+	    return res;
+	}
+	exports.getObjectDefinition = getObjectDefinition;
+
+
+/***/ },
+/* 17 */
+/***/ function(module, exports) {
+
+	"use strict";
+	exports.DataTypesNumber = ["int32", "int64", "double", "float"];
+	exports.DataTyesString = ["string", "byte", "binary", "data", "data-time", "password"];
+	exports.DataTyesBoolean = ["boolean"];
+	// export function swaggerTypeToJS(type: string) {
+	//     if (DataTypesNumber.filter(d => d === type).length > 0) return 'number';
+	//     if (DataTyesString.filter(d => d === type).length > 0) return 'string';
+	// }
+	function swaggerTypeToJS(type) {
+	    return (type === 'integer') ? 'number'
+	        : (type === 'array') ? 'any[]'
+	            : (type === 'file') ? 'any' : type;
+	}
+	exports.swaggerTypeToJS = swaggerTypeToJS;
+
 
 /***/ }
 /******/ ])));
