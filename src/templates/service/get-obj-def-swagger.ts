@@ -4,6 +4,10 @@ import { SwaggerModel, Method, SwaggerMethod, SwaggerDef } from '../../swagger';
 import { swaggerTypeToJS } from './type-swagger-to-js';
 
 export function getObjectDefinition(ref: string, swg: SwaggerModel): string {
+    if(!ref) {
+        console.log('Bad json $ref inside swagger')
+        return '';
+    }
     let res = '';
     ref = ref.replace('#/', '').replace(/\//g, '.');
     // console.log('ref:', ref)

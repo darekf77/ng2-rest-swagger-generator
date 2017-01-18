@@ -503,6 +503,10 @@
 	var _ = __webpack_require__(2);
 	var type_swagger_to_js_1 = __webpack_require__(17);
 	function getObjectDefinition(ref, swg) {
+	    if (!ref) {
+	        console.log('Bad json $ref inside swagger');
+	        return '';
+	    }
 	    var res = '';
 	    ref = ref.replace('#/', '').replace(/\//g, '.');
 	    // console.log('ref:', ref)
