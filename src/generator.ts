@@ -89,7 +89,7 @@ export function run(pathes: string[], links: string[]) {
         swg.tags.forEach(tag => {
             servicesNames.push(tag.name);
             servicesNameCamelCase.push(base + Helpers.upperFirst(_.camelCase(tag.name)));
-            let service = serviceTemplate(base + Helpers.upperFirst(tag.name), swg);
+            let service = serviceTemplate(base, tag.name, swg);
             fs.writeFileSync(serviceTsPath(base, tag.name), service, 'utf8');
         })
         fs.writeFileSync(serviceGroupIndex(base), indexExportsTmpl(servicesNames), 'utf8');

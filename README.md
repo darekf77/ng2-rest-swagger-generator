@@ -11,7 +11,7 @@ Instalation on your server:
     ng2-rest-swagger-generateor -p  ~/api_swagger.json
 or from link
 
-    ng2-rest-swagger-generateor -h http://api.com/swagger.json 
+    ng2-rest-swagger-generateor -l http://api.com/swagger.json 
 
 
 | param | description |

@@ -115,7 +115,7 @@
 	        swg.tags.forEach(function (tag) {
 	            servicesNames.push(tag.name);
 	            servicesNameCamelCase.push(base + helpers_1.Helpers.upperFirst(_.camelCase(tag.name)));
-	            var service = templates_1.serviceTemplate(base + helpers_1.Helpers.upperFirst(tag.name), swg);
+	            var service = templates_1.serviceTemplate(base, tag.name, swg);
 	            fs.writeFileSync(serviceTsPath(base, tag.name), service, 'utf8');
 	        });
 	        fs.writeFileSync(serviceGroupIndex(base), templates_1.indexExportsTmpl(servicesNames), 'utf8');
@@ -232,20 +232,29 @@
 	"use strict";
 	var _ = __webpack_require__(2);
 	var ng2_rest_obj_1 = __webpack_require__(11);
+	var helpers_1 = __webpack_require__(12);
 	function findModelByTag(tag, swg) {
 	    var o = swg.paths;
-	    console.log('o', o);
+	    // console.log('tag', tag)
+	    // console.log('o', o)
+	    var urls = [];
 	    for (var url in o) {
-	        console.log('url', url);
+	        // console.log('url', url)
 	        for (var method in o[url]) {
-	            console.log('method', method);
+	            // console.log('method', method)
 	            var m = o[url][method];
-	            console.log('m', m);
+	            // console.log('m', m)
 	            if (m.tags.filter(function (t) { return t === tag; }).length > 0) {
-	                return url; //.replace(/{/g, ':').replace(/}/g, "");
+	                // console.log('ok tag', tag)
+	                urls.push(url.replace(/{/g, ':').replace(/}/g, ""));
 	            }
 	        }
 	    }
+	    urls = urls.sort(function (a, b) { return b.length - a.length; });
+	    // console.log('url', urls)
+	    var res = urls.shift();
+	    // console.log('res', res);
+	    return res;
 	}
 	function findByTag(tag, swg) {
 	    var res = {
@@ -260,12 +269,12 @@
 	    res.model = findModelByTag(tag, swg);
 	    return res;
 	}
-	function serviceTemplate(model, swg) {
+	function serviceTemplate(group, model, swg) {
 	    var instances = [];
 	    var pathes = swg.paths;
 	    var a = findByTag(model, swg);
 	    var d = ng2_rest_obj_1.n2RestObject(a);
-	    return "import { Injectable } from '@angular/core';\nimport { SimpleResource, Mock, Model } from 'ng2-rest/ng2-rest';\n\n@Injectable()\nexport class " + _.camelCase(model).replace(model.charAt(0), model.charAt(0).toUpperCase()) + "Service  {\n    private instance = new  SimpleResource" + d + ";\n    model: Model< " + a.singleModelType + " , " + a.queryModelType + " , " + a.restPramsType + " , " + a.queryPramType + " >;\n    mock: Mock< " + a.singleModelType + "  >;\n\n    constructor() {\n        this.mock = this.instance.mock;\n        this.model = this.instance.model;\n    }\n}";
+	    return "import { Injectable } from '@angular/core';\nimport { SimpleResource, Mock, Model } from 'ng2-rest/ng2-rest';\n\n@Injectable()\nexport class " + helpers_1.Helpers.upperFirst(group) + _.camelCase(model).replace(model.charAt(0), model.charAt(0).toUpperCase()) + "Service  {\n    private instance = new  SimpleResource" + d + ";\n    model: Model< " + a.singleModelType + " , " + a.queryModelType + " , " + a.restPramsType + " , " + a.queryPramType + " >;\n    mock: Mock< " + a.singleModelType + "  >;\n\n    constructor() {\n        this.mock = this.instance.mock;\n        this.model = this.instance.model;\n    }\n}";
 	}
 	exports.serviceTemplate = serviceTemplate;
 
