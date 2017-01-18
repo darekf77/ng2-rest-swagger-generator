@@ -5,7 +5,7 @@ export const DataTyesBoolean = ["boolean"];
 type DataFormat = "int32" | "int64" | "double" | "float"
 type DataType = "object" | "array" | "string" | "boolean"
 
-interface Property {
+export interface Property {
     type: DataType;
     enum: string[];
     minLength: number;
@@ -15,11 +15,11 @@ interface Property {
     exclusiveMinimum: boolean;
     exclusiveMaximum: boolean;
 }
-interface PropertyName {
+export interface PropertyName {
     [name: string]: Property
 }
 
-interface SwaggerDef {
+export interface SwaggerDef {
     type: DataType;
     properties: Property[];
 }

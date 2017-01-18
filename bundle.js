@@ -49,7 +49,7 @@
 	var _ = __webpack_require__(2);
 	var request = __webpack_require__(3);
 	var templates_1 = __webpack_require__(4);
-	var helpers_1 = __webpack_require__(11);
+	var helpers_1 = __webpack_require__(12);
 	var apis = [];
 	var APIpath = process.cwd() + "/api";
 	var mainIndexPath = APIpath + "/index.ts";
@@ -231,19 +231,24 @@
 
 	"use strict";
 	var _ = __webpack_require__(2);
-	function n2RestObject(instance) {
-	    return ("<\n    " + instance.endpointType + ",\n    " + instance.singleModelType + ",\n    " + instance.queryModelType + ",\n    " + instance.restPramsType + ",\n    " + instance.queryPramType + "\n    >( '" + instance.endpointSelected + "' ,  '" + instance.model + "' );") + '\n';
+	var ng2_rest_obj_1 = __webpack_require__(11);
+	function findModelByTag(tag, swg) {
+	    var o = swg.paths;
+	    console.log('o', o);
+	    for (var url in o) {
+	        console.log('url', url);
+	        for (var method in o[url]) {
+	            console.log('method', method);
+	            var m = o[url][method];
+	            console.log('m', m);
+	            if (m.tags.filter(function (t) { return t === tag; }).length > 0) {
+	                return url; //.replace(/{/g, ':').replace(/}/g, "");
+	            }
+	        }
+	    }
 	}
-	exports.n2RestObject = n2RestObject;
-	function serviceTemplate(model, swg) {
-	    var instances = [];
-	    var pathes = swg.paths;
-	    // let counter = 0;
-	    // for (let path in pathes) {
-	    //     instances.push()
-	    // }
-	    var a = {
-	        // nameUnderscore: 'rest' + Math.random() + 100,
+	function findByTag(tag, swg) {
+	    var res = {
 	        endpointType: 'string',
 	        singleModelType: '{}',
 	        queryModelType: 'any[]',
@@ -252,7 +257,14 @@
 	        restPramsType: '{}',
 	        queryPramType: '{}'
 	    };
-	    var d = n2RestObject(a);
+	    res.model = findModelByTag(tag, swg);
+	    return res;
+	}
+	function serviceTemplate(model, swg) {
+	    var instances = [];
+	    var pathes = swg.paths;
+	    var a = findByTag(model, swg);
+	    var d = ng2_rest_obj_1.n2RestObject(a);
 	    return "import { Injectable } from '@angular/core';\nimport { SimpleResource, Mock, Model } from 'ng2-rest/ng2-rest';\n\n@Injectable()\nexport class " + _.camelCase(model).replace(model.charAt(0), model.charAt(0).toUpperCase()) + "Service  {\n    private instance = new  SimpleResource" + d + ";\n    model: Model< " + a.singleModelType + " , " + a.queryModelType + " , " + a.restPramsType + " , " + a.queryPramType + " >;\n    mock: Mock< " + a.singleModelType + "  >;\n\n    constructor() {\n        this.mock = this.instance.mock;\n        this.model = this.instance.model;\n    }\n}";
 	}
 	exports.serviceTemplate = serviceTemplate;
@@ -260,11 +272,22 @@
 
 /***/ },
 /* 11 */
+/***/ function(module, exports) {
+
+	"use strict";
+	function n2RestObject(instance) {
+	    return ("<\n    " + instance.endpointType + ",\n    " + instance.singleModelType + ",\n    " + instance.queryModelType + ",\n    " + instance.restPramsType + ",\n    " + instance.queryPramType + "\n    >( '" + instance.endpointSelected + "' ,  '" + instance.model + "' );") + '\n';
+	}
+	exports.n2RestObject = n2RestObject;
+
+
+/***/ },
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var fs = __webpack_require__(1);
-	var path = __webpack_require__(12);
+	var path = __webpack_require__(13);
 	var Helpers = (function () {
 	    function Helpers() {
 	    }
@@ -323,7 +346,7 @@
 
 
 /***/ },
-/* 12 */
+/* 13 */
 /***/ function(module, exports) {
 
 	module.exports = require("path");

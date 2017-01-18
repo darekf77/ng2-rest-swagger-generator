@@ -20,8 +20,8 @@ interface Parameter {
     format: string;
 }
 
-interface Method {
-    tags: string;
+export interface Method {
+    tags: string[];
     summary: string;
     operationId: string;
     consumes: string[];
@@ -30,15 +30,15 @@ interface Method {
     responses: SwaggerResponse[];
 }
 
-interface SwaggerMethod {
+export interface SwaggerMethod {
     [path: string]: Method;
 }
 
-interface SwaggerPath {
+export interface SwaggerPath {
     [path: string]: SwaggerMethod;
 }
 
-interface SwaggerTag {
+export interface SwaggerTag {
     name: string;
     description: string;
 }
