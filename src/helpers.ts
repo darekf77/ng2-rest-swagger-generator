@@ -4,6 +4,10 @@ import path = require('path');
 
 export class Helpers {
 
+    static upperFirst(s: string): string {
+        return s.replace(s.charAt(0), s.charAt(0).toUpperCase());
+    }
+
     static deleteFolderRecursive(path) {
         if (fs.existsSync(path)) {
             fs.readdirSync(path).forEach(function (file, index) {

@@ -1,6 +1,6 @@
 {
   "name": "ng2-rest-swagger-generator",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Generate Angualr 2 Service from swagger json",
   "main": "karma.conf.js",
   "directories": {
@@ -17,11 +17,15 @@
     "express": "^4.14.0",
     "lodash": "^4.17.4",
     "md5": "^2.2.1",
-    "method-override": "^2.3.6"
+    "method-override": "^2.3.6",
+    "request": "^2.79.0"
   },
   "devDependencies": {
     "@angular/core": "^2.4.3",
+    "@types/express": "^4.0.34",
     "@types/lodash": "^4.14.50",
+    "@types/node": "^7.0.0",
+    "@types/request": "0.0.39",
     "chai": "^3.5.0",
     "json-loader": "^0.5.4",
     "mocha": "^3.1.2",

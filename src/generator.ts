@@ -1,6 +1,7 @@
 import express = require('express');
 import fs = require('fs');
 import * as _ from 'lodash';
+import request = require("request");
 
 import { SwaggerModel } from './swagger';
 import {
@@ -33,7 +34,29 @@ let serviceTsPath = (group: string, name: string) => {
 }
 
 
-export function run(pathes: string[]) {
+export function run(pathes: string[], links: string[]) {
+
+    if (links.length > 0) {
+        let link = links.shift();
+        request(<any>{
+            method: "GET",
+            "rejectUnauthorized": false,
+            "url": link,
+            "headers": { "Content-Type": "application/json" }
+        }, (error, response, body) => {
+            body = JSON.parse(body);
+            // console.log(error)
+            // console.log(typeof body)
+            if (!error && typeof body === "object") {
+                apis.push(body);
+            } else {
+                console.log('Bad link: ' + link)
+            }
+            run(pathes, links);
+        });
+        return;
+    }
+
 
     pathes = pathes.map(p => {
         if (p.charAt(0) === '/') p = p.slice(1, p.length);
@@ -65,8 +88,8 @@ export function run(pathes: string[]) {
         let servicesNames: string[] = [];
         swg.tags.forEach(tag => {
             servicesNames.push(tag.name);
-            servicesNameCamelCase.push(_.camelCase(tag.name))
-            let service = serviceTemplate(tag.name, swg);
+            servicesNameCamelCase.push(base + Helpers.upperFirst(_.camelCase(tag.name)));
+            let service = serviceTemplate(base + Helpers.upperFirst(tag.name), swg);
             fs.writeFileSync(serviceTsPath(base, tag.name), service, 'utf8');
         })
         fs.writeFileSync(serviceGroupIndex(base), indexExportsTmpl(servicesNames), 'utf8');

@@ -10,9 +10,13 @@
   },
   "compileOnSave": false,
   "buildOnSave": false,
+  "types": [
+    "node",
+    "express",
+    "request"
+  ],
   "exclude": [
     "node_modules",
-    "website",
     "out",
     "gui",
     "apps",

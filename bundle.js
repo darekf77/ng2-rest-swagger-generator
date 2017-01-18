@@ -47,8 +47,9 @@
 	"use strict";
 	var fs = __webpack_require__(1);
 	var _ = __webpack_require__(2);
-	var templates_1 = __webpack_require__(3);
-	var helpers_1 = __webpack_require__(10);
+	var request = __webpack_require__(3);
+	var templates_1 = __webpack_require__(4);
+	var helpers_1 = __webpack_require__(11);
 	var apis = [];
 	var APIpath = process.cwd() + "/api";
 	var mainIndexPath = APIpath + "/index.ts";
@@ -64,7 +65,28 @@
 	var serviceTsPath = function (group, name) {
 	    return servicesFolderPath + "/" + _.camelCase(group) + "/" + name + ".ts";
 	};
-	function run(pathes) {
+	function run(pathes, links) {
+	    if (links.length > 0) {
+	        var link_1 = links.shift();
+	        request({
+	            method: "GET",
+	            "rejectUnauthorized": false,
+	            "url": link_1,
+	            "headers": { "Content-Type": "application/json" }
+	        }, function (error, response, body) {
+	            body = JSON.parse(body);
+	            // console.log(error)
+	            // console.log(typeof body)
+	            if (!error && typeof body === "object") {
+	                apis.push(body);
+	            }
+	            else {
+	                console.log('Bad link: ' + link_1);
+	            }
+	            run(pathes, links);
+	        });
+	        return;
+	    }
 	    pathes = pathes.map(function (p) {
 	        if (p.charAt(0) === '/')
 	            p = p.slice(1, p.length);
@@ -92,8 +114,8 @@
 	        var servicesNames = [];
 	        swg.tags.forEach(function (tag) {
 	            servicesNames.push(tag.name);
-	            servicesNameCamelCase.push(_.camelCase(tag.name));
-	            var service = templates_1.serviceTemplate(tag.name, swg);
+	            servicesNameCamelCase.push(base + helpers_1.Helpers.upperFirst(_.camelCase(tag.name)));
+	            var service = templates_1.serviceTemplate(base + helpers_1.Helpers.upperFirst(tag.name), swg);
 	            fs.writeFileSync(serviceTsPath(base, tag.name), service, 'utf8');
 	        });
 	        fs.writeFileSync(serviceGroupIndex(base), templates_1.indexExportsTmpl(servicesNames), 'utf8');
@@ -121,20 +143,26 @@
 
 /***/ },
 /* 3 */
+/***/ function(module, exports) {
+
+	module.exports = require("request");
+
+/***/ },
+/* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	function __export(m) {
 	    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 	}
-	__export(__webpack_require__(4));
 	__export(__webpack_require__(5));
 	__export(__webpack_require__(6));
-	__export(__webpack_require__(8));
+	__export(__webpack_require__(7));
+	__export(__webpack_require__(9));
 
 
 /***/ },
-/* 4 */
+/* 5 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -147,7 +175,7 @@
 
 
 /***/ },
-/* 5 */
+/* 6 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -158,11 +186,11 @@
 
 
 /***/ },
-/* 6 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var ts_import_from_folder_1 = __webpack_require__(7);
+	var ts_import_from_folder_1 = __webpack_require__(8);
 	function templateModule(serviceNames) {
 	    var services = serviceNames.map(function (name) {
 	        return name.replace(name.charAt(0), name.charAt(0).toUpperCase()) + 'Service' + '\n';
@@ -174,7 +202,7 @@
 
 
 /***/ },
-/* 7 */
+/* 8 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -187,18 +215,18 @@
 
 
 /***/ },
-/* 8 */
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	function __export(m) {
 	    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 	}
-	__export(__webpack_require__(9));
+	__export(__webpack_require__(10));
 
 
 /***/ },
-/* 9 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -231,15 +259,18 @@
 
 
 /***/ },
-/* 10 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var fs = __webpack_require__(1);
-	var path = __webpack_require__(11);
+	var path = __webpack_require__(12);
 	var Helpers = (function () {
 	    function Helpers() {
 	    }
+	    Helpers.upperFirst = function (s) {
+	        return s.replace(s.charAt(0), s.charAt(0).toUpperCase());
+	    };
 	    Helpers.deleteFolderRecursive = function (path) {
 	        if (fs.existsSync(path)) {
 	            fs.readdirSync(path).forEach(function (file, index) {
@@ -292,7 +323,7 @@
 
 
 /***/ },
-/* 11 */
+/* 12 */
 /***/ function(module, exports) {
 
 	module.exports = require("path");
