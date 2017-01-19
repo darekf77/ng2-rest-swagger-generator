@@ -13,7 +13,9 @@
   "types": [
     "node",
     "express",
-    "request"
+    "request",
+    "mocha",
+    "chai"
   ],
   "exclude": [
     "node_modules",

@@ -51,7 +51,7 @@ interface Parameter {
     /**
      * Required if type is "array". Describes the type of items in the array.
      */
-    items: Parameter;
+    items: { $ref: string };
     required: boolean;
     /**
      * Sets the ability to pass empty-valued parameters. This is valid only 

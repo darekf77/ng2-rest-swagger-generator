@@ -1,35 +1,13 @@
 import * as _ from 'lodash';
 
-import { SwaggerModel, Method } from '../../swagger';
-import { cleanPath } from './clean-path';
-import { getObjectDefinition } from './get-obj-def-swagger';
-export type HttpMethod = 'query' | 'get' | 'post' | 'put' | 'delete';
-
-import { swaggerTypeToJS } from './type-swagger-to-js';
+import { SwaggerModel, Method } from '../../../swagger';
+import { SwaggerHelpers } from '../swagger-helpers';
+import { ServiceMethod, HttpMethod } from './models';
 
 /**
  * public getAllCompanies =  ({ params },{ queryparams1 }) => this.pathes.get_all_companies.model(params).get(queryparams),
  * public getAllCompanies =  ({ params },{ queryparams1 },{body}) => this.pathes.get_all_companies.model(params).put(body,queryparams)
  */
-
-interface Param {
-    name: string;
-    type: string; // "string" | "number" | "integer" | "boolean" | "array" | "file";
-    required: boolean;
-    joined?: string;
-}
-
-interface ServiceMethod {
-    summary: string;
-    path_cleand: string;
-    params: {
-        path?: Param[];
-        query?: Param[];
-        body?: Param[];
-    }
-    method: HttpMethod;
-}
-
 function getServicesMethod(tag: string, swg: SwaggerModel) {
     let methods: ServiceMethod[] = [];
     for (let urlpath in swg.paths) {
@@ -41,7 +19,7 @@ function getServicesMethod(tag: string, swg: SwaggerModel) {
                 let sm: ServiceMethod = <ServiceMethod>{};
                 sm.summary = m.summary;
                 sm.method = <HttpMethod>methodhttp;
-                sm.path_cleand = cleanPath(urlpath);
+                sm.path_cleand = SwaggerHelpers.cleanPath(urlpath);
                 // console.log('sm.path_cleand', sm.path_cleand)
                 sm.params = {};
                 sm.params.query = [];
@@ -52,13 +30,13 @@ function getServicesMethod(tag: string, swg: SwaggerModel) {
                     if (param.in === 'body') {
                         sm.params.body.push({
                             name: param.name,
-                            type: "{" + getObjectDefinition(param.schema.$ref, swg) + "}",
+                            type: "{" + SwaggerHelpers.getObjectDefinition(param.schema.$ref, swg) + "}",
                             required: param.required
                         })
                     } else {
                         sm.params[param.in].push({
                             name: param.name,
-                            type: swaggerTypeToJS(param.type),
+                            type: SwaggerHelpers.swaggerTypeToJS(param.type),
                             required: param.required
                         })
                     }
@@ -73,12 +51,10 @@ function getServicesMethod(tag: string, swg: SwaggerModel) {
     return methods;
 }
 
-export function getPathesMethods(tag: string, swg: SwaggerModel): string {
+export function getAngularServicesMethods(tag: string, swg: SwaggerModel): string {
     let res = '';
 
     let methods: ServiceMethod[] = getServicesMethod(tag, swg);
-
-    // console.log(methods)
 
     methods.forEach(m => {
         let neededParams = {
@@ -87,24 +63,14 @@ export function getPathesMethods(tag: string, swg: SwaggerModel): string {
             body: (m.params && m.params.body && m.params.body.length > 0)
         }
 
-        // console.log(m)
+        let paramsPath = neededParams.path ? m.params.path.map(p => p['joined'] = p.name + ':' + p.type).join(',') : '';
+        let paramsQuery = neededParams.query ? m.params.query.map(p => p['joined'] = p.name + ':' + p.type).join(',') : '';
+        let paramsBody = neededParams.body ? m.params.body.map(p => p['joined'] = p.name + ':' + p.type).join(',') : '';
 
-        let paramsPath = neededParams.path ? m.params.path.map(p => p.joined = p.name + ':' + p.type).join(',') : '';
-        let paramsQuery = neededParams.query ? m.params.query.map(p => p.joined = p.name + ':' + p.type).join(',') : '';
-        let paramsBody = neededParams.body ? m.params.body.map(p => p.joined = p.name + ':' + p.type).join(',') : '';
+        let paramsPathNames = "{" + (neededParams.path ? m.params.path.map(p => p['joined'] = p.name).filter(d => d).join(',') : '') + '}';
+        let paramsQueryNames = "{" + (neededParams.query ? m.params.query.map(p => p['joined'] = p.name).filter(d => d).join(',') : '') + '}';
+        let paramsBodyNames = "{" + (neededParams.body ? m.params.body.map(p => p['joined'] = p.name).filter(d => d).join(',') : '') + '}';
 
-
-        // console.log(paramsPath)
-        // console.log(paramsQuery)
-        // console.log(paramsBody)
-
-        let paramsPathNames = "{" + (neededParams.path ? m.params.path.map(p => p.joined = p.name).filter(d => d).join(',') : '') + '}';
-        let paramsQueryNames = "{" + (neededParams.query ? m.params.query.map(p => p.joined = p.name).filter(d => d).join(',') : '') + '}';
-        let paramsBodyNames = "{" + (neededParams.body ? m.params.body.map(p => p.joined = p.name).filter(d => d).join(',') : '') + '}';
-
-        // console.log(paramsPathNames)
-        // console.log(paramsQueryNames)
-        // console.log(paramsBodyNames)
         let method: string = m.method;
         if (m.method === 'post') method = 'save';
         if (m.method === 'put') method = 'update';
@@ -112,10 +78,10 @@ export function getPathesMethods(tag: string, swg: SwaggerModel): string {
 
         let params = [paramsPath, paramsQuery, paramsBody].filter(d => d && d !== '{}').join(',');
         let paramsName = [paramsBodyNames, paramsQueryNames].filter(d => d && d !== '{}').join(',');
-        // console.log('method', method)
+
         res += ('public ' + m.summary + '= (' + params + ') => this.pathes.'
             + m.path_cleand + `.model(${paramsPathNames}).${method}(${paramsName});` + "\n");
-        // console.log(res)
+
     });
     return res;
 }
