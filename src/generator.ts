@@ -52,7 +52,7 @@ export function run(pathes: string[], links: string[], isHttpsEnable: boolean = 
             } else {
                 console.log('Bad link: ' + link)
             }
-            run(pathes, links);
+            run(pathes, links, isHttpsEnable);
         });
         return;
     }
