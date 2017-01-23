@@ -48,8 +48,9 @@
 	var fs = __webpack_require__(1);
 	var _ = __webpack_require__(2);
 	var request = __webpack_require__(3);
-	var templates_1 = __webpack_require__(4);
-	var helpers_1 = __webpack_require__(11);
+	var JSON5 = __webpack_require__(4);
+	var templates_1 = __webpack_require__(5);
+	var helpers_1 = __webpack_require__(12);
 	var apis = [];
 	var APIpath = process.cwd() + "/api";
 	var mainIndexPath = APIpath + "/index.ts";
@@ -75,7 +76,7 @@
 	            "url": link_1,
 	            "headers": { "Content-Type": "application/json" }
 	        }, function (error, response, body) {
-	            body = JSON.parse(body);
+	            body = JSON5.parse(body);
 	            // console.log(error)
 	            // console.log(typeof body)
 	            if (!error && typeof body === "object") {
@@ -94,7 +95,7 @@
 	        return process.cwd() + "/" + p;
 	    });
 	    pathes.forEach(function (p) {
-	        apis.push(JSON.parse(fs.readFileSync(p, 'utf8')));
+	        apis.push(JSON5.parse(fs.readFileSync(p, 'utf8')));
 	    });
 	    // api forlder
 	    if (fs.existsSync(APIpath))
@@ -151,20 +152,26 @@
 
 /***/ },
 /* 4 */
+/***/ function(module, exports) {
+
+	module.exports = require("json5");
+
+/***/ },
+/* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	function __export(m) {
 	    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 	}
-	__export(__webpack_require__(5));
 	__export(__webpack_require__(6));
 	__export(__webpack_require__(7));
-	__export(__webpack_require__(9));
+	__export(__webpack_require__(8));
+	__export(__webpack_require__(10));
 
 
 /***/ },
-/* 5 */
+/* 6 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -177,7 +184,7 @@
 
 
 /***/ },
-/* 6 */
+/* 7 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -188,11 +195,11 @@
 
 
 /***/ },
-/* 7 */
+/* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var ts_import_from_folder_1 = __webpack_require__(8);
+	var ts_import_from_folder_1 = __webpack_require__(9);
 	function templateModule(serviceNames) {
 	    var services = serviceNames.map(function (name) {
 	        return name.replace(name.charAt(0), name.charAt(0).toUpperCase()) + 'Service' + '\n';
@@ -204,7 +211,7 @@
 
 
 /***/ },
-/* 8 */
+/* 9 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -217,28 +224,14 @@
 
 
 /***/ },
-/* 9 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	function __export(m) {
 	    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 	}
-	__export(__webpack_require__(10));
-
-
-/***/ },
-/* 10 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var _ = __webpack_require__(2);
-	var helpers_1 = __webpack_require__(11);
-	var angular_1 = __webpack_require__(13);
-	function serviceTemplate(group, model, swg) {
-	    return "import { Injectable } from '@angular/core';\nimport { SimpleResource, Mock, Model } from 'ng2-rest/ng2-rest';\n\n@Injectable()\nexport class " + helpers_1.Helpers.upperFirst(group) + _.camelCase(model).replace(model.charAt(0), model.charAt(0).toUpperCase()) + "Service  {\n\n    " + angular_1.getAngularPrivatePathesByTag(model, swg) + "\n    " + angular_1.getAngularServicesMethods(model, swg) + "\n\n    public static unsubscribe() {\n        SimpleResource.UnsubscribeEvents();\n    }\n\n    constructor() {\n\n    }\n}";
-	}
-	exports.serviceTemplate = serviceTemplate;
+	__export(__webpack_require__(11));
 
 
 /***/ },
@@ -246,8 +239,22 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
+	var _ = __webpack_require__(2);
+	var helpers_1 = __webpack_require__(12);
+	var angular_1 = __webpack_require__(14);
+	function serviceTemplate(group, model, swg) {
+	    return "import { Injectable } from '@angular/core';\nimport { SimpleResource, Mock, Model } from 'ng2-rest/ng2-rest';\n\n@Injectable()\nexport class " + helpers_1.Helpers.upperFirst(group) + _.camelCase(model).replace(model.charAt(0), model.charAt(0).toUpperCase()) + "Service  {\n\n    " + angular_1.getAngularPrivatePathesByTag(model, swg) + "\n    " + angular_1.getAngularServicesMethods(model, swg) + "\n\n    public static unsubscribe() {\n        SimpleResource.UnsubscribeEvents();\n    }\n\n    constructor() {\n\n    }\n}";
+	}
+	exports.serviceTemplate = serviceTemplate;
+
+
+/***/ },
+/* 12 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
 	var fs = __webpack_require__(1);
-	var path = __webpack_require__(12);
+	var path = __webpack_require__(13);
 	var Helpers = (function () {
 	    function Helpers() {
 	    }
@@ -306,30 +313,30 @@
 
 
 /***/ },
-/* 12 */
+/* 13 */
 /***/ function(module, exports) {
 
 	module.exports = require("path");
-
-/***/ },
-/* 13 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	function __export(m) {
-	    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
-	}
-	__export(__webpack_require__(14));
-	__export(__webpack_require__(16));
-
 
 /***/ },
 /* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
+	function __export(m) {
+	    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+	}
+	__export(__webpack_require__(15));
+	__export(__webpack_require__(17));
+
+
+/***/ },
+/* 15 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
 	var _ = __webpack_require__(2);
-	var swagger_helpers_1 = __webpack_require__(15);
+	var swagger_helpers_1 = __webpack_require__(16);
 	/**
 	 * private pathes = {
 	 *      get_all_companies: new SimpleResource<
@@ -405,7 +412,7 @@
 
 
 /***/ },
-/* 15 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -459,11 +466,11 @@
 
 
 /***/ },
-/* 16 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var swagger_helpers_1 = __webpack_require__(15);
+	var swagger_helpers_1 = __webpack_require__(16);
 	/**
 	 * public getAllCompanies =  ({ params },{ queryparams1 }) => this.pathes.get_all_companies.model(params).get(queryparams),
 	 * public getAllCompanies =  ({ params },{ queryparams1 },{body}) => this.pathes.get_all_companies.model(params).put(body,queryparams)
