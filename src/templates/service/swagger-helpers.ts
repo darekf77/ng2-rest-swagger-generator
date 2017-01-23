@@ -2,6 +2,7 @@ import * as _ from 'lodash';
 
 import { SwaggerModel, Method, SwaggerDef } from '../../swagger';
 
+
 export namespace SwaggerHelpers {
 
     /**
@@ -16,9 +17,9 @@ export namespace SwaggerHelpers {
     }
 
 
-    export function swaggerTypeToJS(type: "string" | "number" | "integer" | "boolean" | "array" | "file") {
+    export function swaggerTypeToJS(type: "string" | "number" | "integer" | "boolean" | "array" | "file", itemsType: any = 'any') {
         return (type === 'integer') ? 'number'
-            : (type === 'array') ? 'any[]'
+            : (type === 'array') ? !itemsType ? 'any' : `${swaggerTypeToJS(itemsType)}[]`
                 : (type === 'file') ? 'any' : type;
     }
 
@@ -36,14 +37,16 @@ export namespace SwaggerHelpers {
 
         _.forOwn(obj.properties, (v, k) => {
             // console.log(obj)
-            if (v.schema && v.schema.$ref && typeof v.schema.$ref === "string") {
+            if (v.$ref && typeof v.$ref === "string") {
+                res += k + ":{" + getObjectDefinition(v.$ref, swg) + "};\n";
+            } else if (v.schema && v.schema.$ref && typeof v.schema.$ref === "string") {
                 res += k + ":{" + getObjectDefinition(v.schema.$ref, swg) + "};\n";
             } else if (v.items && v.items.$ref && typeof v.items.$ref === "string") {
                 res += k + ":{" + getObjectDefinition(v.items.$ref, swg) + "};\n";
             } else {
                 let isRequired = (obj.required && obj.required instanceof Array && obj.required.filter(o => o === k).length > 0)
                 let type = (v.enum && v.enum instanceof Array && v.enum.length > 0)
-                    ? v.enum.map(e => '"' + e + '"').join('|') : swaggerTypeToJS(v.type);
+                    ? v.enum.map(e => '"' + e + '"').join('|') : swaggerTypeToJS(v.type, v.items ? v.items.type : 'any');
 
                 res += k + (!isRequired ? '?' : "") + ":" + type + ";\n"
             }

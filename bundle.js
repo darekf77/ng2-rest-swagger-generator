@@ -430,9 +430,10 @@
 	        return pathModel.replace(/\/{/g, '/:').replace(/}/g, '');
 	    }
 	    SwaggerHelpers.cleanPathModel = cleanPathModel;
-	    function swaggerTypeToJS(type) {
+	    function swaggerTypeToJS(type, itemsType) {
+	        if (itemsType === void 0) { itemsType = 'any'; }
 	        return (type === 'integer') ? 'number'
-	            : (type === 'array') ? 'any[]'
+	            : (type === 'array') ? !itemsType ? 'any' : swaggerTypeToJS(itemsType) + "[]"
 	                : (type === 'file') ? 'any' : type;
 	    }
 	    SwaggerHelpers.swaggerTypeToJS = swaggerTypeToJS;
@@ -446,7 +447,10 @@
 	        var obj = _.get(swg, ref);
 	        _.forOwn(obj.properties, function (v, k) {
 	            // console.log(obj)
-	            if (v.schema && v.schema.$ref && typeof v.schema.$ref === "string") {
+	            if (v.$ref && typeof v.$ref === "string") {
+	                res += k + ":{" + getObjectDefinition(v.$ref, swg) + "};\n";
+	            }
+	            else if (v.schema && v.schema.$ref && typeof v.schema.$ref === "string") {
 	                res += k + ":{" + getObjectDefinition(v.schema.$ref, swg) + "};\n";
 	            }
 	            else if (v.items && v.items.$ref && typeof v.items.$ref === "string") {
@@ -455,7 +459,7 @@
 	            else {
 	                var isRequired = (obj.required && obj.required instanceof Array && obj.required.filter(function (o) { return o === k; }).length > 0);
 	                var type = (v.enum && v.enum instanceof Array && v.enum.length > 0)
-	                    ? v.enum.map(function (e) { return '"' + e + '"'; }).join('|') : swaggerTypeToJS(v.type);
+	                    ? v.enum.map(function (e) { return '"' + e + '"'; }).join('|') : swaggerTypeToJS(v.type, v.items ? v.items.type : 'any');
 	                res += k + (!isRequired ? '?' : "") + ":" + type + ";\n";
 	            }
 	        });
@@ -500,7 +504,8 @@
 	                        if (param.in === 'body') {
 	                            sm_1.params.body.push({
 	                                name: param.name,
-	                                type: "{" + swagger_helpers_1.SwaggerHelpers.getObjectDefinition(param.schema.$ref, swg) + "}",
+	                                type: (param.schema.$ref ? ("{" + swagger_helpers_1.SwaggerHelpers.getObjectDefinition(param.schema.$ref, swg) + "}")
+	                                    : swagger_helpers_1.SwaggerHelpers.swaggerTypeToJS(param.type)),
 	                                required: param.required,
 	                                isObject: true
 	                            });

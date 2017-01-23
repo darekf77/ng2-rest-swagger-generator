@@ -36,7 +36,8 @@ function getServicesMethod(tag: string, swg: SwaggerModel) {
                     if (param.in === 'body') {
                         sm.params.body.push({
                             name: param.name,
-                            type: "{" + SwaggerHelpers.getObjectDefinition(param.schema.$ref, swg) + "}",
+                            type: (param.schema.$ref ? ("{" + SwaggerHelpers.getObjectDefinition(param.schema.$ref, swg) + "}")
+                                : SwaggerHelpers.swaggerTypeToJS(param.type)),
                             required: param.required,
                             isObject: true
                         })

@@ -37,6 +37,7 @@ interface SwaggerResponse {
 }
 
 interface Parameter {
+    $ref: string;
     /**
      * 	Required. The schema defining the type used for the body parameter.
      */
@@ -59,7 +60,7 @@ interface Parameter {
     /**
      * Required if type is "array". Describes the type of items in the array.
      */
-    items: { $ref: string };
+    items: Parameter;
     required: boolean;
     /**
      * Sets the ability to pass empty-valued parameters. This is valid only 
