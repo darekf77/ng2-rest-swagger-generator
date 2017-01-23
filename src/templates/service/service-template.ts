@@ -12,6 +12,8 @@ import { SimpleResource, Mock, Model } from 'ng2-rest/ng2-rest';
 export class ${Helpers.upperFirst(group)}${_.camelCase(model).replace(model.charAt(0), model.charAt(0).toUpperCase())}Service  {
 
     ${getAngularPrivatePathesByTag(model, swg)}
+
+    // public methods
     ${getAngularServicesMethods(model, swg)}
 
     public static unsubscribe() {

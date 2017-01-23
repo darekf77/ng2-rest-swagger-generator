@@ -97,8 +97,8 @@ export function getAngularServicesMethods(tag: string, swg: SwaggerModel): strin
 
         let paramsName = [paramBodyNames, paramQueryNames].filter(d => d && d !== '{}').join(',');
 
-        res += ('public ' + m.summary + '= (' + params + ') => this.pathes.'
-            + m.path_cleand + `.model(${paramPathNames}).${method}(${paramsName});` + "\n");
+        res += ('public ' + m.summary + '= (' + params + ') =>\nthis.pathes.'
+            + m.path_cleand + `\n.model(${paramPathNames})\n.${method}(${paramsName});` + "\n");
 
     });
     return res;

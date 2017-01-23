@@ -46,17 +46,20 @@
 
 	"use strict";
 	var fs = __webpack_require__(1);
-	var _ = __webpack_require__(2);
-	var request = __webpack_require__(3);
-	var JSON5 = __webpack_require__(4);
-	var templates_1 = __webpack_require__(5);
-	var helpers_1 = __webpack_require__(12);
+	var exec = __webpack_require__(2);
+	var tsfmt = __webpack_require__(3);
+	var _ = __webpack_require__(4);
+	var request = __webpack_require__(5);
+	var JSON5 = __webpack_require__(6);
+	var templates_1 = __webpack_require__(7);
+	var helpers_1 = __webpack_require__(14);
 	var apis = [];
 	var APIpath = process.cwd() + "/api";
 	var mainIndexPath = APIpath + "/index.ts";
 	var modulePath = APIpath + "/module.ts";
 	var servicesFolderPath = APIpath + "/services";
 	var servicesFolderPathIndex = servicesFolderPath + "/index.ts";
+	var formatterFiles = [];
 	var serviceGroup = function (group) {
 	    return servicesFolderPath + "/" + _.camelCase(group);
 	};
@@ -119,6 +122,7 @@
 	            servicesNames.push(tag.name);
 	            servicesNameCamelCase.push(base + helpers_1.Helpers.upperFirst(_.camelCase(tag.name)));
 	            var service = templates_1.serviceTemplate(base, tag.name, swg);
+	            formatterFiles.push(serviceTsPath(base, tag.name));
 	            fs.writeFileSync(serviceTsPath(base, tag.name), service, 'utf8');
 	        });
 	        fs.writeFileSync(serviceGroupIndex(base), templates_1.indexExportsTmpl(servicesNames), 'utf8');
@@ -126,8 +130,30 @@
 	    // api/services/index.ts
 	    fs.writeFileSync(servicesFolderPathIndex, templates_1.indexExportsTmpl(exportGroups), 'utf8');
 	    // api/module.ts
+	    formatterFiles.push(modulePath);
 	    fs.writeFileSync(modulePath, templates_1.templateModule(servicesNameCamelCase), 'utf8');
 	    console.log('Swagger files quantity: ', apis.length);
+	    tsfmt.processFiles(formatterFiles, {
+	        // dryRun?: boolean;
+	        // verbose?: boolean;
+	        // baseDir?: string;
+	        replace: true,
+	        verify: false,
+	        tsconfig: true,
+	        tslint: true,
+	        editorconfig: false,
+	        tsfmt: true
+	    }).then(function () { });
+	    // let command = `${__dirname}/node_modules/typescript-formatter/bin/tsfmt --no-tsconfig  -r --baseDir ${APIpath}`;
+	    // console.log('command', command);
+	    // exec(command,
+	    //     (error, stdout, stderr) => {
+	    //         console.log('stdout: ' + stdout);
+	    //         console.log('stderr: ' + stderr);
+	    //         if (error !== null) {
+	    //             console.log('exec error: ' + error);
+	    //         }
+	    //     });
 	}
 	exports.run = run;
 
@@ -142,36 +168,48 @@
 /* 2 */
 /***/ function(module, exports) {
 
-	module.exports = require("lodash");
+	module.exports = require("exec");
 
 /***/ },
 /* 3 */
 /***/ function(module, exports) {
 
-	module.exports = require("request");
+	module.exports = require("typescript-formatter");
 
 /***/ },
 /* 4 */
 /***/ function(module, exports) {
 
-	module.exports = require("json5");
+	module.exports = require("lodash");
 
 /***/ },
 /* 5 */
+/***/ function(module, exports) {
+
+	module.exports = require("request");
+
+/***/ },
+/* 6 */
+/***/ function(module, exports) {
+
+	module.exports = require("json5");
+
+/***/ },
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	function __export(m) {
 	    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 	}
-	__export(__webpack_require__(6));
-	__export(__webpack_require__(7));
 	__export(__webpack_require__(8));
+	__export(__webpack_require__(9));
 	__export(__webpack_require__(10));
+	__export(__webpack_require__(12));
 
 
 /***/ },
-/* 6 */
+/* 8 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -184,7 +222,7 @@
 
 
 /***/ },
-/* 7 */
+/* 9 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -195,11 +233,11 @@
 
 
 /***/ },
-/* 8 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var ts_import_from_folder_1 = __webpack_require__(9);
+	var ts_import_from_folder_1 = __webpack_require__(11);
 	function templateModule(serviceNames) {
 	    var services = serviceNames.map(function (name) {
 	        return name.replace(name.charAt(0), name.charAt(0).toUpperCase()) + 'Service' + '\n';
@@ -211,7 +249,7 @@
 
 
 /***/ },
-/* 9 */
+/* 11 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -224,37 +262,37 @@
 
 
 /***/ },
-/* 10 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	function __export(m) {
 	    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 	}
-	__export(__webpack_require__(11));
+	__export(__webpack_require__(13));
 
 
 /***/ },
-/* 11 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var _ = __webpack_require__(2);
-	var helpers_1 = __webpack_require__(12);
-	var angular_1 = __webpack_require__(14);
+	var _ = __webpack_require__(4);
+	var helpers_1 = __webpack_require__(14);
+	var angular_1 = __webpack_require__(16);
 	function serviceTemplate(group, model, swg) {
-	    return "import { Injectable } from '@angular/core';\nimport { SimpleResource, Mock, Model } from 'ng2-rest/ng2-rest';\n\n@Injectable()\nexport class " + helpers_1.Helpers.upperFirst(group) + _.camelCase(model).replace(model.charAt(0), model.charAt(0).toUpperCase()) + "Service  {\n\n    " + angular_1.getAngularPrivatePathesByTag(model, swg) + "\n    " + angular_1.getAngularServicesMethods(model, swg) + "\n\n    public static unsubscribe() {\n        SimpleResource.UnsubscribeEvents();\n    }\n\n    constructor() {\n\n    }\n}";
+	    return "import { Injectable } from '@angular/core';\nimport { SimpleResource, Mock, Model } from 'ng2-rest/ng2-rest';\n\n@Injectable()\nexport class " + helpers_1.Helpers.upperFirst(group) + _.camelCase(model).replace(model.charAt(0), model.charAt(0).toUpperCase()) + "Service  {\n\n    " + angular_1.getAngularPrivatePathesByTag(model, swg) + "\n\n    // public methods\n    " + angular_1.getAngularServicesMethods(model, swg) + "\n\n    public static unsubscribe() {\n        SimpleResource.UnsubscribeEvents();\n    }\n\n    constructor() {\n\n    }\n}";
 	}
 	exports.serviceTemplate = serviceTemplate;
 
 
 /***/ },
-/* 12 */
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var fs = __webpack_require__(1);
-	var path = __webpack_require__(13);
+	var path = __webpack_require__(15);
 	var Helpers = (function () {
 	    function Helpers() {
 	    }
@@ -313,30 +351,30 @@
 
 
 /***/ },
-/* 13 */
+/* 15 */
 /***/ function(module, exports) {
 
 	module.exports = require("path");
 
 /***/ },
-/* 14 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	function __export(m) {
 	    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 	}
-	__export(__webpack_require__(15));
 	__export(__webpack_require__(17));
+	__export(__webpack_require__(19));
 
 
 /***/ },
-/* 15 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var _ = __webpack_require__(2);
-	var swagger_helpers_1 = __webpack_require__(16);
+	var _ = __webpack_require__(4);
+	var swagger_helpers_1 = __webpack_require__(18);
 	/**
 	 * private pathes = {
 	 *      get_all_companies: new SimpleResource<
@@ -381,7 +419,7 @@
 	        });
 	    });
 	    pathResources.forEach(function (p) {
-	        res.push(p.clean_path + ": new SimpleResource< string, " + p.singleModelType + " ,  " + p.multipleModelType + "  , " + p.pathParamsType + " , " + p.queryParamsType + " >( '" + swg.host + p.endpoint + "' , '" + p.model + "' )");
+	        res.push(p.clean_path + ": new SimpleResource<\n string,\n" + p.singleModelType + ",\n" + p.multipleModelType + ",\n" + p.pathParamsType + ",\n" + p.queryParamsType + "\n>( '" + swg.host + p.endpoint + "' , '" + p.model + "' )");
 	    });
 	    return "private pathes = {\n" + res.join(',\n') + "\n};";
 	}
@@ -412,11 +450,11 @@
 
 
 /***/ },
-/* 16 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var _ = __webpack_require__(2);
+	var _ = __webpack_require__(4);
 	var SwaggerHelpers;
 	(function (SwaggerHelpers) {
 	    /**
@@ -470,11 +508,11 @@
 
 
 /***/ },
-/* 17 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var swagger_helpers_1 = __webpack_require__(16);
+	var swagger_helpers_1 = __webpack_require__(18);
 	/**
 	 * public getAllCompanies =  ({ params },{ queryparams1 }) => this.pathes.get_all_companies.model(params).get(queryparams),
 	 * public getAllCompanies =  ({ params },{ queryparams1 },{body}) => this.pathes.get_all_companies.model(params).put(body,queryparams)
@@ -560,8 +598,8 @@
 	            paramBodyNames = paramBodyNames.match(new RegExp('[a-zA-Z]+', 'g'))[0];
 	        }
 	        var paramsName = [paramBodyNames, paramQueryNames].filter(function (d) { return d && d !== '{}'; }).join(',');
-	        res += ('public ' + m.summary + '= (' + params + ') => this.pathes.'
-	            + m.path_cleand + (".model(" + paramPathNames + ")." + method + "(" + paramsName + ");") + "\n");
+	        res += ('public ' + m.summary + '= (' + params + ') =>\nthis.pathes.'
+	            + m.path_cleand + ("\n.model(" + paramPathNames + ")\n." + method + "(" + paramsName + ");") + "\n");
 	    });
 	    return res;
 	}

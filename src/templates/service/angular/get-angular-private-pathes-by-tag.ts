@@ -54,7 +54,7 @@ export function getAngularPrivatePathesByTag(tag: string, swg: SwaggerModel): st
 
 
     pathResources.forEach(p => {
-        res.push(`${p.clean_path}: new SimpleResource< string, ${p.singleModelType} ,  ${p.multipleModelType}  , ${p.pathParamsType} , ${p.queryParamsType} >( '${swg.host}${p.endpoint}' , '${p.model}' )`);
+        res.push(`${p.clean_path}: new SimpleResource<\n string,\n${p.singleModelType},\n${p.multipleModelType},\n${p.pathParamsType},\n${p.queryParamsType}\n>( '${swg.host}${p.endpoint}' , '${p.model}' )`);
     })
 
     return `private pathes = {\n${res.join(',\n')}\n};`

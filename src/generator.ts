@@ -1,5 +1,7 @@
 import express = require('express');
 import fs = require('fs');
+var exec = require('exec');
+import tsfmt = require('typescript-formatter');
 import * as _ from 'lodash';
 import request = require("request");
 import * as JSON5 from 'json5';
@@ -20,6 +22,8 @@ const mainIndexPath: string = `${APIpath}/index.ts`;
 const modulePath: string = `${APIpath}/module.ts`;
 const servicesFolderPath: string = `${APIpath}/services`;
 const servicesFolderPathIndex: string = `${servicesFolderPath}/index.ts`;
+
+let formatterFiles: string[] = [];
 
 let serviceGroup = (group: string) => {
     return `${servicesFolderPath}/${_.camelCase(group)}`
@@ -91,6 +95,7 @@ export function run(pathes: string[], links: string[], isHttpsEnable: boolean = 
             servicesNames.push(tag.name);
             servicesNameCamelCase.push(base + Helpers.upperFirst(_.camelCase(tag.name)));
             let service = serviceTemplate(base, tag.name, swg);
+            formatterFiles.push(serviceTsPath(base, tag.name));
             fs.writeFileSync(serviceTsPath(base, tag.name), service, 'utf8');
         })
         fs.writeFileSync(serviceGroupIndex(base), indexExportsTmpl(servicesNames), 'utf8');
@@ -101,11 +106,32 @@ export function run(pathes: string[], links: string[], isHttpsEnable: boolean = 
 
 
     // api/module.ts
+    formatterFiles.push(modulePath);
     fs.writeFileSync(modulePath, templateModule(servicesNameCamelCase), 'utf8');
 
     console.log('Swagger files quantity: ', apis.length);
 
+    tsfmt.processFiles(formatterFiles, {
+        // dryRun?: boolean;
+        // verbose?: boolean;
+        // baseDir?: string;
+        replace: true,
+        verify: false,
+        tsconfig: true,
+        tslint: true,
+        editorconfig: false,
+        tsfmt: true
+    }).then(() => { })
 
-
+    // let command = `${__dirname}/node_modules/typescript-formatter/bin/tsfmt --no-tsconfig  -r --baseDir ${APIpath}`;
+    // console.log('command', command);
+    // exec(command,
+    //     (error, stdout, stderr) => {
+    //         console.log('stdout: ' + stdout);
+    //         console.log('stderr: ' + stderr);
+    //         if (error !== null) {
+    //             console.log('exec error: ' + error);
+    //         }
+    //     });
 
 }
