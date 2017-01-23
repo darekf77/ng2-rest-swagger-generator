@@ -532,6 +532,7 @@
 	                sm_1.params.query = [];
 	                sm_1.params.path = [];
 	                sm_1.params.body = [];
+	                sm_1.comment = '';
 	                // QUICKFIX
 	                if (m.responses && m.responses['200'] && m.responses['200'].schema
 	                    && m.responses['200'].schema.type && m.responses['200'].schema.type === 'array') {
@@ -539,6 +540,8 @@
 	                }
 	                if (m.parameters)
 	                    m.parameters.forEach(function (param) {
+	                        var ptypeExitst = (param.type && param.type.length > 0);
+	                        sm_1.comment += ('*' + (ptypeExitst ? " {" + param.type + "} " : ' ') + (param.name + " (" + param.description + ")") + "\n");
 	                        if (param.in === 'body') {
 	                            sm_1.params.body.push({
 	                                name: param.name,
@@ -598,7 +601,9 @@
 	            paramBodyNames = paramBodyNames.match(new RegExp('[a-zA-Z]+', 'g'))[0];
 	        }
 	        var paramsName = [paramBodyNames, paramQueryNames].filter(function (d) { return d && d !== '{}'; }).join(',');
-	        res += ('public ' + m.summary + '= (' + params + ') =>\nthis.pathes.'
+	        var comment = m.comment ? ("/**" + '\n' +
+	            (m.comment.trim() + "\n        */")) : '';
+	        res += ((comment + "\npublic ") + m.summary + '= (' + params + ') =>\nthis.pathes.'
 	            + m.path_cleand + ("\n.model(" + paramPathNames + ")\n." + method + "(" + paramsName + ");") + "\n");
 	    });
 	    return res;

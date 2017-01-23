@@ -15,7 +15,6 @@ function getServicesMethod(tag: string, swg: SwaggerModel) {
         for (let methodhttp in swg.paths[urlpath]) {
             let m = swg.paths[urlpath][methodhttp];
             if (m.tags.filter(t => t === tag).length === 1) {
-
                 let sm: ServiceMethod = <ServiceMethod>{};
                 sm.summary = m.summary;
                 sm.method = <HttpMethod>methodhttp;
@@ -25,6 +24,7 @@ function getServicesMethod(tag: string, swg: SwaggerModel) {
                 sm.params.query = [];
                 sm.params.path = [];
                 sm.params.body = [];
+                sm.comment = '';
 
                 // QUICKFIX
                 if (m.responses && m.responses['200'] && m.responses['200'].schema
@@ -33,6 +33,8 @@ function getServicesMethod(tag: string, swg: SwaggerModel) {
                 }
 
                 if (m.parameters) m.parameters.forEach(param => {
+                    let ptypeExitst = (param.type && param.type.length > 0);
+                    sm.comment += ('*' + (ptypeExitst ? ` {${param.type}} ` : ' ') + `${param.name} (${param.description})` + "\n")
                     if (param.in === 'body') {
                         sm.params.body.push({
                             name: param.name,
@@ -96,8 +98,13 @@ export function getAngularServicesMethods(tag: string, swg: SwaggerModel): strin
         }
 
         let paramsName = [paramBodyNames, paramQueryNames].filter(d => d && d !== '{}').join(',');
+        let comment = m.comment ? (`/**` + '\n' +
+            `${m.comment.trim()}
+        */`) : '';
 
-        res += ('public ' + m.summary + '= (' + params + ') =>\nthis.pathes.'
+        res += (
+            `${comment}
+public ` + m.summary + '= (' + params + ') =>\nthis.pathes.'
             + m.path_cleand + `\n.model(${paramPathNames})\n.${method}(${paramsName});` + "\n");
 
     });

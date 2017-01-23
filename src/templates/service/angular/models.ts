@@ -28,6 +28,7 @@ export interface ServiceMethod {
     }
     method: HttpMethod;
     isArray: boolean;
+    comment?: string;
 }
 
 
