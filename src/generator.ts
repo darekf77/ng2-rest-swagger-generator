@@ -2,6 +2,7 @@ import express = require('express');
 import fs = require('fs');
 import * as _ from 'lodash';
 import request = require("request");
+import * as JSON5 from 'json5';
 
 import { SwaggerModel } from './swagger';
 import {
@@ -11,7 +12,6 @@ import {
     serviceTemplate
 } from './templates';
 import { Helpers } from './helpers';
-
 
 let apis: SwaggerModel[] = [];
 
@@ -44,7 +44,7 @@ export function run(pathes: string[], links: string[], isHttpsEnable: boolean = 
             "url": link,
             "headers": { "Content-Type": "application/json" }
         }, (error, response, body) => {
-            body = JSON.parse(body);
+            body = JSON5.parse(body);
             // console.log(error)
             // console.log(typeof body)
             if (!error && typeof body === "object") {
@@ -64,7 +64,7 @@ export function run(pathes: string[], links: string[], isHttpsEnable: boolean = 
     })
 
     pathes.forEach(p => {
-        apis.push(JSON.parse(fs.readFileSync(p, 'utf8')));
+        apis.push(JSON5.parse(fs.readFileSync(p, 'utf8')));
     });
 
     // api forlder
