@@ -19,9 +19,17 @@ export interface SwaggerDefinition {
     [name: string]: SwaggerDef;
 }
 
+export interface ObjSchema {
+    $ref: string;
+    type: "string" | "number" | "integer" | "boolean" | "array" | "file";
+    items: {
+        $ref: string;
+    }
+}
+
 interface Response {
     description: string;
-    schema: Object;
+    schema: ObjSchema;
 }
 
 interface SwaggerResponse {

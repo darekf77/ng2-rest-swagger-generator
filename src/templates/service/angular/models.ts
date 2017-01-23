@@ -4,6 +4,7 @@ export type HttpMethod = 'query' | 'get' | 'post' | 'put' | 'delete';
 export interface PathResource {
     clean_path?: string;
     singleModelType?: string;
+    multipleModelType?: string;
     pathParamsType?: string;
     queryParamsType?: string;
     endpoint?: string;
@@ -14,7 +15,7 @@ export interface Param {
     name: string;
     type: string; // "string" | "number" | "integer" | "boolean" | "array" | "file";
     required: boolean;
-    // joined?: string;
+    isObject?: boolean;
 }
 
 export interface ServiceMethod {
@@ -26,6 +27,7 @@ export interface ServiceMethod {
         body?: Param[];
     }
     method: HttpMethod;
+    isArray: boolean;
 }
 
 

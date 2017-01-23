@@ -14,6 +14,10 @@ export class ${Helpers.upperFirst(group)}${_.camelCase(model).replace(model.char
     ${getAngularPrivatePathesByTag(model, swg)}
     ${getAngularServicesMethods(model, swg)}
 
+    public unsubscribe() {
+        SimpleResource.UnsubscribeEvents();
+    }
+
     constructor() {
 
     }

@@ -236,7 +236,7 @@
 	var helpers_1 = __webpack_require__(11);
 	var angular_1 = __webpack_require__(13);
 	function serviceTemplate(group, model, swg) {
-	    return "import { Injectable } from '@angular/core';\nimport { SimpleResource, Mock, Model } from 'ng2-rest/ng2-rest';\n\n@Injectable()\nexport class " + helpers_1.Helpers.upperFirst(group) + _.camelCase(model).replace(model.charAt(0), model.charAt(0).toUpperCase()) + "Service  {\n\n    " + angular_1.getAngularPrivatePathesByTag(model, swg) + "\n    " + angular_1.getAngularServicesMethods(model, swg) + "\n\n    constructor() {\n\n    }\n}";
+	    return "import { Injectable } from '@angular/core';\nimport { SimpleResource, Mock, Model } from 'ng2-rest/ng2-rest';\n\n@Injectable()\nexport class " + helpers_1.Helpers.upperFirst(group) + _.camelCase(model).replace(model.charAt(0), model.charAt(0).toUpperCase()) + "Service  {\n\n    " + angular_1.getAngularPrivatePathesByTag(model, swg) + "\n    " + angular_1.getAngularServicesMethods(model, swg) + "\n\n    public unsubscribe() {\n        SimpleResource.UnsubscribeEvents();\n    }\n\n    constructor() {\n\n    }\n}";
 	}
 	exports.serviceTemplate = serviceTemplate;
 
@@ -344,27 +344,66 @@
 	    _.forOwn(swg.paths, function (v, k) {
 	        _.forOwn(v, function (v2, k2) {
 	            if (v2.tags.filter(function (f) { return f === tag; }).length > 0) {
-	                pathes[k] = '';
+	                var resp = v2.responses['200'].schema;
+	                // TODO response handling 
+	                // console.log('resp',resp);
+	                if (pathes[k] === undefined)
+	                    pathes[k] = {};
+	                var type = getResponseType(resp, swg);
+	                if (type.length > 3 && type.charAt(type.length - 1) === ']' && type.charAt(type.length - 2) === '['
+	                    && !pathes[k]['array']) {
+	                    pathes[k]['array'] = type;
+	                }
+	                else if (k2 !== 'delete' && !pathes[k]['single']) {
+	                    pathes[k]['single'] = type;
+	                }
 	            }
 	        });
 	    });
 	    var pathResources = [];
 	    _.forOwn(pathes, function (v, p) {
+	        // console.log(`${p} - ${JSON.stringify(v)}`);
 	        pathResources.push({
 	            clean_path: swagger_helpers_1.SwaggerHelpers.cleanPath(p),
 	            model: swagger_helpers_1.SwaggerHelpers.cleanPathModel(p),
 	            endpoint: swg.basePath,
-	            singleModelType: 'any',
+	            singleModelType: !v['single'] ? 'any' : v['single'],
+	            multipleModelType: !v['array'] ? 'any' : v['array'],
 	            queryParamsType: 'any',
 	            pathParamsType: 'any'
 	        });
 	    });
 	    pathResources.forEach(function (p) {
-	        res.push(p.clean_path + ": new SimpleResource< string, " + p.singleModelType + " , any, " + p.pathParamsType + " , " + p.queryParamsType + " >( '" + swg.host + p.endpoint + "' , '" + p.model + "' )");
+	        res.push(p.clean_path + ": new SimpleResource< string, " + p.singleModelType + " ,  " + p.multipleModelType + "  , " + p.pathParamsType + " , " + p.queryParamsType + " >( '" + swg.host + p.endpoint + "' , '" + p.model + "' )");
 	    });
 	    return "private pathes = {\n" + res.join(',\n') + "\n};";
 	}
 	exports.getAngularPrivatePathesByTag = getAngularPrivatePathesByTag;
+	/*
+	 schema": {
+	    "type": "array",
+	    "items": {
+	        "$ref": "#/definitions/CompanyDTO"
+	    }
+	}
+
+	"schema": {
+	    "$ref": "#/definitions/CompanyDTO"
+	}
+	 */
+	function getResponseType(o, swg) {
+	    var res = '{} | any';
+	    if (o && o.$ref && typeof o.$ref === 'string' && o.$ref.trim() !== '') {
+	        res = "{" + swagger_helpers_1.SwaggerHelpers.getObjectDefinition(o.$ref, swg) + "}";
+	        console.log('I am object', o.$ref);
+	    }
+	    else if (o && o.type === 'array' && o.items && o.items.$ref &&
+	        typeof o.items.$ref === 'string' && o.items.$ref.trim() !== '') {
+	        res = "{" + swagger_helpers_1.SwaggerHelpers.getObjectDefinition(o.items.$ref, swg) + "}[]";
+	        console.log('I am array ', o.items.$ref);
+	    }
+	    return res;
+	}
 
 
 /***/ },
@@ -383,7 +422,7 @@
 	    }
 	    SwaggerHelpers.cleanPath = cleanPath;
 	    function cleanPathModel(pathModel) {
-	        return pathModel.replace(/\/{/g, '/:').replace(/\//g, '');
+	        return pathModel.replace(/\/{/g, '/:').replace(/}/g, '');
 	    }
 	    SwaggerHelpers.cleanPathModel = cleanPathModel;
 	    function swaggerTypeToJS(type) {
@@ -418,42 +457,6 @@
 	        return res;
 	    }
 	    SwaggerHelpers.getObjectDefinition = getObjectDefinition;
-	    function getSingleParamsTypeForPath(tag, swg) {
-	        var res = {};
-	        for (var urlpath in swg.paths) {
-	            var _loop_1 = function(methodhttp) {
-	                var m = swg.paths[urlpath][methodhttp];
-	                if (m.tags.filter(function (t) { return t === tag; }).length === 1) {
-	                    var params_1 = {};
-	                    params_1.query = [];
-	                    params_1.path = [];
-	                    params_1.body = [];
-	                    if (m.parameters)
-	                        m.parameters.forEach(function (param) {
-	                            if (param.in === 'body') {
-	                                params_1.body.push({
-	                                    name: param.name,
-	                                    type: "{" + SwaggerHelpers.getObjectDefinition(param.schema.$ref, swg) + "}",
-	                                    required: param.required
-	                                });
-	                            }
-	                            else {
-	                                params_1[param.in].push({
-	                                    name: param.name,
-	                                    type: SwaggerHelpers.swaggerTypeToJS(param.type),
-	                                    required: param.required
-	                                });
-	                            }
-	                        });
-	                }
-	            };
-	            for (var methodhttp in swg.paths[urlpath]) {
-	                _loop_1(methodhttp);
-	            }
-	        }
-	        return res;
-	    }
-	    SwaggerHelpers.getSingleParamsTypeForPath = getSingleParamsTypeForPath;
 	})(SwaggerHelpers = exports.SwaggerHelpers || (exports.SwaggerHelpers = {}));
 
 
@@ -482,13 +485,19 @@
 	                sm_1.params.query = [];
 	                sm_1.params.path = [];
 	                sm_1.params.body = [];
+	                // QUICKFIX
+	                if (m.responses && m.responses['200'] && m.responses['200'].schema
+	                    && m.responses['200'].schema.type && m.responses['200'].schema.type === 'array') {
+	                    sm_1.isArray = true;
+	                }
 	                if (m.parameters)
 	                    m.parameters.forEach(function (param) {
 	                        if (param.in === 'body') {
 	                            sm_1.params.body.push({
 	                                name: param.name,
 	                                type: "{" + swagger_helpers_1.SwaggerHelpers.getObjectDefinition(param.schema.$ref, swg) + "}",
-	                                required: param.required
+	                                required: param.required,
+	                                isObject: true
 	                            });
 	                        }
 	                        else {
@@ -520,9 +529,9 @@
 	        var paramsPath = neededParams.path ? m.params.path.map(function (p) { return p['joined'] = p.name + ':' + p.type; }).join(',') : '';
 	        var paramsQuery = neededParams.query ? m.params.query.map(function (p) { return p['joined'] = p.name + ':' + p.type; }).join(',') : '';
 	        var paramsBody = neededParams.body ? m.params.body.map(function (p) { return p['joined'] = p.name + ':' + p.type; }).join(',') : '';
-	        var paramsPathNames = "{" + (neededParams.path ? m.params.path.map(function (p) { return p['joined'] = p.name; }).filter(function (d) { return d; }).join(',') : '') + '}';
-	        var paramsQueryNames = "{" + (neededParams.query ? m.params.query.map(function (p) { return p['joined'] = p.name; }).filter(function (d) { return d; }).join(',') : '') + '}';
-	        var paramsBodyNames = "{" + (neededParams.body ? m.params.body.map(function (p) { return p['joined'] = p.name; }).filter(function (d) { return d; }).join(',') : '') + '}';
+	        var paramPathNames = "{" + (neededParams.path ? m.params.path.map(function (p) { return p['joined'] = p.name; }).filter(function (d) { return d; }).join(',') : '') + '}';
+	        var paramQueryNames = "{" + (neededParams.query ? m.params.query.map(function (p) { return p['joined'] = p.name; }).filter(function (d) { return d; }).join(',') : '') + '}';
+	        var paramBodyNames = "{" + (neededParams.body ? m.params.body.map(function (p) { return p['joined'] = p.name; }).filter(function (d) { return d; }).join(',') : '') + '}';
 	        var method = m.method;
 	        if (m.method === 'post')
 	            method = 'save';
@@ -530,10 +539,19 @@
 	            method = 'update';
 	        if (m.method === 'delete')
 	            method = 'remove';
+	        if (m.isArray)
+	            method = 'query';
 	        var params = [paramsPath, paramsQuery, paramsBody].filter(function (d) { return d && d !== '{}'; }).join(',');
-	        var paramsName = [paramsBodyNames, paramsQueryNames].filter(function (d) { return d && d !== '{}'; }).join(',');
+	        // QUICKFIX change {object} to object in method
+	        if (neededParams.query && m.params.query.length === 1 && m.params.query[0].isObject) {
+	            paramQueryNames = paramQueryNames.match(new RegExp('[a-zA-Z]+', 'g'))[0];
+	        }
+	        if (neededParams.body && m.params.body.length === 1 && m.params.body[0].isObject) {
+	            paramBodyNames = paramBodyNames.match(new RegExp('[a-zA-Z]+', 'g'))[0];
+	        }
+	        var paramsName = [paramBodyNames, paramQueryNames].filter(function (d) { return d && d !== '{}'; }).join(',');
 	        res += ('public ' + m.summary + '= (' + params + ') => this.pathes.'
-	            + m.path_cleand + (".model(" + paramsPathNames + ")." + method + "(" + paramsName + ");") + "\n");
+	            + m.path_cleand + (".model(" + paramPathNames + ")." + method + "(" + paramsName + ");") + "\n");
 	    });
 	    return res;
 	}

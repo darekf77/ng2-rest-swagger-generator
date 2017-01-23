@@ -26,12 +26,19 @@ function getServicesMethod(tag: string, swg: SwaggerModel) {
                 sm.params.path = [];
                 sm.params.body = [];
 
+                // QUICKFIX
+                if (m.responses && m.responses['200'] && m.responses['200'].schema
+                    && m.responses['200'].schema.type && m.responses['200'].schema.type === 'array') {
+                    sm.isArray = true;
+                }
+
                 if (m.parameters) m.parameters.forEach(param => {
                     if (param.in === 'body') {
                         sm.params.body.push({
                             name: param.name,
                             type: "{" + SwaggerHelpers.getObjectDefinition(param.schema.$ref, swg) + "}",
-                            required: param.required
+                            required: param.required,
+                            isObject: true
                         })
                     } else {
                         sm.params[param.in].push({
@@ -67,20 +74,30 @@ export function getAngularServicesMethods(tag: string, swg: SwaggerModel): strin
         let paramsQuery = neededParams.query ? m.params.query.map(p => p['joined'] = p.name + ':' + p.type).join(',') : '';
         let paramsBody = neededParams.body ? m.params.body.map(p => p['joined'] = p.name + ':' + p.type).join(',') : '';
 
-        let paramsPathNames = "{" + (neededParams.path ? m.params.path.map(p => p['joined'] = p.name).filter(d => d).join(',') : '') + '}';
-        let paramsQueryNames = "{" + (neededParams.query ? m.params.query.map(p => p['joined'] = p.name).filter(d => d).join(',') : '') + '}';
-        let paramsBodyNames = "{" + (neededParams.body ? m.params.body.map(p => p['joined'] = p.name).filter(d => d).join(',') : '') + '}';
+        let paramPathNames = "{" + (neededParams.path ? m.params.path.map(p => p['joined'] = p.name).filter(d => d).join(',') : '') + '}';
+        let paramQueryNames = "{" + (neededParams.query ? m.params.query.map(p => p['joined'] = p.name).filter(d => d).join(',') : '') + '}';
+        let paramBodyNames = "{" + (neededParams.body ? m.params.body.map(p => p['joined'] = p.name).filter(d => d).join(',') : '') + '}';
 
         let method: string = m.method;
         if (m.method === 'post') method = 'save';
         if (m.method === 'put') method = 'update';
         if (m.method === 'delete') method = 'remove';
-
+        if (m.isArray) method = 'query'
         let params = [paramsPath, paramsQuery, paramsBody].filter(d => d && d !== '{}').join(',');
-        let paramsName = [paramsBodyNames, paramsQueryNames].filter(d => d && d !== '{}').join(',');
+
+        // QUICKFIX change {object} to object in method
+        if (neededParams.query && m.params.query.length === 1 && m.params.query[0].isObject) {
+            paramQueryNames = paramQueryNames.match(new RegExp('[a-zA-Z]+', 'g'))[0];
+        }
+
+        if (neededParams.body && m.params.body.length === 1 && m.params.body[0].isObject) {
+            paramBodyNames = paramBodyNames.match(new RegExp('[a-zA-Z]+', 'g'))[0];
+        }
+
+        let paramsName = [paramBodyNames, paramQueryNames].filter(d => d && d !== '{}').join(',');
 
         res += ('public ' + m.summary + '= (' + params + ') => this.pathes.'
-            + m.path_cleand + `.model(${paramsPathNames}).${method}(${paramsName});` + "\n");
+            + m.path_cleand + `.model(${paramPathNames}).${method}(${paramsName});` + "\n");
 
     });
     return res;

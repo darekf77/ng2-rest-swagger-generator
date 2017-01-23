@@ -29,7 +29,7 @@
     "md5": "^2.2.1",
     "method-override": "^2.3.6",
     "mocha": "^3.2.0",
-    "ng2-rest": "^5.0.33",
+    "ng2-rest": "^5.0.34",
     "on-build-webpack": "^0.1.0",
     "request": "^2.79.0",
     "source-map-support": "^0.4.6",
