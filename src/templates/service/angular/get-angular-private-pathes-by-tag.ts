@@ -78,11 +78,11 @@ function getResponseType(o: ObjSchema, swg: SwaggerModel) {
     let res = '{} | any';
     if (o && o.$ref && typeof o.$ref === 'string' && o.$ref.trim() !== '') {
         res = "{" + SwaggerHelpers.getObjectDefinition(o.$ref, swg) + "}";
-        console.log('I am object', o.$ref)
+        // console.log('I am object', o.$ref)
     } else if (o && o.type === 'array' && o.items && o.items.$ref &&
         typeof o.items.$ref === 'string' && o.items.$ref.trim() !== '') {
         res = "{" + SwaggerHelpers.getObjectDefinition(o.items.$ref, swg) + "}[]";
-        console.log('I am array ', o.items.$ref)
+        // console.log('I am array ', o.items.$ref)
     }
     return res;
 }

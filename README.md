@@ -26,7 +26,7 @@ Last thing you need to do is import it your **app.module** :
 Don't forget unsubscribe your generated services in component method **onDestroy**:
 ```ts
     onDestroy(){
-		your_generated_service.unsubscribe();
+		GeneratedServiceName.unsubscribe();
 	}
 ```
 

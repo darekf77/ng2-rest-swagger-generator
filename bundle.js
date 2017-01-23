@@ -236,7 +236,7 @@
 	var helpers_1 = __webpack_require__(11);
 	var angular_1 = __webpack_require__(13);
 	function serviceTemplate(group, model, swg) {
-	    return "import { Injectable } from '@angular/core';\nimport { SimpleResource, Mock, Model } from 'ng2-rest/ng2-rest';\n\n@Injectable()\nexport class " + helpers_1.Helpers.upperFirst(group) + _.camelCase(model).replace(model.charAt(0), model.charAt(0).toUpperCase()) + "Service  {\n\n    " + angular_1.getAngularPrivatePathesByTag(model, swg) + "\n    " + angular_1.getAngularServicesMethods(model, swg) + "\n\n    public unsubscribe() {\n        SimpleResource.UnsubscribeEvents();\n    }\n\n    constructor() {\n\n    }\n}";
+	    return "import { Injectable } from '@angular/core';\nimport { SimpleResource, Mock, Model } from 'ng2-rest/ng2-rest';\n\n@Injectable()\nexport class " + helpers_1.Helpers.upperFirst(group) + _.camelCase(model).replace(model.charAt(0), model.charAt(0).toUpperCase()) + "Service  {\n\n    " + angular_1.getAngularPrivatePathesByTag(model, swg) + "\n    " + angular_1.getAngularServicesMethods(model, swg) + "\n\n    public static unsubscribe() {\n        SimpleResource.UnsubscribeEvents();\n    }\n\n    constructor() {\n\n    }\n}";
 	}
 	exports.serviceTemplate = serviceTemplate;
 
@@ -395,12 +395,10 @@
 	    var res = '{} | any';
 	    if (o && o.$ref && typeof o.$ref === 'string' && o.$ref.trim() !== '') {
 	        res = "{" + swagger_helpers_1.SwaggerHelpers.getObjectDefinition(o.$ref, swg) + "}";
-	        console.log('I am object', o.$ref);
 	    }
 	    else if (o && o.type === 'array' && o.items && o.items.$ref &&
 	        typeof o.items.$ref === 'string' && o.items.$ref.trim() !== '') {
 	        res = "{" + swagger_helpers_1.SwaggerHelpers.getObjectDefinition(o.items.$ref, swg) + "}[]";
-	        console.log('I am array ', o.items.$ref);
 	    }
 	    return res;
 	}
