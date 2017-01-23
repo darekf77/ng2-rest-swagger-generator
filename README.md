@@ -22,6 +22,15 @@ Last thing you need to do is import it your **app.module** :
     imports: [ Ng2RestGenModule ],
     ...
 ```
+
+Don't forget unsubscribe your generated services in component method **onDestroy**:
+```ts
+    onDestroy(){
+		your_generated_service.unsubscribe();
+	}
+```
+
+
 | param | description |
 | --- | --- |
 | -l | links for swagger.json files  |
