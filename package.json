@@ -1,6 +1,6 @@
 {
   "name": "ng2-rest-swagger-generator",
-  "version": "0.0.19",
+  "version": "0.0.20",
   "description": "Generate Angualr 2 Service from swagger json",
   "main": "karma.conf.js",
   "directories": {
