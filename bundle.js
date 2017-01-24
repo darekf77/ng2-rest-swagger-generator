@@ -125,7 +125,9 @@
 	            formatterFiles.push(serviceTsPath(base, tag.name));
 	            fs.writeFileSync(serviceTsPath(base, tag.name), service, 'utf8');
 	        });
-	        fs.writeFileSync(serviceGroupIndex(base), templates_1.indexExportsTmpl(servicesNames), 'utf8');
+	        var resMapString = "\"" + swg.host + swg.basePath + "\"";
+	        var indexJSONcontent = ("import { Resource } from \"ng2-rest/ng2-rest\";\nResource.map(" + resMapString + "," + resMapString + ");\n\n") + templates_1.indexExportsTmpl(servicesNames);
+	        fs.writeFileSync(serviceGroupIndex(base), indexJSONcontent, 'utf8');
 	    });
 	    // api/services/index.ts
 	    fs.writeFileSync(servicesFolderPathIndex, templates_1.indexExportsTmpl(exportGroups), 'utf8');

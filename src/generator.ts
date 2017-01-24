@@ -98,7 +98,13 @@ export function run(pathes: string[], links: string[], isHttpsEnable: boolean = 
             formatterFiles.push(serviceTsPath(base, tag.name));
             fs.writeFileSync(serviceTsPath(base, tag.name), service, 'utf8');
         })
-        fs.writeFileSync(serviceGroupIndex(base), indexExportsTmpl(servicesNames), 'utf8');
+        let resMapString = `"${swg.host}${swg.basePath}"`;
+        let indexJSONcontent =
+`import { Resource } from "ng2-rest/ng2-rest";
+Resource.map(${resMapString},${resMapString});
+
+` + indexExportsTmpl(servicesNames);
+        fs.writeFileSync(serviceGroupIndex(base), indexJSONcontent, 'utf8');
     })
 
     // api/services/index.ts
