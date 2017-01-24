@@ -1,6 +1,5 @@
 import express = require('express');
 import fs = require('fs');
-var exec = require('exec');
 import tsfmt = require('typescript-formatter');
 import * as _ from 'lodash';
 import request = require("request");
@@ -129,15 +128,5 @@ Resource.map(${resMapString},${resMapString});
         tsfmt: true
     }).then(() => { })
 
-    // let command = `${__dirname}/node_modules/typescript-formatter/bin/tsfmt --no-tsconfig  -r --baseDir ${APIpath}`;
-    // console.log('command', command);
-    // exec(command,
-    //     (error, stdout, stderr) => {
-    //         console.log('stdout: ' + stdout);
-    //         console.log('stderr: ' + stderr);
-    //         if (error !== null) {
-    //             console.log('exec error: ' + error);
-    //         }
-    //     });
 
 }
