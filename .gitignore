@@ -1,4 +1,4 @@
-/node__modules
+/node_modules
 /typings
 /docs/*
 docs
@@ -10,3 +10,5 @@ js
 mypass
 /api
 prov.json
+
+.DS_Store
