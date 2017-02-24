@@ -97,7 +97,7 @@ export function getAngularServicesMethods(tag: string, swg: SwaggerModel): strin
             paramBodyNames = paramBodyNames.match(new RegExp('[a-zA-Z]+', 'g'))[0];
         }
 
-        let paramsName = [paramBodyNames, paramQueryNames].filter(d => d && d !== '{}').join(',');
+        let paramsName = [paramBodyNames, paramQueryNames].filter(d => d && d !== '{}').map(d => '<any>' + d).join(',');
         let comment = m.comment ? (`/**` + '\n' +
             `${m.comment.trim()}
         */`) : '';

@@ -585,7 +585,7 @@
 	        if (neededParams.body && m.params.body.length === 1 && m.params.body[0].isObject) {
 	            paramBodyNames = paramBodyNames.match(new RegExp('[a-zA-Z]+', 'g'))[0];
 	        }
-	        var paramsName = [paramBodyNames, paramQueryNames].filter(function (d) { return d && d !== '{}'; }).join(',');
+	        var paramsName = [paramBodyNames, paramQueryNames].filter(function (d) { return d && d !== '{}'; }).map(function (d) { return '<any>' + d; }).join(',');
 	        var comment = m.comment ? ("/**" + '\n' +
 	            (m.comment.trim() + "\n        */")) : '';
 	        res += ((comment + "\npublic ") + m.summary + '= (' + params + ') =>\nthis.pathes.'
