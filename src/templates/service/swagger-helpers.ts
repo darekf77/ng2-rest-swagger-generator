@@ -25,7 +25,8 @@ export namespace SwaggerHelpers {
 
 
 
-    export function getObjectDefinition(ref: string, swg: SwaggerModel): string {
+    export function getObjectDefinition(ref: string, swg: SwaggerModel, deep = 0): string {
+        if (deep == 1) return '';
         if (!ref) {
             console.log('Bad json $ref inside swagger')
             return '';
@@ -38,11 +39,11 @@ export namespace SwaggerHelpers {
         _.forOwn(obj.properties, (v, k) => {
             // console.log(obj)
             if (v.$ref && typeof v.$ref === "string") {
-                res += k + ":{" + getObjectDefinition(v.$ref, swg) + "};\n";
+                res += k + ":{" + getObjectDefinition(v.$ref, swg, deep++) + "};\n";
             } else if (v.schema && v.schema.$ref && typeof v.schema.$ref === "string") {
-                res += k + ":{" + getObjectDefinition(v.schema.$ref, swg) + "};\n";
+                res += k + ":{" + getObjectDefinition(v.schema.$ref, swg, deep++) + "};\n";
             } else if (v.items && v.items.$ref && typeof v.items.$ref === "string") {
-                res += k + ":{" + getObjectDefinition(v.items.$ref, swg) + "};\n";
+                res += k + ":{" + getObjectDefinition(v.items.$ref, swg, deep++) + "};\n";
             } else {
                 let isRequired = (obj.required && obj.required instanceof Array && obj.required.filter(o => o === k).length > 0)
                 let type = (v.enum && v.enum instanceof Array && v.enum.length > 0)

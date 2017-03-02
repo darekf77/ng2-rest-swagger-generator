@@ -12,11 +12,12 @@ export function templateModule(serviceNames: string[]) {
     let imports = '\n' + importServicesFromFolder(serviceNames, 'services', "Service") + '\n';
 
     return `import { NgModule } from '@angular/core';
+import { Ng2RestModule } from 'ng2-rest';
 
     ${imports}
 
 @NgModule({
-    imports: [],
+    imports: [Ng2RestModule],
     exports: [],
     declarations: [],
     providers: [

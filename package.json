@@ -10,7 +10,7 @@
     "ng2-rest-swagger-generator": "bin/ng2-rest-swagger-generator"
   },
   "dependencies": {
-    "ng2-rest": "^5.0.44"
+    "ng2-rest": "^6.0.1"
   },
   "devDependencies": {
     "@angular/core": "^2.4.3",

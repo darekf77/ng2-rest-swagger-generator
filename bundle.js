@@ -228,7 +228,7 @@
 	        return name.replace(name.charAt(0), name.charAt(0).toUpperCase()) + 'Service' + '\n';
 	    }).join();
 	    var imports = '\n' + ts_import_from_folder_1.importServicesFromFolder(serviceNames, 'services', "Service") + '\n';
-	    return "import { NgModule } from '@angular/core';\n\n    " + imports + "\n\n@NgModule({\n    imports: [],\n    exports: [],\n    declarations: [],\n    providers: [\n        " + services + "\n    ],\n})\nexport class Ng2RestGenModule { }\n";
+	    return "import { NgModule } from '@angular/core';\nimport { Ng2RestModule } from 'ng2-rest';\n\n    " + imports + "\n\n@NgModule({\n    imports: [Ng2RestModule],\n    exports: [],\n    declarations: [],\n    providers: [\n        " + services + "\n    ],\n})\nexport class Ng2RestGenModule { }\n";
 	}
 	exports.templateModule = templateModule;
 
@@ -266,7 +266,7 @@
 	var helpers_1 = __webpack_require__(13);
 	var angular_1 = __webpack_require__(15);
 	function serviceTemplate(group, model, swg) {
-	    return "import { Injectable } from '@angular/core';\nimport { SimpleResource, Mock, Model } from 'ng2-rest/ng2-rest';\n\n@Injectable()\nexport class " + helpers_1.Helpers.upperFirst(group) + _.camelCase(model).replace(model.charAt(0), model.charAt(0).toUpperCase()) + "Service  {\n\n    " + angular_1.getAngularPrivatePathesByTag(model, swg) + "\n\n    // public methods\n    " + angular_1.getAngularServicesMethods(model, swg) + "\n\n    public static unsubscribe() {\n        SimpleResource.UnsubscribeEvents();\n    }\n\n    constructor() {\n\n    }\n}";
+	    return "import { Injectable } from '@angular/core';\nimport { SimpleResource, Mock, Model } from 'ng2-rest';\n\n@Injectable()\nexport class " + helpers_1.Helpers.upperFirst(group) + _.camelCase(model).replace(model.charAt(0), model.charAt(0).toUpperCase()) + "Service  {\n\n    " + angular_1.getAngularPrivatePathesByTag(model, swg) + "\n\n    // public methods\n    " + angular_1.getAngularServicesMethods(model, swg) + "\n\n    public static unsubscribe() {\n        SimpleResource.__destroy();\n    }\n\n    constructor() {\n\n    }\n}";
 	}
 	exports.serviceTemplate = serviceTemplate;
 
@@ -404,7 +404,7 @@
 	        });
 	    });
 	    pathResources.forEach(function (p) {
-	        res.push(p.clean_path + ": new SimpleResource<\n string,\n" + p.singleModelType + ",\n" + p.multipleModelType + ",\n" + p.pathParamsType + ",\n" + p.queryParamsType + "\n>( '" + swg.host + p.endpoint + "' , '" + p.model + "' )");
+	        res.push(p.clean_path + ": new SimpleResource<\n" + p.singleModelType + ",\n" + p.multipleModelType + "\n>( '" + swg.host + p.endpoint + "' , '" + p.model + "' )");
 	    });
 	    return "private pathes = {\n" + res.join(',\n') + "\n};";
 	}
@@ -460,7 +460,10 @@
 	                : (type === 'file') ? 'any' : type;
 	    }
 	    SwaggerHelpers.swaggerTypeToJS = swaggerTypeToJS;
-	    function getObjectDefinition(ref, swg) {
+	    function getObjectDefinition(ref, swg, deep) {
+	        if (deep === void 0) { deep = 0; }
+	        if (deep == 1)
+	            return '';
 	        if (!ref) {
 	            console.log('Bad json $ref inside swagger');
 	            return '';
@@ -471,13 +474,13 @@
 	        _.forOwn(obj.properties, function (v, k) {
 	            // console.log(obj)
 	            if (v.$ref && typeof v.$ref === "string") {
-	                res += k + ":{" + getObjectDefinition(v.$ref, swg) + "};\n";
+	                res += k + ":{" + getObjectDefinition(v.$ref, swg, deep++) + "};\n";
 	            }
 	            else if (v.schema && v.schema.$ref && typeof v.schema.$ref === "string") {
-	                res += k + ":{" + getObjectDefinition(v.schema.$ref, swg) + "};\n";
+	                res += k + ":{" + getObjectDefinition(v.schema.$ref, swg, deep++) + "};\n";
 	            }
 	            else if (v.items && v.items.$ref && typeof v.items.$ref === "string") {
-	                res += k + ":{" + getObjectDefinition(v.items.$ref, swg) + "};\n";
+	                res += k + ":{" + getObjectDefinition(v.items.$ref, swg, deep++) + "};\n";
 	            }
 	            else {
 	                var isRequired = (obj.required && obj.required instanceof Array && obj.required.filter(function (o) { return o === k; }).length > 0);
