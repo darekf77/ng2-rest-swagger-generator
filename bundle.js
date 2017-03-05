@@ -228,7 +228,7 @@
 	        return name.replace(name.charAt(0), name.charAt(0).toUpperCase()) + 'Service' + '\n';
 	    }).join();
 	    var imports = '\n' + ts_import_from_folder_1.importServicesFromFolder(serviceNames, 'services', "Service") + '\n';
-	    return "import { NgModule } from '@angular/core';\nimport { Ng2RestModule } from 'ng2-rest';\n\n    " + imports + "\n\n@NgModule({\n    imports: [Ng2RestModule],\n    exports: [],\n    declarations: [],\n    providers: [\n        " + services + "\n    ],\n})\nexport class Ng2RestGenModule { }\n";
+	    return "import { NgModule } from '@angular/core';\nimport { Ng2RestModule, SimpleResource } from 'ng2-rest';\nSimpleResource.doNotSerializeQueryParams = true;\n    " + imports + "\n\n@NgModule({\n    imports: [Ng2RestModule],\n    exports: [],\n    declarations: [],\n    providers: [\n        " + services + "\n    ],\n})\nexport class Ng2RestGenModule { }\n";
 	}
 	exports.templateModule = templateModule;
 

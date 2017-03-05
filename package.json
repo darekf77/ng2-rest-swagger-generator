@@ -1,6 +1,6 @@
 {
   "name": "ng2-rest-swagger-generator",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "Generate Angualr 2 Service from swagger json",
   "main": "karma.conf.js",
   "directories": {
@@ -10,7 +10,7 @@
     "ng2-rest-swagger-generator": "bin/ng2-rest-swagger-generator"
   },
   "dependencies": {
-    "ng2-rest": "^6.0.1"
+    "ng2-rest": "^6.0.14"
   },
   "devDependencies": {
     "@angular/core": "^2.4.3",
