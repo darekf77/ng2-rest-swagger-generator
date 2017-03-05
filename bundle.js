@@ -125,7 +125,7 @@
 	            fs.writeFileSync(serviceTsPath(base, tag.name), service, 'utf8');
 	        });
 	        var resMapString = "\"" + swg.host + swg.basePath + "\"";
-	        var indexJSONcontent = ("import { Resource } from \"ng2-rest/ng2-rest\";\nResource.map(" + resMapString + "," + resMapString + ");\n\n") + templates_1.indexExportsTmpl(servicesNames);
+	        var indexJSONcontent = ("import { Resource } from \"ng2-rest\";\nResource.map(" + resMapString + "," + resMapString + ");\n\n") + templates_1.indexExportsTmpl(servicesNames);
 	        fs.writeFileSync(serviceGroupIndex(base), indexJSONcontent, 'utf8');
 	    });
 	    // api/services/index.ts

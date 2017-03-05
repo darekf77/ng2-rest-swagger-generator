@@ -99,7 +99,7 @@ export function run(pathes: string[], links: string[], isHttpsEnable: boolean = 
         })
         let resMapString = `"${swg.host}${swg.basePath}"`;
         let indexJSONcontent =
-`import { Resource } from "ng2-rest/ng2-rest";
+`import { Resource } from "ng2-rest";
 Resource.map(${resMapString},${resMapString});
 
 ` + indexExportsTmpl(servicesNames);
