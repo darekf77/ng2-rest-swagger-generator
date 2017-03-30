@@ -84,5 +84,8 @@ function getResponseType(o: ObjSchema, swg: SwaggerModel) {
         res = "{" + SwaggerHelpers.getObjectDefinition(o.items.$ref, swg) + "}[]";
         // console.log('I am array ', o.items.$ref)
     }
+    // console.log('============================================================')
+    // console.log('type', res)
+    // console.log('------------------------------------------------------------')
     return res;
 }

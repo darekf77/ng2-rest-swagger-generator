@@ -36,12 +36,25 @@ export namespace SwaggerHelpers {
 
         let obj: SwaggerDef = <SwaggerDef>_.get(swg, ref);
 
+        // if (obj.properties.viaAgentViaGroupDTOs && !getObjectDefinition.prototype.once) {
+        //     console.log('============================================================')
+        //     console.log('obj', obj)
+        //     console.log('------------------------------------------------------------')
+        //     getObjectDefinition.prototype.once = true;
+
+
+
         _.forOwn(obj.properties, (v, k) => {
             // console.log(obj)
             if (v.$ref && typeof v.$ref === "string") {
                 res += k + ":{" + getObjectDefinition(v.$ref, swg, deep++) + "};\n";
             } else if (v.schema && v.schema.$ref && typeof v.schema.$ref === "string") {
                 res += k + ":{" + getObjectDefinition(v.schema.$ref, swg, deep++) + "};\n";
+
+            } else if (v.items && v.items.$ref && typeof v.items.$ref === "string" && v.type && v.type === 'array') {
+                res += k + ":{" + getObjectDefinition(v.items.$ref, swg, deep++) + "}[];\n";
+                // console.log('make love here')
+
             } else if (v.items && v.items.$ref && typeof v.items.$ref === "string") {
                 res += k + ":{" + getObjectDefinition(v.items.$ref, swg, deep++) + "};\n";
             } else {
@@ -52,6 +65,8 @@ export namespace SwaggerHelpers {
                 res += k + (!isRequired ? '?' : "") + ":" + type + ";\n"
             }
         });
+        //     console.log('res', res)
+        // }
 
         return res;
     }

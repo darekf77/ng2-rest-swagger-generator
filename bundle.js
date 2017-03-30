@@ -430,6 +430,9 @@
 	        typeof o.items.$ref === 'string' && o.items.$ref.trim() !== '') {
 	        res = "{" + swagger_helpers_1.SwaggerHelpers.getObjectDefinition(o.items.$ref, swg) + "}[]";
 	    }
+	    // console.log('============================================================')
+	    // console.log('type', res)
+	    // console.log('------------------------------------------------------------')
 	    return res;
 	}
 
@@ -471,6 +474,11 @@
 	        var res = '';
 	        ref = ref.replace('#/', '').replace(/\//g, '.');
 	        var obj = _.get(swg, ref);
+	        // if (obj.properties.viaAgentViaGroupDTOs && !getObjectDefinition.prototype.once) {
+	        //     console.log('============================================================')
+	        //     console.log('obj', obj)
+	        //     console.log('------------------------------------------------------------')
+	        //     getObjectDefinition.prototype.once = true;
 	        _.forOwn(obj.properties, function (v, k) {
 	            // console.log(obj)
 	            if (v.$ref && typeof v.$ref === "string") {
@@ -478,6 +486,9 @@
 	            }
 	            else if (v.schema && v.schema.$ref && typeof v.schema.$ref === "string") {
 	                res += k + ":{" + getObjectDefinition(v.schema.$ref, swg, deep++) + "};\n";
+	            }
+	            else if (v.items && v.items.$ref && typeof v.items.$ref === "string" && v.type && v.type === 'array') {
+	                res += k + ":{" + getObjectDefinition(v.items.$ref, swg, deep++) + "}[];\n";
 	            }
 	            else if (v.items && v.items.$ref && typeof v.items.$ref === "string") {
 	                res += k + ":{" + getObjectDefinition(v.items.$ref, swg, deep++) + "};\n";
@@ -489,6 +500,8 @@
 	                res += k + (!isRequired ? '?' : "") + ":" + type + ";\n";
 	            }
 	        });
+	        //     console.log('res', res)
+	        // }
 	        return res;
 	    }
 	    SwaggerHelpers.getObjectDefinition = getObjectDefinition;

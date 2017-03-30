@@ -8,7 +8,7 @@ import { ServiceMethod, HttpMethod } from './models';
  * public getAllCompanies =  ({ params },{ queryparams1 }) => this.pathes.get_all_companies.model(params).get(queryparams),
  * public getAllCompanies =  ({ params },{ queryparams1 },{body}) => this.pathes.get_all_companies.model(params).put(body,queryparams)
  */
-function getServicesMethod(tag: string, swg: SwaggerModel) {
+function getServicesMethod(tag: string, swg: SwaggerModel): ServiceMethod[] {
     let methods: ServiceMethod[] = [];
     for (let urlpath in swg.paths) {
 
