@@ -113,7 +113,7 @@ export function run(pathes: string[], links: string[], isHttpsEnable: boolean = 
 
     // api/module.ts
     formatterFiles.push(modulePath);
-    fs.writeFileSync(modulePath, templateModule(servicesNameCamelCase, moduleEndpoints.join('')), 'utf8');
+    fs.writeFileSync(modulePath, templateModule(servicesNameCamelCase, moduleEndpoints.join(',\n')), 'utf8');
 
     console.log('Swagger files quantity: ', apis.length);
 
