@@ -45,6 +45,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
+	Object.defineProperty(exports, "__esModule", { value: true });
 	var fs = __webpack_require__(1);
 	var tsfmt = __webpack_require__(2);
 	var _ = __webpack_require__(3);
@@ -125,7 +126,7 @@
 	            fs.writeFileSync(serviceTsPath(base, tag.name), service, 'utf8');
 	        });
 	        var resMapString = "\"" + swg.host + swg.basePath + "\"";
-	        var indexJSONcontent = ("import { Resource } from \"ng2-rest\";\nResource.map(" + resMapString + "," + resMapString + ");\n\n") + templates_1.indexExportsTmpl(servicesNames);
+	        var indexJSONcontent = "import { Resource } from \"ng2-rest\";\n\n" + templates_1.indexExportsTmpl(servicesNames);
 	        fs.writeFileSync(serviceGroupIndex(base), indexJSONcontent, 'utf8');
 	    });
 	    // api/services/index.ts
@@ -187,6 +188,7 @@
 	function __export(m) {
 	    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 	}
+	Object.defineProperty(exports, "__esModule", { value: true });
 	__export(__webpack_require__(7));
 	__export(__webpack_require__(8));
 	__export(__webpack_require__(9));
@@ -198,6 +200,7 @@
 /***/ function(module, exports) {
 
 	"use strict";
+	Object.defineProperty(exports, "__esModule", { value: true });
 	function indexExportsTmpl(fileNames) {
 	    return fileNames.map(function (name) {
 	        return "export * from './" + name + "';";
@@ -211,6 +214,7 @@
 /***/ function(module, exports) {
 
 	"use strict";
+	Object.defineProperty(exports, "__esModule", { value: true });
 	function mainIndex() {
 	    return "export * from './module';\nexport * from './services';\n    ";
 	}
@@ -222,13 +226,14 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
+	Object.defineProperty(exports, "__esModule", { value: true });
 	var ts_import_from_folder_1 = __webpack_require__(10);
 	function templateModule(serviceNames) {
 	    var services = serviceNames.map(function (name) {
 	        return name.replace(name.charAt(0), name.charAt(0).toUpperCase()) + 'Service' + '\n';
 	    }).join();
 	    var imports = '\n' + ts_import_from_folder_1.importServicesFromFolder(serviceNames, 'services', "Service") + '\n';
-	    return "import { NgModule } from '@angular/core';\nimport { Ng2RestModule, SimpleResource } from 'ng2-rest';\nSimpleResource.doNotSerializeQueryParams = true;\n    " + imports + "\n\n@NgModule({\n    imports: [Ng2RestModule],\n    exports: [],\n    declarations: [],\n    providers: [\n        " + services + "\n    ],\n})\nexport class Ng2RestGenModule { }\n";
+	    return "import { NgModule } from '@angular/core';\nimport { SimpleResource } from 'ng2-rest';\nSimpleResource.doNotSerializeQueryParams = true;\n    " + imports + "\n\n@NgModule({\n    imports: [],\n    exports: [],\n    declarations: [],\n    providers: [\n        " + services + "\n    ],\n})\nexport class Ng2RestGenModule { }\n";
 	}
 	exports.templateModule = templateModule;
 
@@ -238,6 +243,7 @@
 /***/ function(module, exports) {
 
 	"use strict";
+	Object.defineProperty(exports, "__esModule", { value: true });
 	function importServicesFromFolder(servicesNames, folderName, surfix) {
 	    return servicesNames.map(function (name) {
 	        return "import {" + name.replace(name.charAt(0), name.charAt(0).toUpperCase()) + surfix + "} from './" + folderName + "'" + ';\n';
@@ -254,6 +260,7 @@
 	function __export(m) {
 	    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 	}
+	Object.defineProperty(exports, "__esModule", { value: true });
 	__export(__webpack_require__(12));
 
 
@@ -262,6 +269,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
+	Object.defineProperty(exports, "__esModule", { value: true });
 	var _ = __webpack_require__(3);
 	var helpers_1 = __webpack_require__(13);
 	var angular_1 = __webpack_require__(15);
@@ -276,6 +284,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
+	Object.defineProperty(exports, "__esModule", { value: true });
 	var fs = __webpack_require__(1);
 	var path = __webpack_require__(14);
 	var Helpers = (function () {
@@ -349,6 +358,7 @@
 	function __export(m) {
 	    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 	}
+	Object.defineProperty(exports, "__esModule", { value: true });
 	__export(__webpack_require__(16));
 	__export(__webpack_require__(18));
 
@@ -358,6 +368,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
+	Object.defineProperty(exports, "__esModule", { value: true });
 	var _ = __webpack_require__(3);
 	var swagger_helpers_1 = __webpack_require__(17);
 	/**
@@ -425,10 +436,12 @@
 	    var res = '{} | any';
 	    if (o && o.$ref && typeof o.$ref === 'string' && o.$ref.trim() !== '') {
 	        res = "{" + swagger_helpers_1.SwaggerHelpers.getObjectDefinition(o.$ref, swg) + "}";
+	        // console.log('I am object', o.$ref)
 	    }
 	    else if (o && o.type === 'array' && o.items && o.items.$ref &&
 	        typeof o.items.$ref === 'string' && o.items.$ref.trim() !== '') {
 	        res = "{" + swagger_helpers_1.SwaggerHelpers.getObjectDefinition(o.items.$ref, swg) + "}[]";
+	        // console.log('I am array ', o.items.$ref)
 	    }
 	    // console.log('============================================================')
 	    // console.log('type', res)
@@ -442,6 +455,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
+	Object.defineProperty(exports, "__esModule", { value: true });
 	var _ = __webpack_require__(3);
 	var SwaggerHelpers;
 	(function (SwaggerHelpers) {
@@ -489,6 +503,7 @@
 	            }
 	            else if (v.items && v.items.$ref && typeof v.items.$ref === "string" && v.type && v.type === 'array') {
 	                res += k + ":{" + getObjectDefinition(v.items.$ref, swg, deep++) + "}[];\n";
+	                // console.log('make love here')
 	            }
 	            else if (v.items && v.items.$ref && typeof v.items.$ref === "string") {
 	                res += k + ":{" + getObjectDefinition(v.items.$ref, swg, deep++) + "};\n";
@@ -505,6 +520,38 @@
 	        return res;
 	    }
 	    SwaggerHelpers.getObjectDefinition = getObjectDefinition;
+	    // type Params = { query: any[], path: any[], body: any[] };
+	    // type ParamsType = { query: string, path: string, body: string };
+	    // export function getSingleParamsTypeForPath(tag: string, swg: SwaggerModel): ParamsType {
+	    //     let res: ParamsType = <ParamsType>{};
+	    //     for (let urlpath in swg.paths) {
+	    //         for (let methodhttp in swg.paths[urlpath]) {
+	    //             let m = swg.paths[urlpath][methodhttp];
+	    //             if (m.tags.filter(t => t === tag).length === 1) {
+	    //                 let params: Params = <Params>{};
+	    //                 params.query = [];
+	    //                 params.path = [];
+	    //                 params.body = [];
+	    //                 if (m.parameters) m.parameters.forEach(param => {
+	    //                     if (param.in === 'body') {
+	    //                         params.body.push({
+	    //                             name: param.name,
+	    //                             type: "{" + SwaggerHelpers.getObjectDefinition(param.schema.$ref, swg) + "}",
+	    //                             required: param.required
+	    //                         })
+	    //                     } else {
+	    //                         params[param.in].push({
+	    //                             name: param.name,
+	    //                             type: SwaggerHelpers.swaggerTypeToJS(param.type),
+	    //                             required: param.required
+	    //                         })
+	    //                     }
+	    //                 })
+	    //             }
+	    //         }
+	    //     }
+	    //     return res;
+	    // }
 	})(SwaggerHelpers = exports.SwaggerHelpers || (exports.SwaggerHelpers = {}));
 
 
@@ -513,6 +560,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
+	Object.defineProperty(exports, "__esModule", { value: true });
 	var swagger_helpers_1 = __webpack_require__(17);
 	/**
 	 * public getAllCompanies =  ({ params },{ queryparams1 }) => this.pathes.get_all_companies.model(params).get(queryparams),
@@ -521,7 +569,7 @@
 	function getServicesMethod(tag, swg) {
 	    var methods = [];
 	    for (var urlpath in swg.paths) {
-	        var _loop_1 = function(methodhttp) {
+	        var _loop_1 = function (methodhttp) {
 	            var m = swg.paths[urlpath][methodhttp];
 	            if (m.tags.filter(function (t) { return t === tag; }).length === 1) {
 	                var sm_1 = {};
@@ -604,7 +652,7 @@
 	        var paramsName = [paramBodyNames, paramQueryNames].filter(function (d) { return d && d !== '{}'; }).map(function (d) { return '<any>' + d; }).join(',');
 	        var comment = m.comment ? ("/**" + '\n' +
 	            (m.comment.trim() + "\n        */")) : '';
-	        res += ((comment + "\npublic ") + m.summary + '= (' + params + ') =>\nthis.pathes.'
+	        res += (comment + "\npublic " + m.summary + '= (' + params + ') =>\nthis.pathes.'
 	            + m.path_cleand + ("\n.model(" + paramPathNames + ")\n." + method + "(" + paramsName + ");") + "\n");
 	    });
 	    return res;

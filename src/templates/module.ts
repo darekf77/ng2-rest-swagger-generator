@@ -12,12 +12,12 @@ export function templateModule(serviceNames: string[]) {
     let imports = '\n' + importServicesFromFolder(serviceNames, 'services', "Service") + '\n';
 
     return `import { NgModule } from '@angular/core';
-import { Ng2RestModule, SimpleResource } from 'ng2-rest';
+import { SimpleResource } from 'ng2-rest';
 SimpleResource.doNotSerializeQueryParams = true;
     ${imports}
 
 @NgModule({
-    imports: [Ng2RestModule],
+    imports: [],
     exports: [],
     declarations: [],
     providers: [
