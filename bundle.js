@@ -108,6 +108,7 @@
 	    fs.writeFileSync(mainIndexPath, templates_1.mainIndex(), 'utf8');
 	    //api/services
 	    fs.mkdirSync(servicesFolderPath);
+	    var moduleEndpoints = [];
 	    // api/services/<service folders>
 	    // api/services/<service folders>/index.ts
 	    var servicesNameCamelCase = [];
@@ -126,6 +127,7 @@
 	            fs.writeFileSync(serviceTsPath(base, tag.name), service, 'utf8');
 	        });
 	        var resMapString = "\"" + swg.host + swg.basePath + "\"";
+	        moduleEndpoints.push(base + ":'" + swg.host + "'");
 	        var indexJSONcontent = "import { Resource } from \"ng2-rest\";\n\n" + templates_1.indexExportsTmpl(servicesNames);
 	        fs.writeFileSync(serviceGroupIndex(base), indexJSONcontent, 'utf8');
 	    });
@@ -133,7 +135,7 @@
 	    fs.writeFileSync(servicesFolderPathIndex, templates_1.indexExportsTmpl(exportGroups), 'utf8');
 	    // api/module.ts
 	    formatterFiles.push(modulePath);
-	    fs.writeFileSync(modulePath, templates_1.templateModule(servicesNameCamelCase), 'utf8');
+	    fs.writeFileSync(modulePath, templates_1.templateModule(servicesNameCamelCase, moduleEndpoints.join('')), 'utf8');
 	    console.log('Swagger files quantity: ', apis.length);
 	    tsfmt.processFiles(formatterFiles, {
 	        // dryRun?: boolean;
@@ -228,12 +230,12 @@
 	"use strict";
 	Object.defineProperty(exports, "__esModule", { value: true });
 	var ts_import_from_folder_1 = __webpack_require__(10);
-	function templateModule(serviceNames) {
+	function templateModule(serviceNames, urls) {
 	    var services = serviceNames.map(function (name) {
 	        return name.replace(name.charAt(0), name.charAt(0).toUpperCase()) + 'Service' + '\n';
 	    }).join();
 	    var imports = '\n' + ts_import_from_folder_1.importServicesFromFolder(serviceNames, 'services', "Service") + '\n';
-	    return "import { NgModule } from '@angular/core';\nimport { SimpleResource } from 'ng2-rest';\nSimpleResource.doNotSerializeQueryParams = true;\n    " + imports + "\n\n@NgModule({\n    imports: [],\n    exports: [],\n    declarations: [],\n    providers: [\n        " + services + "\n    ],\n})\nexport class Ng2RestGenModule { }\n";
+	    return "import { NgModule } from '@angular/core';\nimport { SimpleResource } from 'ng2-rest';\nSimpleResource.doNotSerializeQueryParams = true;\n    " + imports + "\n\n@NgModule({\n    imports: [],\n    exports: [],\n    declarations: [],\n    providers: [\n        " + services + "\n    ],\n})\nexport class Ng2RestGenModule {\n    public static enpointUrls = {\n        " + urls + "\n    }\n\n}\n";
 	}
 	exports.templateModule = templateModule;
 
@@ -274,7 +276,7 @@
 	var helpers_1 = __webpack_require__(13);
 	var angular_1 = __webpack_require__(15);
 	function serviceTemplate(group, model, swg) {
-	    return "import { Injectable } from '@angular/core';\nimport { SimpleResource, Mock, Model } from 'ng2-rest';\n\n@Injectable()\nexport class " + helpers_1.Helpers.upperFirst(group) + _.camelCase(model).replace(model.charAt(0), model.charAt(0).toUpperCase()) + "Service  {\n\n    " + angular_1.getAngularPrivatePathesByTag(model, swg) + "\n\n    // public methods\n    " + angular_1.getAngularServicesMethods(model, swg) + "\n\n    public static unsubscribe() {\n        SimpleResource.__destroy();\n    }\n\n    constructor() {\n\n    }\n}";
+	    return "import { Injectable } from '@angular/core';\nimport { SimpleResource, Mock, Model } from 'ng2-rest';\nimport { Ng2RestGenModule } from \"../../module\";\n\n@Injectable()\nexport class " + helpers_1.Helpers.upperFirst(group) + _.camelCase(model).replace(model.charAt(0), model.charAt(0).toUpperCase()) + "Service  {\n\n    " + angular_1.getAngularPrivatePathesByTag(model, swg) + "\n\n    // public methods\n    " + angular_1.getAngularServicesMethods(model, swg) + "\n\n    public static unsubscribe() {\n        SimpleResource.__destroy();\n    }\n\n    constructor() {\n\n    }\n}";
 	}
 	exports.serviceTemplate = serviceTemplate;
 
@@ -381,6 +383,7 @@
 	 */
 	function getAngularPrivatePathesByTag(tag, swg) {
 	    var res = [];
+	    var base = swg.basePath.replace('/', '');
 	    var pathes = {};
 	    _.forOwn(swg.paths, function (v, k) {
 	        _.forOwn(v, function (v2, k2) {
@@ -415,7 +418,7 @@
 	        });
 	    });
 	    pathResources.forEach(function (p) {
-	        res.push(p.clean_path + ": new SimpleResource<\n" + p.singleModelType + ",\n" + p.multipleModelType + "\n>( '" + swg.host + p.endpoint + "' , '" + p.model + "' )");
+	        res.push(p.clean_path + ": new SimpleResource<\n" + p.singleModelType + ",\n" + p.multipleModelType + "\n>( Ng2RestGenModule.enpointUrls." + base + " + '" + p.endpoint + "' , '" + p.model + "' )");
 	    });
 	    return "private pathes = {\n" + res.join(',\n') + "\n};";
 	}

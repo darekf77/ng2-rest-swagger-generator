@@ -10,7 +10,8 @@
     "ng2-rest-swagger-generator": "bin/ng2-rest-swagger-generator"
   },
   "dependencies": {
-    "ng2-rest": "^7.0.1"
+    "ng2-rest": "^7.0.1",
+    "typescript-formatter": "^4.0.1",
   },
   "devDependencies": {
     "@angular/core": "^2.4.3",
@@ -40,7 +41,7 @@
     "ts-loader": "^1.2.2",
     "ts-node": "^1.3.0",
     "typescript": "^2.0.10",
-    "typescript-formatter": "^4.0.1",
+    
     "webpack": "^1.13.3",
     "webpack-node-externals": "^1.5.4"
   },

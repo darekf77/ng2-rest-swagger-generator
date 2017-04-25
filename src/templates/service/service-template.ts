@@ -7,6 +7,7 @@ import { getAngularPrivatePathesByTag, getAngularServicesMethods } from './angul
 export function serviceTemplate(group: string, model: string, swg: SwaggerModel): string {
     return `import { Injectable } from '@angular/core';
 import { SimpleResource, Mock, Model } from 'ng2-rest';
+import { Ng2RestGenModule } from "../../module";
 
 @Injectable()
 export class ${Helpers.upperFirst(group)}${_.camelCase(model).replace(model.charAt(0), model.charAt(0).toUpperCase())}Service  {

@@ -80,6 +80,7 @@ export function run(pathes: string[], links: string[], isHttpsEnable: boolean = 
     //api/services
     fs.mkdirSync(servicesFolderPath);
 
+    let moduleEndpoints: string[] = [];
     // api/services/<service folders>
     // api/services/<service folders>/index.ts
     let servicesNameCamelCase: string[] = [];
@@ -98,8 +99,9 @@ export function run(pathes: string[], links: string[], isHttpsEnable: boolean = 
             fs.writeFileSync(serviceTsPath(base, tag.name), service, 'utf8');
         })
         let resMapString = `"${swg.host}${swg.basePath}"`;
+        moduleEndpoints.push(`${base}:'${swg.host}'`)
         let indexJSONcontent =
-`import { Resource } from "ng2-rest";
+            `import { Resource } from "ng2-rest";
 
 ` + indexExportsTmpl(servicesNames);
         fs.writeFileSync(serviceGroupIndex(base), indexJSONcontent, 'utf8');
@@ -111,7 +113,7 @@ export function run(pathes: string[], links: string[], isHttpsEnable: boolean = 
 
     // api/module.ts
     formatterFiles.push(modulePath);
-    fs.writeFileSync(modulePath, templateModule(servicesNameCamelCase), 'utf8');
+    fs.writeFileSync(modulePath, templateModule(servicesNameCamelCase, moduleEndpoints.join('')), 'utf8');
 
     console.log('Swagger files quantity: ', apis.length);
 

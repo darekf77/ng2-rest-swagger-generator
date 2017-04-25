@@ -2,8 +2,9 @@
 
 import { indexExportsTmpl } from './index-exports';
 import { importServicesFromFolder } from './ts-import-from-folder';
+import { SwaggerModel } from "../swagger";
 
-export function templateModule(serviceNames: string[]) {
+export function templateModule(serviceNames: string[], urls: string) {
 
     let services = serviceNames.map(name => {
         return name.replace(name.charAt(0), name.charAt(0).toUpperCase()) + 'Service' + '\n';
@@ -24,7 +25,12 @@ SimpleResource.doNotSerializeQueryParams = true;
         ${services}
     ],
 })
-export class Ng2RestGenModule { }
+export class Ng2RestGenModule {
+    public static enpointUrls = {
+        ${urls}
+    }
+
+}
 `
 
 }

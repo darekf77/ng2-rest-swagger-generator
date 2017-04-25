@@ -23,6 +23,15 @@ Last thing you need to do is import it your **app.module** :
     ...
 ```
 
+It you wanna **change your base paths** just use property **enpointUrl** in Ng2RestGenModule module :
+
+```ts
+	if(enviroment.production) {
+		Ng2RestGenModule.enpointUrls.myresource.myhost = 'https://myproductionhost.com'
+	}
+```
+
+
 Don't forget unsubscribe your generated services in component method **onDestroy**:
 ```ts
     onDestroy(){

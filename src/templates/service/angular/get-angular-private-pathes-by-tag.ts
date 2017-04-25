@@ -14,6 +14,7 @@ import { PathResource } from './models';
  */
 export function getAngularPrivatePathesByTag(tag: string, swg: SwaggerModel): string {
     let res: string[] = [];
+    let base = swg.basePath.replace('/', '');
 
     let pathes: Object = {};
     _.forOwn(swg.paths, (v, k) => {
@@ -54,7 +55,7 @@ export function getAngularPrivatePathesByTag(tag: string, swg: SwaggerModel): st
 
 
     pathResources.forEach(p => {
-        res.push(`${p.clean_path}: new SimpleResource<\n${p.singleModelType},\n${p.multipleModelType}\n>( '${swg.host}${p.endpoint}' , '${p.model}' )`);
+        res.push(`${p.clean_path}: new SimpleResource<\n${p.singleModelType},\n${p.multipleModelType}\n>( Ng2RestGenModule.enpointUrls.${base} + '${p.endpoint}' , '${p.model}' )`);
     })
 
     return `private pathes = {\n${res.join(',\n')}\n};`
