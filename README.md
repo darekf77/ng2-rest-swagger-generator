@@ -1,5 +1,11 @@
 ## ng2-rest-swagger-generator ##
 
+---
+From version 3.1.0 if you stil wanna use promises, consider to
+use them like this: `getMyElements().take(1).toPromies();`.
+
+---
+
 Generate amazing, fulent api and services for Angular2 from your swagger.json files.
 
 Instalation on your server:

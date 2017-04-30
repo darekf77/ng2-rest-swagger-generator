@@ -6,7 +6,11 @@
     "experimentalDecorators": true,
     "sourceMap": true,
     "noEmitHelpers": true,
-    "outDir": "js"
+    "outDir": "js",
+    "lib": [
+      "es2015",
+      "dom"
+    ]
   },
   "compileOnSave": false,
   "buildOnSave": false,
