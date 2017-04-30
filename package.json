@@ -4,7 +4,7 @@
   "description": "Generate Angualr 2 Service from swagger json",
   "main": "karma.conf.js",
   "directories": {
-    "doc": "docs"git 
+    "doc": "docs"
   },
   "bin": {
     "ng2-rest-swagger-generator": "bin/ng2-rest-swagger-generator"
