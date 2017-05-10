@@ -43,6 +43,8 @@ interface Parameter {
      */
     schema: {
         $ref: string;
+        items: Parameter;
+        type: "string" | "number" | "integer" | "boolean" | "array" | "file";
     }
     /**
      * Required. The name of the parameter. Parameter names are case sensitive.

@@ -547,10 +547,17 @@
 	                        var ptypeExitst = (param.type && param.type.length > 0);
 	                        sm_1.comment += ('*' + (ptypeExitst ? " {" + param.type + "} " : ' ') + (param.name + " (" + param.description + ")") + "\n");
 	                        if (param.in === 'body') {
+	                            var type = void 0;
+	                            if (param.schema.items && param.schema.items.$ref && param.schema.type == 'array') {
+	                                type = "{" + swagger_helpers_1.SwaggerHelpers.getObjectDefinition(param.schema.items.$ref, swg) + "}[]";
+	                            }
+	                            else {
+	                                type = (param.schema.$ref ? ("{" + swagger_helpers_1.SwaggerHelpers.getObjectDefinition(param.schema.$ref, swg) + "}")
+	                                    : swagger_helpers_1.SwaggerHelpers.swaggerTypeToJS(param.type));
+	                            }
 	                            sm_1.params.body.push({
 	                                name: param.name,
-	                                type: (param.schema.$ref ? ("{" + swagger_helpers_1.SwaggerHelpers.getObjectDefinition(param.schema.$ref, swg) + "}")
-	                                    : swagger_helpers_1.SwaggerHelpers.swaggerTypeToJS(param.type)),
+	                                type: type,
 	                                required: param.required,
 	                                isObject: true
 	                            });

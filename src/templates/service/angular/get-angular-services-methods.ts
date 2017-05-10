@@ -36,10 +36,19 @@ function getServicesMethod(tag: string, swg: SwaggerModel): ServiceMethod[] {
                     let ptypeExitst = (param.type && param.type.length > 0);
                     sm.comment += ('*' + (ptypeExitst ? ` {${param.type}} ` : ' ') + `${param.name} (${param.description})` + "\n")
                     if (param.in === 'body') {
+
+                        let type: string;
+                        if (param.schema.items && param.schema.items.$ref && param.schema.type == 'array') {
+                            type = "{" + SwaggerHelpers.getObjectDefinition(param.schema.items.$ref, swg)+ "}[]"
+                        } else {
+                            type = (param.schema.$ref ? ("{" + SwaggerHelpers.getObjectDefinition(param.schema.$ref, swg) + "}")
+                                : SwaggerHelpers.swaggerTypeToJS(param.type))
+                        }
+
+
                         sm.params.body.push({
                             name: param.name,
-                            type: (param.schema.$ref ? ("{" + SwaggerHelpers.getObjectDefinition(param.schema.$ref, swg) + "}")
-                                : SwaggerHelpers.swaggerTypeToJS(param.type)),
+                            type,
                             required: param.required,
                             isObject: true
                         })
@@ -86,6 +95,7 @@ export function getAngularServicesMethods(tag: string, swg: SwaggerModel): strin
         if (m.method === 'put') method = 'update';
         if (m.method === 'delete') method = 'remove';
         if (m.isArray && m.method === 'get') method = 'query'
+
         let params = [paramsPath, paramsQuery, paramsBody].filter(d => d && d !== '{}').join(',');
 
         // QUICKFIX change {object} to object in method
@@ -96,6 +106,7 @@ export function getAngularServicesMethods(tag: string, swg: SwaggerModel): strin
         if (neededParams.body && m.params.body.length === 1 && m.params.body[0].isObject) {
             paramBodyNames = paramBodyNames.match(new RegExp('[a-zA-Z]+', 'g'))[0];
         }
+
 
         let paramsName = [paramBodyNames, paramQueryNames].filter(d => d && d !== '{}').map(d => '<any>' + d).join(',');
         let comment = m.comment ? (`/**` + '\n' +
