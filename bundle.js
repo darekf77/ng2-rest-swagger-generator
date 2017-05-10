@@ -594,7 +594,7 @@
 	            method = 'update';
 	        if (m.method === 'delete')
 	            method = 'remove';
-	        if (m.isArray)
+	        if (m.isArray && m.method === 'get')
 	            method = 'query';
 	        var params = [paramsPath, paramsQuery, paramsBody].filter(function (d) { return d && d !== '{}'; }).join(',');
 	        // QUICKFIX change {object} to object in method

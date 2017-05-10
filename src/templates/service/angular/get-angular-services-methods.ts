@@ -85,7 +85,7 @@ export function getAngularServicesMethods(tag: string, swg: SwaggerModel): strin
         if (m.method === 'post') method = 'save';
         if (m.method === 'put') method = 'update';
         if (m.method === 'delete') method = 'remove';
-        if (m.isArray) method = 'query'
+        if (m.isArray && m.method === 'get') method = 'query'
         let params = [paramsPath, paramsQuery, paramsBody].filter(d => d && d !== '{}').join(',');
 
         // QUICKFIX change {object} to object in method
