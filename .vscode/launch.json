@@ -1,25 +1,26 @@
 {
-    // Use IntelliSense to learn about possible Node.js debug attributes.
-    // Hover to view descriptions of existing attributes.
-    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "Launch Program",
-            "program": "${workspaceRoot}/karma.conf.js",
-            "cwd": "${workspaceRoot}",
-            "outFiles": [],
-            "sourceMaps": true
-        },
-        {
-            "type": "node",
-            "request": "attach",
-            "name": "Attach to Process",
-            "port": 5858,
-            "outFiles": [],
-            "sourceMaps": true
-        }
-    ]
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Launch Program",
+      "program": "${workspaceFolder}/run.js",
+      "useWSL": true
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "remoteRoot": "${workspaceRoot}",
+      "localRoot":  "${workspaceRoot}",
+      "name": "Nodemon server",
+      "runtimeExecutable": "nodemon",
+      "program": "${workspaceFolder}/run.js",
+      "restart": true,
+      "sourceMaps": true,
+      "console": "internalConsole",
+      "internalConsoleOptions": "neverOpen",
+      "useWSL": true
+    },
+  ]
 }
