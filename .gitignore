@@ -24,5 +24,3 @@
 /tsconfig.browser.json
 /webpack.config.js
 /run.js
-/examples-jsons/api
-/examples-jsons/test
