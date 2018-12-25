@@ -1,4 +1,5 @@
 import * as fs from 'fs';
+import * as path from 'path';
 import * as _ from 'lodash';
 import * as JSON5 from 'json5';
 import chalk from 'chalk';
@@ -120,15 +121,17 @@ export function run(pathes: string[], links: string[], isHttpsEnable: boolean = 
 
   console.log('Swagger files quantity: ', apis.length);
 
+  // console.log('frmat files', formatterFiles)
+
   tsfmt.processFiles(formatterFiles, {
     // dryRun?: boolean;
-    // verbose?: boolean;
-    // baseDir?: string;
+    // verbose: true,
+    // baseDir: ['bundle', 'dist'].includes(path.basename(__dirname)) ? path.join(__dirname, '..') : __dirname,
     replace: true,
     verify: false,
     tsconfig: true,
     tslint: true,
-    editorconfig: false,
+    editorconfig: true,
     tsfmt: true
   }).then(() => { })
 
