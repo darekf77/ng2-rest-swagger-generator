@@ -1,0 +1,322 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "uber.proto",
+    "version": "version not set"
+  },
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/v1/estimates/price": {
+      "get": {
+        "operationId": "GetEstimatesPrice",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/uberapiGetEstimatesPriceResponse"
+            }
+          }
+        },
+        "tags": [
+          "UberAPIService"
+        ]
+      }
+    },
+    "/v1/estimates/time": {
+      "get": {
+        "operationId": "GetEstimatesTime",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/uberapiGetEstimatesTimeResponse"
+            }
+          }
+        },
+        "tags": [
+          "UberAPIService"
+        ]
+      }
+    },
+    "/v1/history": {
+      "get": {
+        "operationId": "GetHistory",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/uberapiActivities"
+            }
+          }
+        },
+        "tags": [
+          "UberAPIService"
+        ]
+      }
+    },
+    "/v1/me": {
+      "get": {
+        "operationId": "GetMe",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/uberapiProfile"
+            }
+          }
+        },
+        "tags": [
+          "UberAPIService"
+        ]
+      }
+    },
+    "/v1/products": {
+      "get": {
+        "operationId": "GetProducts",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/uberapiGetProductsResponse"
+            }
+          }
+        },
+        "tags": [
+          "UberAPIService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "protobufEmpty": {
+      "type": "object",
+      "description": "service Foo {\n      rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty);\n    }\n\nThe JSON representation for `Empty` is empty JSON object `{}`.",
+      "title": "A generic empty message that you can re-use to avoid defining duplicated\nempty messages in your APIs. A typical example is to use it as the request\nor the response type of an API method. For instance:"
+    },
+    "uberapiActivities": {
+      "type": "object",
+      "properties": {
+        "count": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "history": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/uberapiActivity"
+          }
+        },
+        "limit": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "offset": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "uberapiActivity": {
+      "type": "object",
+      "properties": {
+        "uuid": {
+          "type": "string",
+          "format": "string"
+        }
+      }
+    },
+    "uberapiGetEstimatesPriceRequest": {
+      "type": "object",
+      "properties": {
+        "end_latitude": {
+          "type": "number",
+          "format": "double"
+        },
+        "end_longitude": {
+          "type": "number",
+          "format": "double"
+        },
+        "start_latitude": {
+          "type": "number",
+          "format": "double"
+        },
+        "start_longitude": {
+          "type": "number",
+          "format": "double"
+        }
+      }
+    },
+    "uberapiGetEstimatesPriceResponse": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/uberapiPriceEstimate"
+          }
+        }
+      }
+    },
+    "uberapiGetEstimatesTimeRequest": {
+      "type": "object",
+      "properties": {
+        "customer_uuid": {
+          "type": "string",
+          "format": "string"
+        },
+        "product_id": {
+          "type": "string",
+          "format": "string"
+        },
+        "start_latitude": {
+          "type": "number",
+          "format": "double"
+        },
+        "start_longitude": {
+          "type": "number",
+          "format": "double"
+        }
+      }
+    },
+    "uberapiGetEstimatesTimeResponse": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/uberapiProduct"
+          }
+        }
+      }
+    },
+    "uberapiGetHistoryRequest": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "offset": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "uberapiGetProductsRequest": {
+      "type": "object",
+      "properties": {
+        "latitude": {
+          "type": "number",
+          "format": "double"
+        },
+        "longitude": {
+          "type": "number",
+          "format": "double"
+        }
+      }
+    },
+    "uberapiGetProductsResponse": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/uberapiProduct"
+          }
+        }
+      }
+    },
+    "uberapiPriceEstimate": {
+      "type": "object",
+      "properties": {
+        "currency_code": {
+          "type": "string",
+          "format": "string"
+        },
+        "display_name": {
+          "type": "string",
+          "format": "string"
+        },
+        "estimate": {
+          "type": "string",
+          "format": "string"
+        },
+        "high_estimate": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "low_estimate": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "product_id": {
+          "type": "string",
+          "format": "string"
+        },
+        "surge_multiplier": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "uberapiProduct": {
+      "type": "object",
+      "properties": {
+        "capacity": {
+          "type": "string",
+          "format": "string"
+        },
+        "description": {
+          "type": "string",
+          "format": "string"
+        },
+        "display_name": {
+          "type": "string",
+          "format": "string"
+        },
+        "image": {
+          "type": "string",
+          "format": "string"
+        },
+        "product_id": {
+          "type": "string",
+          "format": "string"
+        }
+      }
+    },
+    "uberapiProfile": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "format": "string"
+        },
+        "first_name": {
+          "type": "string",
+          "format": "string"
+        },
+        "last_name": {
+          "type": "string",
+          "format": "string"
+        },
+        "picture": {
+          "type": "string",
+          "format": "string"
+        },
+        "promo_code": {
+          "type": "string",
+          "format": "string"
+        }
+      }
+    }
+  }
+}

@@ -12,14 +12,24 @@ Instalation on your server:
 
     npm install ng2-rest-swagger-generator -g
 
+Usage:
+
+    ng2-rest-swagger-generator --json LINK_OR_PATH_TO_SWAGGER_JSON --base YOUR_OUTPUT_FOLDER_HERE
+
 **Usage ( in folder where you wanna generate  angualr2  modules with services)**
 
-    ng2-rest-swagger-generateor -p  ~/api_swagger.json
+    ng2-rest-swagger-generateor -json  ~/api_swagger.json --base api
 or from link
 
-    ng2-rest-swagger-generateor -h http://api.com/swagger.json 
+    ng2-rest-swagger-generateor -json http://api.com/swagger.json  --base api
 
 It will generate **api** folder with angular2 module. 
+
+
+    ng2-rest-swagger-generateor -json ./swagger.json  
+    # output will be generated in api folder
+
+Your can alsow ommit **--base** param, default out folder is **api**
 
 Last thing you need to do is import it your **app.module** :
 ```ts
@@ -48,7 +58,7 @@ Don't forget unsubscribe your generated services in component method **onDestroy
 
 | param | description |
 | --- | --- |
-| -l | links for swagger.json files  |
-| -p | local pathes for swagger json files  |
+| --json | online links or local paths for swagger.json files   |
+| --base | output module folder  |
 | -s | if https protocole enable (one for all json-s) |
 

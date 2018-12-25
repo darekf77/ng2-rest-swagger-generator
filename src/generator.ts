@@ -1,133 +1,136 @@
-import express = require('express');
-import fs = require('fs');
-import tsfmt = require('typescript-formatter');
+import * as fs from 'fs';
 import * as _ from 'lodash';
-import request = require("request");
 import * as JSON5 from 'json5';
+import chalk from 'chalk';
 
-import { SwaggerModel } from './swagger';
-import {
-    indexExportsTmpl,
-    mainIndex,
-    templateModule,
-    serviceTemplate
-} from './templates';
+import tsfmt = require('typescript-formatter');
+import request = require("request");
 import { Helpers } from './helpers';
 
-let apis: SwaggerModel[] = [];
-
-const APIpath: string = `${process.cwd()}/api`;
-const mainIndexPath: string = `${APIpath}/index.ts`;
-const modulePath: string = `${APIpath}/module.ts`;
-const servicesFolderPath: string = `${APIpath}/services`;
-const servicesFolderPathIndex: string = `${servicesFolderPath}/index.ts`;
-
-let formatterFiles: string[] = [];
-
-let serviceGroup = (group: string) => {
-    return `${servicesFolderPath}/${_.camelCase(group)}`
-}
-
-let serviceGroupIndex = (group: string) => {
-    return `${servicesFolderPath}/${_.camelCase(group)}/index.ts`
-}
-
-let serviceTsPath = (group: string, name: string) => {
-    return `${servicesFolderPath}/${_.camelCase(group)}/${name}.ts`;
-}
+import { Template } from './template';
+import { Models } from './models';
 
 
-export function run(pathes: string[], links: string[], isHttpsEnable: boolean = false) {
+const apis: Models.Swagger.SwaggerModel[] = [];
+const formatterFiles: string[] = [];
 
-    if (links.length > 0) {
-        let link = links.shift();
-        request(<any>{
-            method: "GET",
-            "rejectUnauthorized": false,
-            "url": link,
-            "headers": { "Content-Type": "application/json" }
-        }, (error, response, body) => {
-            body = JSON5.parse(body);
-            // console.log(error)
-            // console.log(typeof body)
-            if (!error && typeof body === "object") {
-                apis.push(body);
-            } else {
-                console.log('Bad link: ' + link)
-            }
-            run(pathes, links, isHttpsEnable);
-        });
-        return;
+export function run(pathes: string[], links: string[], isHttpsEnable: boolean = false, outputBase: string = 'api') {
+
+  //#region prepare jsons
+  if (links.length > 0) {
+    let link = links.shift();
+    request(<any>{
+      method: "GET",
+      "rejectUnauthorized": false,
+      "url": link,
+      "headers": { "Content-Type": "application/json" }
+    }, (error, response, body) => {
+
+      if (error || (_.isString(body) && body.startsWith('404'))) {
+        console.log(chalk.red(`Invalid link address: ${chalk.bold(link)}`))
+        process.exit(1)
+      }
+
+      body = JSON5.parse(body);
+      // console.log(error)
+      // console.log(typeof body)
+      if (!error && typeof body === "object") {
+        apis.push(body);
+      } else {
+        console.log('Bad link: ' + link)
+      }
+      run(pathes, links, isHttpsEnable, outputBase);
+    });
+    return;
+  }
+  //#endregion
+
+  Helpers.preparePaths(apis, outputBase)
+
+  pathes = pathes.map(p => {
+    if (p.charAt(0) === '/') p = p.slice(1, p.length);
+    return `${process.cwd()}/${p}`;
+  })
+
+  pathes.forEach(p => {
+    apis.push(JSON5.parse(fs.readFileSync(p, 'utf8')));
+  });
+
+  // api forlder
+  Helpers.recreateIfNotExist(Helpers.absolutePath.output)
+
+  // api/index.ts
+  Helpers.recreateIfNotExist(Helpers.absolutePath.PathFile_index_ts, Template.mainIndex)
+
+  //api/services
+  Helpers.recreateIfNotExist(Helpers.absolutePath.PathFolder_services)
+
+  let exportGroupsFromJSONs: string[] = [];
+
+
+  apis.forEach((swg, indexSwg) => {
+
+    Helpers.prepareModel(swg, indexSwg, isHttpsEnable);
+
+    const groupFolderName = Helpers.groupFromJSON.folderName(swg);
+
+    exportGroupsFromJSONs.push(groupFolderName);
+
+    //api/services/<groupanme>
+    Helpers.recreateIfNotExist(Helpers.absolutePath.PathFolder_services_groupName(swg))
+
+
+    let servicesNames: string[] = [];
+
+
+    if (!_.isArray(swg.tags)) {
+      swg.tags = Helpers.findTags(swg);
     }
 
 
-    pathes = pathes.map(p => {
-        if (p.charAt(0) === '/') p = p.slice(1, p.length);
-        return `${process.cwd()}/${p}`;
+    swg.tags.forEach(tag => {
+      const serivceFileName = Helpers.serviceFromTag.className(swg, tag);
+      servicesNames.push(serivceFileName);
+      const absolutePathToServiceFileInFolderGroup = Helpers.serviceFromTag.absoluteFilePath(swg, tag);
+
+      formatterFiles.push(absolutePathToServiceFileInFolderGroup);
+
+      // console.log('write type', typeof absolutePathToServiceFileInFolderGroup)
+      // console.log(absolutePathToServiceFileInFolderGroup)
+
+      Helpers.recreateIfNotExist(absolutePathToServiceFileInFolderGroup, Template.serviceTemplate(swg, tag))
     })
 
-    pathes.forEach(p => {
-        apis.push(JSON5.parse(fs.readFileSync(p, 'utf8')));
-    });
+    fs.writeFileSync(Helpers.absolutePath.PathFile_services_groupName_index_ts(swg), Template.indexJSONcontent(swg), 'utf8');
+  })
 
-    // api forlder
-    if (fs.existsSync(APIpath)) Helpers.deleteFolderRecursive(APIpath);
-    fs.mkdirSync(APIpath);
+  const allClassesNames = Helpers.serviceFromTag.allClassNames();
+  const allGroupFromTagNames = Helpers.groupFromJSON.allGroupNames;
+  // console.log('allGroupFromTagNames',allGroupFromTagNames)
 
-    // api/index.ts
-    fs.writeFileSync(mainIndexPath, mainIndex(), 'utf8');
-
-    //api/services
-    fs.mkdirSync(servicesFolderPath);
-
-    let moduleEndpoints: string[] = [];
-    // api/services/<service folders>
-    // api/services/<service folders>/index.ts
-    let servicesNameCamelCase: string[] = [];
-    let exportGroups: string[] = [];
-    apis.forEach(swg => {
-        swg.host = (isHttpsEnable ? 'https' : 'http') + `://${swg.host.replace(/:[0-9]*/g, '')}`
-        let base = swg.basePath.replace('/', '');
-        exportGroups.push(base);
-        fs.mkdirSync(serviceGroup(base));
-        let servicesNames: string[] = [];
-        swg.tags.forEach(tag => {
-            servicesNames.push(tag.name);
-            servicesNameCamelCase.push(base + Helpers.upperFirst(_.camelCase(tag.name)));
-            let service = serviceTemplate(base, tag.name, swg);
-            formatterFiles.push(serviceTsPath(base, tag.name));
-            fs.writeFileSync(serviceTsPath(base, tag.name), service, 'utf8');
-        })
-        let resMapString = `"${swg.host}${swg.basePath}"`;
-        moduleEndpoints.push(`${base}:'${swg.host}'`)
-        let indexJSONcontent =
-            `import { Resource } from "ng2-rest";
-
-` + indexExportsTmpl(servicesNames);
-        fs.writeFileSync(serviceGroupIndex(base), indexJSONcontent, 'utf8');
-    })
-
-    // api/services/index.ts
-    fs.writeFileSync(servicesFolderPathIndex, indexExportsTmpl(exportGroups), 'utf8');
+  // api/services/index.ts
+  Helpers.recreateIfNotExist(Helpers.absolutePath.PathFile_services_index_ts, Template.indexExportsTmpl(allGroupFromTagNames))
 
 
-    // api/module.ts
-    formatterFiles.push(modulePath);
-    fs.writeFileSync(modulePath, templateModule(servicesNameCamelCase, moduleEndpoints.join(',\n')), 'utf8');
+  // api/module.ts
+  formatterFiles.push(Helpers.absolutePath.PathFile_module_ts);
 
-    console.log('Swagger files quantity: ', apis.length);
+  fs.writeFileSync(Helpers.absolutePath.PathFile_module_ts,
+    Template.templateModule(allClassesNames), 'utf8');
 
-    tsfmt.processFiles(formatterFiles, {
-        // dryRun?: boolean;
-        // verbose?: boolean;
-        // baseDir?: string;
-        replace: true,
-        verify: false,
-        tsconfig: true,
-        tslint: true,
-        editorconfig: false,
-        tsfmt: true
-    }).then(() => { })
+  console.log('Swagger files quantity: ', apis.length);
+
+  tsfmt.processFiles(formatterFiles, {
+    // dryRun?: boolean;
+    // verbose?: boolean;
+    // baseDir?: string;
+    replace: true,
+    verify: false,
+    tsconfig: true,
+    tslint: true,
+    editorconfig: false,
+    tsfmt: true
+  }).then(() => { })
 
 
 }
