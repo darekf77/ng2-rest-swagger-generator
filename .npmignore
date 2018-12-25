@@ -1,7 +1,11 @@
 .vscode
+dist/
 src/
 /scripts
 /docs
 /preview
 /tests
-/examples-jsons
+tsconfig.json
+npm-debug.log*
+tslint.json
+.editorconfig
