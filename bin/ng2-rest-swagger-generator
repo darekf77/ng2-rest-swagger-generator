@@ -1,4 +1,10 @@
 #!/usr/bin/env node
-
-var start = require('../dist/start.js').start;
+var path = require('path')
+var fs = require('fs')
+var path = {
+  dist: path.join(__dirname, '../dist/start.js'),
+  bundle: path.join(__dirname, '../start.js')
+}
+var p = fs.existsSync(path.dist) ? path.dist : path.bundle;
+var start = require(p).start;
 start();
