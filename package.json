@@ -5,6 +5,10 @@
   "main": "karma.conf.js",
   "tnp": {
     "type": "isomorphic-lib",
+    "resources": [
+      "README.md",
+      "screen.md"
+    ],
     "isCommandLineToolOnly": true,
     "overrided": {
       "dependencies": {
