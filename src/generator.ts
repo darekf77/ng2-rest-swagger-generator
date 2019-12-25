@@ -133,7 +133,7 @@ export function run(pathes: string[], links: string[], isHttpsEnable: boolean = 
     tslint: true,
     editorconfig: true,
     tsfmt: true
-  }).then(() => { })
+  } as any).then(() => { })
 
 
 }
