@@ -5,7 +5,7 @@ import * as JSON5 from 'json5';
 import chalk from 'chalk';
 
 import tsfmt = require('typescript-formatter');
-import request = require("request");
+import request = require('request');
 import { Helpers } from './helpers';
 
 import { Template } from './template';

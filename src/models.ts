@@ -1,5 +1,4 @@
-
-import { Models as MorphiModels } from 'morphi/models';
+import { Models as MorphiModels } from 'morphi';
 
 
 export namespace Models {
@@ -38,8 +37,8 @@ export namespace Models {
 
 
   export namespace Swagger {
-    export type DataFormat = "int32" | "int64" | "double" | "float"
-    export type DataType = "object" | "array" | "string" | "boolean"
+    export type DataFormat = 'int32' | 'int64' | 'double' | 'float'
+    export type DataType = 'object' | 'array' | 'string' | 'boolean'
 
 
     export interface PropertyName {

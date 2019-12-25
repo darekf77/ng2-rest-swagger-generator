@@ -2,7 +2,7 @@ import * as fs from 'fs';
 import chalk from 'chalk';
 import * as _ from 'lodash';
 
-import { run } from "./generator";
+import { run } from './generator';
 
 
 export function start() {

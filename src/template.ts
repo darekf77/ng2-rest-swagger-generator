@@ -1,4 +1,3 @@
-
 import * as _ from 'lodash';
 import { Helpers } from './helpers';
 import { Models } from './models';
@@ -14,7 +13,7 @@ export * from './services';
 
   static indexExportsTmpl(fileNames: string[]) {
     return fileNames.map(name => {
-      return "export * from './" + name + "';";
+      return `export * from './${name}';`;
     }).join('\n');
   }
 
@@ -30,7 +29,7 @@ export * from './services';
     let imports = '\n' + this.importServicesFromFolder(serviceClassName) + '\n';
 
     return `import { NgModule } from '@angular/core';
-      import { SimpleResource } from 'ng2-rest/simple-resource';
+      import { SimpleResource } from 'ng2-rest';
       SimpleResource.doNotSerializeQueryParams = true;
       ${imports}
 
@@ -57,7 +56,7 @@ export * from './services';
       const serivceFileName = Helpers.serviceFromTag.className(swg, tag);
       return serivceFileName;
     })
-    return `import { Resource } from "ng2-rest";
+    return `import { Resource } from 'ng2-rest';
 `
       + this.indexExportsTmpl(serviceNames);
   }
@@ -67,8 +66,8 @@ export * from './services';
     const className = Helpers.serviceFromTag.className(swg, tag);
 
     return `import { Injectable } from '@angular/core';
-import { SimpleResource } from 'ng2-rest/simple-resource';
-import { Ng2RestGenModule } from "../../module";
+import { SimpleResource } from 'ng2-rest';
+import { Ng2RestGenModule } from '../../module';
 
 @Injectable()
 export class ${className} {
@@ -91,5 +90,3 @@ export class ${className} {
 
 
 }
-
-
