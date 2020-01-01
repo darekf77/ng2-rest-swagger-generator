@@ -16,7 +16,8 @@
         "chalk"
       ],
       "dependencies": {}
-    }
+    },
+    "linkedProjects": []
   },
   "name": "ng2-rest-swagger-generator",
   "version": "6.0.4",
