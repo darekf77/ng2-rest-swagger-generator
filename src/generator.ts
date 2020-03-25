@@ -4,8 +4,8 @@ import * as _ from 'lodash';
 import * as JSON5 from 'json5';
 import chalk from 'chalk';
 
-import tsfmt = require('typescript-formatter');
-import request = require('request');
+import * as tsfmt from 'typescript-formatter';
+import * as request from 'request';
 import { Helpers } from './helpers';
 
 import { Template } from './template';

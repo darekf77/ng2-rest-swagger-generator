@@ -35,6 +35,7 @@ export class Helpers extends MorphiHelpers {
 
     if (_.isUndefined(content)) {
       if (fs.existsSync(pathToFileOrFolder)) {
+        // @ts-ignore
         this.System.Operations.tryRemoveDir(pathToFileOrFolder);
       }
       fse.mkdirpSync(pathToFileOrFolder);
