@@ -17,7 +17,12 @@
       ],
       "dependencies": {}
     },
-    "linkedProjects": []
+    "linkedProjects": [],
+    "libReleaseOptions": {
+      "nodts": false,
+      "obscure": false,
+      "ugly": false
+    }
   },
   "name": "ng2-rest-swagger-generator",
   "version": "6.0.4",
