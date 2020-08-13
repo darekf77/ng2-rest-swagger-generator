@@ -15,7 +15,8 @@
         "morphi",
         "chalk"
       ],
-      "dependencies": {}
+      "dependencies": {},
+      "linkedFolders": []
     },
     "linkedProjects": [],
     "libReleaseOptions": {
