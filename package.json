@@ -55,7 +55,7 @@
   "homepage": "https://github.com/darekf77/ng2-rest-swagger-generator#readme",
   "dependencies": {
     "chalk": "^2.3.2",
-    "morphi": "3.1.13",
+    "morphi": "3.1.14",
     "typescript-formatter": "7.2.2"
   },
   "devDependencies": {
@@ -237,7 +237,7 @@
     "task.js": "^0.1.5",
     "tnp-db": "0.0.8",
     "tnp-helpers": "0.0.6",
-    "tnp-models": "0.0.6",
+    "tnp-models": "0.0.7",
     "ts-loader": "7.0.4",
     "ts-node": "~8.3.0",
     "tsickle": "^0.26.0",
