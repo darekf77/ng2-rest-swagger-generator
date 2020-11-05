@@ -1,0 +1,26 @@
+{
+  "resources": [
+    "README.md",
+    "screen.png"
+  ],
+  "type": "isomorphic-lib",
+  "version": "v2",
+  "isCommandLineToolOnly": true,
+  "overrided": {
+    "ignoreDepsPattern": [],
+    "includeAsDev": "*",
+    "includeOnly": [
+      "typescript-formatter",
+      "morphi",
+      "chalk"
+    ],
+    "dependencies": {},
+    "linkedFolders": []
+  },
+  "linkedProjects": [],
+  "libReleaseOptions": {
+    "nodts": false,
+    "obscure": false,
+    "ugly": false
+  }
+}
