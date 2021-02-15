@@ -22,5 +22,20 @@
     "nodts": false,
     "obscure": false,
     "ugly": false
-  }
+  },
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "test": "mocha --require ts-node/register src/**/*.spec.ts",
+    "test:watch": "mocha --compilers ts-node/register src/**/*.spec.ts --watch"
+  },
+  "description": "Generate Angualr 2 Service from swagger json",
+  "author": "Dariusz Filipiak",
+  "homepage": "https://github.com/darekf77/ng2-rest-swagger-generator#readme",
+  "main": "karma.conf.js",
+  "keywords": [
+    "ng2-rest",
+    "docs",
+    "documentation"
+  ]
 }
