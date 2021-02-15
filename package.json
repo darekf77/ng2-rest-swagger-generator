@@ -302,5 +302,6 @@
     }
   },
   "license": "MIT",
-  "private": false
+  "private": false,
+  "lastBuildTagHash": "5415b4df31bd6d08e13940c9527968e84b651655"
 }
