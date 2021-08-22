@@ -3,12 +3,12 @@ import * as fse from 'fs-extra';
 import * as path from 'path';
 import * as _ from 'lodash';
 import { Models } from './models';
-import { Helpers as MorphiHelpers } from 'morphi';
+import { CoreHelpers as TnpHelpers } from 'tnp-core';
 
 
 
 
-export class Helpers extends MorphiHelpers {
+export class Helpers extends TnpHelpers {
 
   static SYMBOL = {
     INDEX_SWG: Symbol(),
