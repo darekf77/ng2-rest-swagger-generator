@@ -70,7 +70,7 @@
   "homepage": "https://github.com/darekf77/ng2-rest-swagger-generator#readme",
   "dependencies": {
     "chalk": "2.3.2",
-    "morphi": "~4.0.43",
+    "morphi": "~4.0.44",
     "typescript-formatter": "7.2.2"
   },
   "devDependencies": {
