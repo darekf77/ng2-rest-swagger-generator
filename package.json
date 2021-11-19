@@ -38,7 +38,8 @@
       "ng2-rest",
       "docs",
       "documentation"
-    ]
+    ],
+    "workerPlugins": {}
   },
   "name": "ng2-rest-swagger-generator",
   "version": "6.0.23",
