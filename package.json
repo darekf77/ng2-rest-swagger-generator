@@ -298,5 +298,8 @@
   },
   "license": "MIT",
   "private": false,
-  "lastBuildTagHash": "7b0d9196eb33a386b9dc9c59d14a5aba2c27acc0"
+  "lastBuildTagHash": "7b0d9196eb33a386b9dc9c59d14a5aba2c27acc0",
+  "recreatedFrom": {
+    "tnp.json": true
+  }
 }
