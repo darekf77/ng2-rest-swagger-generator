@@ -24,7 +24,7 @@
   "version": "v3",
   "isCommandLineToolOnly": true,
   "license": "MIT",
-  "private": false,
+  "private": true,
   "scripts": {
     "test": "mocha --require ts-node/register src/**/*.spec.ts",
     "test:watch": "mocha --compilers ts-node/register src/**/*.spec.ts --watch"

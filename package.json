@@ -258,7 +258,7 @@
     "zone.js": "~0.11.4"
   },
   "license": "MIT",
-  "private": false,
+  "private": true,
   "lastBuildTagHash": "7b0d9196eb33a386b9dc9c59d14a5aba2c27acc0",
   "main": "karma.conf.js"
 }
