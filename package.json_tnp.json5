@@ -3,12 +3,9 @@
     "README.md",
     "screen.png"
   ],
-  "type": "isomorphic-lib",
-  "version": "v2",
-  "isCommandLineToolOnly": true,
   "overrided": {
     "ignoreDepsPattern": [],
-    "includeAsDev": "*",
+    "includeAsDev": [],
     "includeOnly": [
       "typescript-formatter",
       "morphi",
@@ -23,6 +20,9 @@
     "obscure": false,
     "ugly": false
   },
+  "type": "isomorphic-lib",
+  "version": "v3",
+  "isCommandLineToolOnly": true,
   "license": "MIT",
   "private": false,
   "scripts": {

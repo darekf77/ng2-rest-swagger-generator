@@ -59,6 +59,7 @@ Thumbs.db
 /tsconfig.json.filetemplate
 /tsconfig.backend.dist.json.filetemplate
 /tsconfig.backend.bundle.json.filetemplate
+/webpack.backend-dist-build.js
 /tsconfig.backend.dist.json
 /tsconfig.backend.bundle.json
 
