@@ -7,13 +7,16 @@
   "overrided": {
     "ignoreDepsPattern": [],
     "includeAsDev": [],
+
     "includeOnly": [
       "typescript-formatter",
       "morphi",
       "chalk"
     ],
+
     "dependencies": {},
-    "linkedFolders": []
+    "linkedFolders": [],
+    'npmFixes': [],
   },
 
   "linkedProjects": [],
