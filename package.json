@@ -1,4 +1,51 @@
 {
+  "tnp": {
+    "resources": [
+      "README.md",
+      "screen.png"
+    ],
+    "overrided": {
+      "ignoreDepsPattern": [],
+      "includeAsDev": [],
+      "includeOnly": [
+        "typescript-formatter",
+        "morphi",
+        "chalk"
+      ],
+      "dependencies": {},
+      "linkedFolders": [],
+      "npmFixes": []
+    },
+    "linkedProjects": [],
+    "smartContainerBuildTarget": "",
+    "linkedRepos": [],
+    "libReleaseOptions": {
+      "nodts": false,
+      "obscure": false,
+      "ugly": false,
+      "includeNodeModules": false
+    },
+    "smartContainerTarget": "",
+    "type": "isomorphic-lib",
+    "version": "v3",
+    "isCommandLineToolOnly": true,
+    "license": "MIT",
+    "private": true,
+    "scripts": {
+      "test": "mocha --require ts-node/register src/**/*.spec.ts",
+      "test:watch": "mocha --compilers ts-node/register src/**/*.spec.ts --watch"
+    },
+    "description": "Generate Angualr 2 Service from swagger json",
+    "author": "Dariusz Filipiak",
+    "homepage": "https://github.com/darekf77/ng2-rest-swagger-generator#readme",
+    "main": "karma.conf.js",
+    "keywords": [
+      "ng2-rest",
+      "docs",
+      "documentation"
+    ],
+    "workerPlugins": {}
+  },
   "name": "ng2-rest-swagger-generator",
   "version": "6.0.27",
   "description": "Generate Angualr 2 Service from swagger json",
@@ -262,6 +309,5 @@
   },
   "license": "MIT",
   "private": true,
-  "lastBuildTagHash": "7b0d9196eb33a386b9dc9c59d14a5aba2c27acc0",
-  "main": "karma.conf.js"
+  "lastBuildTagHash": "7b0d9196eb33a386b9dc9c59d14a5aba2c27acc0"
 }
