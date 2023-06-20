@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import { Helpers } from './lib/helpers';
+import { HelpersSwagger } from './lib/helpers';
 import { Models } from './lib/models';
 
 
@@ -25,7 +25,7 @@ export * from './services';
 
   static templateModule(serviceClassName: string[]) {
 
-    const urls = Helpers.endpoints.join(',\n')
+    const urls = HelpersSwagger.endpoints.join(',\n')
     let imports = '\n' + this.importServicesFromFolder(serviceClassName) + '\n';
 
     return `import { NgModule } from '@angular/core';
@@ -53,7 +53,7 @@ export * from './services';
 
   static indexJSONcontent(swg: Models.Swagger.SwaggerModel) {
     const serviceNames = swg.tags.map(tag => {
-      const serivceFileName = Helpers.serviceFromTag.className(swg, tag);
+      const serivceFileName = HelpersSwagger.serviceFromTag.className(swg, tag);
       return serivceFileName;
     })
     return `import { Resource } from 'ng2-rest';
@@ -63,7 +63,7 @@ export * from './services';
 
 
   static serviceTemplate(swg: Models.Swagger.SwaggerModel, tag: Models.Swagger.SwaggerTag): string {
-    const className = Helpers.serviceFromTag.className(swg, tag);
+    const className = HelpersSwagger.serviceFromTag.className(swg, tag);
 
     return `import { Injectable } from '@angular/core';
 import { SimpleResource } from 'ng2-rest';
@@ -72,10 +72,10 @@ import { Ng2RestGenModule } from '../../module';
 @Injectable()
 export class ${className} {
 
-  ${ Helpers.getAngularPrivatePathesByTag(swg, tag)}
+  ${ HelpersSwagger.getAngularPrivatePathesByTag(swg, tag)}
 
   // public methods
-  ${ Helpers.getAngularServicesMethods(swg, tag)}
+  ${ HelpersSwagger.getAngularServicesMethods(swg, tag)}
 
       public static unsubscribe() {
     SimpleResource.__destroy();

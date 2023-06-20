@@ -8,11 +8,10 @@ import {
 } from 'tnp-core';
 import { Models } from './models';
 import { CoreHelpers as TnpHelpers } from 'tnp-core';
+import { Helpers } from 'tnp-helpers';
 
 
-
-
-export class Helpers extends TnpHelpers {
+export class HelpersSwagger extends TnpHelpers {
 
   static SYMBOL = {
     INDEX_SWG: Symbol(),
@@ -40,8 +39,7 @@ export class Helpers extends TnpHelpers {
 
     if (_.isUndefined(content)) {
       if (fse.existsSync(pathToFileOrFolder)) {
-        // @ts-ignore
-        this.System.Operations.tryRemoveDir(pathToFileOrFolder);
+        Helpers.remove(pathToFileOrFolder);
       }
       fse.mkdirpSync(pathToFileOrFolder);
     } else {
@@ -271,7 +269,7 @@ export class Helpers extends TnpHelpers {
           // if (resp) {
           // TODO response handling
           // console.log('resp',resp);
-          if (pathes[k] === undefined) pathes[k] = {}; // @ts-ignore
+          if (pathes[k] === void 0) pathes[k] = {}; // @ts-ignore
           let type = this.getResponseType(resp, swg);
 
           if (type.length > 3 && type.charAt(type.length - 1) === ']' && type.charAt(type.length - 2) === '['

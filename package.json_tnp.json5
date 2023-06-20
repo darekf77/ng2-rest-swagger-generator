@@ -10,11 +10,13 @@
 
     "includeOnly": [
       "typescript-formatter",
-      "morphi",
+      "tnp-helpers",
       "chalk"
     ],
 
-    "dependencies": {},
+    "dependencies": {
+       tslint: "^5.9.1"
+    },
     "linkedFolders": [],
     'npmFixes': [],
   },

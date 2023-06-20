@@ -6,7 +6,7 @@ import chalk from 'chalk';
 
 import * as tsfmt from 'typescript-formatter';
 import * as request from 'request';
-import { Helpers } from './lib/helpers';
+import { HelpersSwagger } from './lib/helpers';
 
 import { Template } from './template';
 import { Models } from './lib/models';
@@ -46,7 +46,7 @@ export function run(pathes: string[], links: string[], isHttpsEnable: boolean = 
   }
   //#endregion
 
-  Helpers.preparePaths(apis, outputBase)
+  HelpersSwagger.preparePaths(apis, outputBase)
 
   pathes = pathes.map(p => {
     if (p.charAt(0) === '/') p = p.slice(1, p.length);
@@ -58,65 +58,65 @@ export function run(pathes: string[], links: string[], isHttpsEnable: boolean = 
   });
 
   // api forlder
-  Helpers.recreateIfNotExist(Helpers.absolutePath.output)
+  HelpersSwagger.recreateIfNotExist(HelpersSwagger.absolutePath.output)
 
   // api/index.ts
-  Helpers.recreateIfNotExist(Helpers.absolutePath.PathFile_index_ts, Template.mainIndex)
+  HelpersSwagger.recreateIfNotExist(HelpersSwagger.absolutePath.PathFile_index_ts, Template.mainIndex)
 
   //api/services
-  Helpers.recreateIfNotExist(Helpers.absolutePath.PathFolder_services)
+  HelpersSwagger.recreateIfNotExist(HelpersSwagger.absolutePath.PathFolder_services)
 
   let exportGroupsFromJSONs: string[] = [];
 
 
   apis.forEach((swg, indexSwg) => {
 
-    Helpers.prepareModel(swg, indexSwg, isHttpsEnable);
+    HelpersSwagger.prepareModel(swg, indexSwg, isHttpsEnable);
 
-    const groupFolderName = Helpers.groupFromJSON.folderName(swg);
+    const groupFolderName = HelpersSwagger.groupFromJSON.folderName(swg);
 
     exportGroupsFromJSONs.push(groupFolderName);
 
     //api/services/<groupanme>
-    Helpers.recreateIfNotExist(Helpers.absolutePath.PathFolder_services_groupName(swg))
+    HelpersSwagger.recreateIfNotExist(HelpersSwagger.absolutePath.PathFolder_services_groupName(swg))
 
 
     let servicesNames: string[] = [];
 
 
     if (!_.isArray(swg.tags)) {
-      swg.tags = Helpers.findTags(swg);
+      swg.tags = HelpersSwagger.findTags(swg);
     }
 
 
     swg.tags.forEach(tag => {
-      const serivceFileName = Helpers.serviceFromTag.className(swg, tag);
+      const serivceFileName = HelpersSwagger.serviceFromTag.className(swg, tag);
       servicesNames.push(serivceFileName);
-      const absolutePathToServiceFileInFolderGroup = Helpers.serviceFromTag.absoluteFilePath(swg, tag);
+      const absolutePathToServiceFileInFolderGroup = HelpersSwagger.serviceFromTag.absoluteFilePath(swg, tag);
 
       formatterFiles.push(absolutePathToServiceFileInFolderGroup);
 
       // console.log('write type', typeof absolutePathToServiceFileInFolderGroup)
       // console.log(absolutePathToServiceFileInFolderGroup)
 
-      Helpers.recreateIfNotExist(absolutePathToServiceFileInFolderGroup, Template.serviceTemplate(swg, tag))
+      HelpersSwagger.recreateIfNotExist(absolutePathToServiceFileInFolderGroup, Template.serviceTemplate(swg, tag))
     })
 
-    fs.writeFileSync(Helpers.absolutePath.PathFile_services_groupName_index_ts(swg), Template.indexJSONcontent(swg), 'utf8');
+    fs.writeFileSync(HelpersSwagger.absolutePath.PathFile_services_groupName_index_ts(swg), Template.indexJSONcontent(swg), 'utf8');
   })
 
-  const allClassesNames = Helpers.serviceFromTag.allClassNames();
-  const allGroupFromTagNames = Helpers.groupFromJSON.allGroupNames;
+  const allClassesNames = HelpersSwagger.serviceFromTag.allClassNames();
+  const allGroupFromTagNames = HelpersSwagger.groupFromJSON.allGroupNames;
   // console.log('allGroupFromTagNames',allGroupFromTagNames)
 
   // api/services/index.ts
-  Helpers.recreateIfNotExist(Helpers.absolutePath.PathFile_services_index_ts, Template.indexExportsTmpl(allGroupFromTagNames))
+  HelpersSwagger.recreateIfNotExist(HelpersSwagger.absolutePath.PathFile_services_index_ts, Template.indexExportsTmpl(allGroupFromTagNames))
 
 
   // api/module.ts
-  formatterFiles.push(Helpers.absolutePath.PathFile_module_ts);
+  formatterFiles.push(HelpersSwagger.absolutePath.PathFile_module_ts);
 
-  fs.writeFileSync(Helpers.absolutePath.PathFile_module_ts,
+  fs.writeFileSync(HelpersSwagger.absolutePath.PathFile_module_ts,
     Template.templateModule(allClassesNames), 'utf8');
 
   console.log('Swagger files quantity: ', apis.length);
