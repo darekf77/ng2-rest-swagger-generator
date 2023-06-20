@@ -6,10 +6,10 @@ import chalk from 'chalk';
 
 import * as tsfmt from 'typescript-formatter';
 import * as request from 'request';
-import { Helpers } from './helpers';
+import { Helpers } from './lib/helpers';
 
 import { Template } from './template';
-import { Models } from './models';
+import { Models } from './lib/models';
 
 
 const apis: Models.Swagger.SwaggerModel[] = [];

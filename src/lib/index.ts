@@ -1,2 +1,1 @@
-export function helloWorldFromNg2RestSwaggerGenerator() { }
-        
+export * from './helpers';

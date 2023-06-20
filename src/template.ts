@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
-import { Helpers } from './helpers';
-import { Models } from './models';
+import { Helpers } from './lib/helpers';
+import { Models } from './lib/models';
 
 
 export class Template {

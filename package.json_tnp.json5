@@ -32,10 +32,10 @@
 
   'smartContainerTarget': '',
   "type": "isomorphic-lib",
-  "version": "v3",
-  "isCommandLineToolOnly": true,
+  "version": "v4",
+  'isCommandLineToolOnly': false,
   "license": "MIT",
-  "private": true,
+  'private': false,
 
   "scripts": {
     "test": "mocha --require ts-node/register src/**/*.spec.ts",
