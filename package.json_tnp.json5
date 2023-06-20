@@ -9,13 +9,14 @@
     "includeAsDev": [],
 
     "includeOnly": [
-      "typescript-formatter",
       "tnp-helpers",
       "chalk"
     ],
 
     "dependencies": {
-       tslint: "^5.9.1"
+       tslint: "^5.9.1",
+       "typescript-formatter": "~7.2.2",
+       codelyzer: "^4.0.2",
     },
     "linkedFolders": [],
     'npmFixes': [],

@@ -8,12 +8,13 @@
       "ignoreDepsPattern": [],
       "includeAsDev": [],
       "includeOnly": [
-        "typescript-formatter",
         "tnp-helpers",
         "chalk"
       ],
       "dependencies": {
-        "tslint": "^5.9.1"
+        "tslint": "^5.9.1",
+        "typescript-formatter": "~7.2.2",
+        "codelyzer": "^4.0.2"
       },
       "linkedFolders": [],
       "npmFixes": []
@@ -49,7 +50,7 @@
     "workerPlugins": {}
   },
   "name": "ng2-rest-swagger-generator",
-  "version": "16.0.2",
+  "version": "16.0.3",
   "description": "Generate Angualr 2 Service from swagger json",
   "directories": {
     "doc": "docs"
@@ -77,8 +78,7 @@
   "homepage": "https://github.com/darekf77/ng2-rest-swagger-generator#readme",
   "dependencies": {
     "chalk": "2.3.2",
-    "tnp-helpers": "~16.0.6",
-    "typescript-formatter": "~7.2.2"
+    "tnp-helpers": "~16.0.6"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~16.0.5",
@@ -225,7 +225,6 @@
     "istanbul-instrumenter-loader": "2.0.0",
     "jasmine-core": "4.6.0",
     "jimp": "0.22.8",
-    "jquery-focuspoint": "1.1.3",
     "jscodeshift": "0.6.3",
     "json-stringify-safe": "5.0.1",
     "json10": "~16.0.48",
