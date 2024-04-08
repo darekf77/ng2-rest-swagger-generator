@@ -7,7 +7,8 @@
       "name": "Launch Server standalone",
       "program": "${workspaceFolder}/run.js",
       "args": [
-        "--ENVoverride=%7B%0A%20%20%20%20%22clientProjectName%22%3A%20%22ng2-rest-swagger-generator%22%0A%7D"
+        "port=4404",
+        "--ENVoverride=%7B%0A%20%20%20%20%22clientProjectName%22%3A%20%22ng2-rest-swagger-generator%22%0A%7D "
       ],
       "runtimeArgs": [
         "--nolazy",
@@ -17,19 +18,20 @@
       ]
     },
     {
-      "name": "Debugger with ng serve",
-      "type": "chrome",
+      "name": "Start electron app debug",
+      "type": "node",
       "request": "launch",
-      "preLaunchTask": "Ng Serve",
-      "postDebugTask": "terminateall",
-      "sourceMaps": true,
-      "webRoot": "${workspaceFolder}",
-      "sourceMapPathOverrides": {
-        "webpack:/*": "${webRoot}/*",
-        "/./*": "${webRoot}/*",
-        "/tmp-src/*": "${webRoot}/*",
-        "/*": "*",
-        "/./~/*": "${webRoot}/node_modules/*"
+      "protocol": "inspector",
+      "cwd": "${workspaceFolder}",
+      "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/electron",
+      "trace": "verbose",
+      "runtimeArgs": [
+        "--serve",
+        ".",
+        "--remote-debugging-port=9880"
+      ],
+      "windows": {
+        "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/electron.cmd"
       }
     },
     {
@@ -44,10 +46,10 @@
   ],
   "compounds": [
     {
-      "name": "Debug backend/frontend",
+      "name": "Debug Server + Electron App",
       "configurations": [
         "Launch Server standalone",
-        "Debugger with ng serve"
+        "Start electron app debug"
       ]
     }
   ]
