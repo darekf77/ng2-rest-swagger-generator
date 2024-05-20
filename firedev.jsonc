@@ -17,29 +17,29 @@
 
     "dependencies": { },
     "linkedFolders": [],
-    'npmFixes': [],
+    "npmFixes": [],
   },
 
-  'smartContainerBuildTarget': '',
-  'linkedRepos': [],
+  "smartContainerBuildTarget": "",
+  "linkedRepos": [],
 
   "libReleaseOptions": {
     "nodts": false,
     "obscure": false,
     "ugly": false,
-    'includeNodeModules': false,
-    'cliBuildNoDts': false,
-    'cliBuildObscure': false,
-    'cliBuildIncludeNodeModules': false,
-    'cliBuildUglify': false,
+    "includeNodeModules": false,
+    "cliBuildNoDts": false,
+    "cliBuildObscure": false,
+    "cliBuildIncludeNodeModules": false,
+    "cliBuildUglify": false,
   },
 
-  'smartContainerTarget': '',
+  "smartContainerTarget": "",
   "type": "isomorphic-lib",
   "version": "v4",
-  'isCommandLineToolOnly': false,
+  "isCommandLineToolOnly": false,
   "license": "MIT",
-  'private': false,
+  "private": false,
 
   "scripts": {
     "test": "mocha --require ts-node/register src/**/*.spec.ts",
