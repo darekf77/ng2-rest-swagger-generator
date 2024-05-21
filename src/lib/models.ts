@@ -1,8 +1,8 @@
-import { Models as MorphiModels } from 'morphi';
+// import { Models as MorphiModels } from 'morphi';
 
 
 export namespace Models {
-  export import Morphi = MorphiModels;
+  // export import Morphi = MorphiModels;
 
   export interface PathResource {
     clean_path?: string;
@@ -29,7 +29,7 @@ export namespace Models {
       query?: Param[];
       body?: Param[];
     }
-    method: Morphi.Rest.HttpMethod;
+    method:  any; //Morphi.Rest.HttpMethod;
     isArray: boolean;
     comment?: string;
   }

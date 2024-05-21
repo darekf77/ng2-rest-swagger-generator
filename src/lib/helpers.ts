@@ -353,7 +353,7 @@ export class HelpersSwagger extends TnpHelpers {
         if (_.isArray(m.tags) && m.tags.filter(t => t === tag.name).length === 1) {
           let sm: Models.ServiceMethod = <Models.ServiceMethod>{};
           sm.summary = _.camelCase(m.operationId ? m.operationId : m.summary);
-          sm.method = <Models.Morphi.Rest.HttpMethod>methodhttp;
+          sm.method =  methodhttp as any; // <Models.Morphi.Rest.HttpMethod>methodhttp;
           sm.path_cleand = this.cleanPath(urlpath);
           // console.log('sm.path_cleand', sm.path_cleand)
           sm.params = {};
