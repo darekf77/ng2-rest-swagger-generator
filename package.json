@@ -51,7 +51,7 @@
     "workerPlugins": {}
   },
   "name": "ng2-rest-swagger-generator",
-  "version": "16.444.2",
+  "version": "16.444.3",
   "description": "Generate Angualr 2 Service from swagger json",
   "directories": {
     "doc": "docs"
