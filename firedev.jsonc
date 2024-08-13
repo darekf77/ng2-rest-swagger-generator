@@ -1,23 +1,13 @@
 {
-  "resources": [
-    "README.md",
-    "screen.png"
-  ],
+  "resources": ["README.md", "screen.png"],
 
   "overrided": {
     "ignoreDepsPattern": [],
     "includeAsDev": [],
-
-    "includeOnly": [
-      "tnp-helpers",
-      "chalk",
-      "tslint",
-      "typescript-formatter",
-    ],
-
-    "dependencies": { },
+    "includeOnly": ["tnp-helpers", "chalk", "tslint", "typescript-formatter"],
+    "dependencies": {},
     "linkedFolders": [],
-    "npmFixes": [],
+    "npmFixes": []
   },
 
   "smartContainerBuildTarget": "",
@@ -31,12 +21,12 @@
     "cliBuildNoDts": false,
     "cliBuildObscure": false,
     "cliBuildIncludeNodeModules": false,
-    "cliBuildUglify": false,
+    "cliBuildUglify": false
   },
 
   "smartContainerTarget": "",
   "type": "isomorphic-lib",
-  "version": "v16",
+  "version": "v18",
   "isCommandLineToolOnly": false,
   "license": "MIT",
   "private": false,
@@ -50,12 +40,6 @@
   "author": "Dariusz Filipiak",
   "homepage": "https://github.com/darekf77/ng2-rest-swagger-generator#readme",
   "main": "karma.conf.js",
-
-  "keywords": [
-    "ng2-rest",
-    "docs",
-    "documentation"
-  ],
-
-  "workerPlugins": {},
+  "keywords": ["ng2-rest", "docs", "documentation"],
+  "workerPlugins": {}
 }
