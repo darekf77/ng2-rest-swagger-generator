@@ -7,8 +7,8 @@ import {
   _
 } from 'tnp-core';
 import { Models } from './models';
-import { CoreHelpers as TnpHelpers } from 'tnp-core';
-import { Helpers } from 'tnp-helpers';
+import { CoreHelpers as TnpHelpers } from 'tnp-core/src';
+import { Helpers } from 'tnp-helpers/src';
 
 
 export class HelpersSwagger extends TnpHelpers {
