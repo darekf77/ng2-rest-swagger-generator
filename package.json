@@ -51,7 +51,7 @@
     "workerPlugins": {}
   },
   "name": "ng2-rest-swagger-generator",
-  "version": "18.0.4",
+  "version": "18.0.5",
   "description": "Generate Angualr 2 Service from swagger json",
   "directories": {
     "doc": "docs"
@@ -284,6 +284,7 @@
     "ng2-logger": "~18.0.8",
     "ng2-pdfjs-viewer": "18.0.0",
     "ng2-rest": "~18.0.6",
+    "ng2-rest-swagger-generator": "18.0.5",
     "ngx-ace-wrapper": "17.0.0",
     "ngx-editor": "17.5.4",
     "ngx-highlightjs": "12.0.0",
@@ -381,6 +382,6 @@
   },
   "license": "MIT",
   "private": false,
-  "lastBuildTagHash": "27cfd22f0a7896c696973cdd474b126b5a965c72",
+  "lastBuildTagHash": "3626777a170c106ba905956cdf039de017f034b7",
   "main": "karma.conf.js"
 }
