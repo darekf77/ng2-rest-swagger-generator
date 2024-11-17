@@ -1,18 +1,14 @@
 {
   "typescript.check.workspaceVersion": false,
-
   "workbench.colorCustomizations": {
     "activityBar.background": "#45a827cb"
   },
-
   "editor.rulers": [
     80,
     120
   ],
-
   "html.format.wrapAttributes": "force-aligned",
   "workbench.colorTheme": "Default Light+",
-
   "files.exclude": {
     "**/*____ORIGINAL____.ts": true,
     "_changelog": true,
@@ -20,9 +16,7 @@
     "**/node_modules": true,
     "**/tmp*": true,
     "**/dist*": true,
-    "**/bundle*": true,
     "**/browser": true,
-    "**/browser*": true,
     "**/websql": true,
     "**/websql*": true,
     "**/module*": true,
@@ -77,7 +71,6 @@
     "**/karma.conf.js": true,
     "**/docs-config.schema.json": true
   },
-
   "search.exclude": {
     "docs": true,
     "bin": true,
@@ -105,47 +98,38 @@
     "**/.tnp": true,
     "projects": true
   },
-
   "[typescriptreact]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnSave": false
   },
-
   "[json]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnSave": false
   },
-
   "[jsonc]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnSave": false
   },
-
   "[json5]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnSave": false
   },
-
   "[scss]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnSave": false
   },
-
   "[html]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnSave": false
   },
-
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnSave": false
   },
-
   "[typescript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnSave": false
   },
-
   "eslint.migration.2_x": "off",
   "eslint.enable": true,
   "prettier.enable": true,
@@ -155,13 +139,15 @@
   "prettier.prettierPath": "./node_modules/prettier",
   "window.title": "npm/taon-dev/ng2-rest-swagger-generator  [ ${activeEditorShort} ]",
   "search.useIgnoreFiles": false,
-
   "search.include": [
     "**/src/**"
   ],
-
-  "json.schemas": [{
-    "fileMatch": ["/docs-config.jsonc"],
-    "url": "./docs-config.schema.json"
-  }]
+  "json.schemas": [
+    {
+      "fileMatch": [
+        "/docs-config.jsonc"
+      ],
+      "url": "./docs-config.schema.json"
+    }
+  ]
 }
