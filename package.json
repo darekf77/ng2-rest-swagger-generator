@@ -48,7 +48,8 @@
       "docs",
       "documentation"
     ],
-    "workerPlugins": {}
+    "workerPlugins": {},
+    "packageJsonOverride": {}
   },
   "name": "ng2-rest-swagger-generator",
   "version": "18.0.17",

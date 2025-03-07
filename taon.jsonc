@@ -41,5 +41,6 @@
   "homepage": "https://github.com/darekf77/ng2-rest-swagger-generator#readme",
   "main": "karma.conf.js",
   "keywords": ["ng2-rest", "docs", "documentation"],
-  "workerPlugins": {}
+  "workerPlugins": {},
+  "packageJsonOverride": {}
 }
