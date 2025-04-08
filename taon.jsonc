@@ -1,45 +1,36 @@
 {
-  "resources": ["README.md", "screen.png"],
-
-  "overrided": {
-    "ignoreDepsPattern": [],
-    "includeAsDev": [],
-    "includeOnly": ["tnp-helpers", "chalk", "tslint", "typescript-formatter"],
-    "dependencies": {},
-    "linkedFolders": [],
-    "npmFixes": []
-  },
-
-  "smartContainerBuildTarget": "",
-  "linkedRepos": [],
-
-  "libReleaseOptions": {
-    "nodts": false,
-    "obscure": false,
-    "ugly": false,
-    "includeNodeModules": false,
-    "cliBuildNoDts": false,
-    "cliBuildObscure": false,
-    "cliBuildIncludeNodeModules": false,
-    "cliBuildUglify": false
-  },
-
-  "smartContainerTarget": "",
   "type": "isomorphic-lib",
   "version": "v18",
+  "dependenciesNamesForNpmLib": ["tnp-helpers", "chalk", "tslint", "typescript-formatter"],
+
+  "autoReleaseConfigAllowedItems": [{
+    "artifactName": "npm-lib-and-cli-tool"
+  }],
+
   "isCommandLineToolOnly": false,
-  "license": "MIT",
-  "private": false,
+  "resources": ["README.md", "screen.png"],
 
-  "scripts": {
-    "test": "mocha --require ts-node/register src/**/*.spec.ts",
-    "test:watch": "mocha --compilers ts-node/register src/**/*.spec.ts --watch"
-  },
+  "packageJsonOverride": {
+    "author": "Dariusz Filipiak",
 
-  "description": "Generate Angualr 2 Service from swagger json",
-  "author": "Dariusz Filipiak",
-  "homepage": "https://github.com/darekf77/ng2-rest-swagger-generator#readme",
-  "main": "karma.conf.js",
-  "keywords": ["ng2-rest", "docs", "documentation"],
-  "workerPlugins": {}
+    "bugs": {
+      "url": "https://github.com/darekf77/ng2-rest-swagger-generator/issues"
+    },
+
+    "description": "Generate Angualr 2 Service from swagger json",
+    "homepage": "https://github.com/darekf77/ng2-rest-swagger-generator#readme",
+    "keywords": ["ng2-rest", "docs", "documentation"],
+    "license": "MIT",
+    "private": false,
+
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/darekf77/ng2-rest-swagger-generator.git"
+    },
+
+    "scripts": {
+      "test": "mocha --require ts-node/register src/**/*.spec.ts",
+      "test:watch": "mocha --compilers ts-node/register src/**/*.spec.ts --watch"
+    }
+  }
 }
