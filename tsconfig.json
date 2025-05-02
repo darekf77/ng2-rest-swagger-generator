@@ -4,10 +4,16 @@
     "strictNullChecks": false,
     "rootDir": "./src",
     "paths": {
-      "ng2-rest-swagger-generator": [
+      "@lib": [
         "./src/lib"
       ],
-      "ng2-rest-swagger-generator/*": [
+      "@lib/*": [
+        "./src/lib/*"
+      ],
+      "ng2-rest-swagger-generator/src": [
+        "./src/lib"
+      ],
+      "ng2-rest-swagger-generator/src/*": [
         "./src/lib/*"
       ]
     }
