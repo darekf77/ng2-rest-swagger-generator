@@ -1,6 +1,6 @@
 {
   "name": "ng2-rest-swagger-generator",
-  "version": "19.0.13",
+  "version": "19.0.14",
   "scripts": {
     "test": "mocha --require ts-node/register src/**/*.spec.ts",
     "test:watch": "mocha --compilers ts-node/register src/**/*.spec.ts --watch"
@@ -340,6 +340,7 @@
     "docs",
     "documentation"
   ],
+  "main": "dist/app.electron.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/darekf77/ng2-rest-swagger-generator.git"
