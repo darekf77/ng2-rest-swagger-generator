@@ -2,6 +2,7 @@
   "type": "isomorphic-lib",
   "version": "v19",
   "dependenciesNamesForNpmLib": ["tnp-helpers", "chalk", "tslint", "typescript-formatter"],
+  "appId": "com.domain.example.ng2-rest-swagger-generator",
 
   "autoReleaseConfigAllowedItems": [{
     "artifactName": "npm-lib-and-cli-tool"
