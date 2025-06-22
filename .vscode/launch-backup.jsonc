@@ -23,7 +23,7 @@
       "runtimeArgs": [
         "--serve",
         ".",
-        "--remote-debugging-port=3019"
+        "--remote-debugging-port=9892"
       ],
       "windows": {
         "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/electron.cmd"
