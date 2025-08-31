@@ -4,15 +4,14 @@
 import { NgModule } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 
-
 @Component({
   selector: 'app-ng2-rest-swagger-generator',
-  template: 'hello from ng2-rest-swagger-generator'
+  template: 'hello from ng2-rest-swagger-generator',
 })
 export class Ng2RestSwaggerGeneratorComponent implements OnInit {
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() { }
+  ngOnInit() {}
 }
 
 @NgModule({
@@ -21,7 +20,7 @@ export class Ng2RestSwaggerGeneratorComponent implements OnInit {
   declarations: [Ng2RestSwaggerGeneratorComponent],
   providers: [],
 })
-export class Ng2RestSwaggerGeneratorModule { }
+export class Ng2RestSwaggerGeneratorModule {}
 //#endregion
 
 //#region @backend
