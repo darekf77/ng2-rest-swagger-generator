@@ -1,6 +1,6 @@
 {
   "name": "ng2-rest-swagger-generator",
-  "version": "19.0.40",
+  "version": "19.0.41",
   "scripts": {
     "test": "mocha --require ts-node/register src/**/*.spec.ts",
     "test:watch": "mocha --compilers ts-node/register src/**/*.spec.ts --watch",
@@ -366,7 +366,7 @@
     "uuid": "~11.1.0",
     "validator": "~13.1.17",
     "video.js": "~8.3.0",
-    "vpn-split": "~18.0.20",
+    "vpn-split": "~19.0.40",
     "vscode": "1.1.37",
     "wait-on": "~8.0.3",
     "webpack": "~5.80",
