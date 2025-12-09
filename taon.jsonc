@@ -5,7 +5,8 @@
   "appId": "com.domain.example.ng2-rest-swagger-generator",
 
   "autoReleaseConfigAllowedItems": [{
-    "artifactName": "npm-lib-and-cli-tool"
+    "artifactName": "npm-lib-and-cli-tool",
+    "taskName": "npm"
   }],
 
   "isCommandLineToolOnly": false,
