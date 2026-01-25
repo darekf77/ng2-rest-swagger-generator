@@ -5380,6 +5380,13 @@
           },
           "description": "At beginning after node_modules installation taon is checking is packages are installed - if not it will throw error. Also.. this peerDependencies are going to be included in released npm lib as peerDependencies."
         },
+        "devDependenciesNamesForNpmLib": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "At beginning after node_modules installation taon is checking is packages are installed - if not it will throw error. Also.. this peerDependencies are going to be included in released npm lib as peerDependencies."
+        },
         "optionalDependenciesNamesForNpmLib": {
           "type": "array",
           "items": {
@@ -5451,6 +5458,7 @@
       },
       "required": [
         "dependenciesNamesForNpmLib",
+        "devDependenciesNamesForNpmLib",
         "isCoreProject",
         "isomorphicDependenciesForNpmLib",
         "optionalDependenciesNamesForNpmLib",
