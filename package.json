@@ -1,6 +1,6 @@
 {
   "name": "ng2-rest-swagger-generator",
-  "version": "21.0.33",
+  "version": "21.0.34",
   "scripts": {
     "test": "mocha --require ts-node/register src/**/*.spec.ts",
     "test:watch": "mocha --compilers ts-node/register src/**/*.spec.ts --watch",
@@ -472,6 +472,8 @@
     "url": "git+https://github.com/darekf77/ng2-rest-swagger-generator.git"
   },
   "bin": {
-    "ng2-rest-swagger-generator": "bin/ng2-rest-swagger-generator"
+    "ng2-rest-swagger-generator": "bin/ng2-rest-swagger-generator",
+    "ng2-rest-swagger-generator-debug": "bin/ng2-rest-swagger-generator-debug",
+    "ng2-rest-swagger-generator-debug-brk": "bin/ng2-rest-swagger-generator-debug-brk"
   }
 }
